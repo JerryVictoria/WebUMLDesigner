@@ -116,7 +116,7 @@ var ComponentsStore = [
         ]
     }
 ]
-export { Components }
+export { ComponentsStore }
 ```
 
 ### UML组件Component结构定义
