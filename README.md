@@ -35,13 +35,13 @@ vue+springboot
 ┃     ┃       ┗━━━ ComponentsStore.js 组件库定义数据
 ┃     ┃━━━ const.js 通用变量（和后端一致）
 ┃     ┃━━━ views 页面.vue文件
-┃     ┃      ┃━━━ designer
-┃     ┃      ┃        ┃━━━ Designer.vue 负责组合组件
-┃     ┃      ┃        ┃━━━ ComponentsStoreSideBar.vue
-┃     ┃      ┃        ┃━━━ ToolTopBar.vue
-┃     ┃      ┃        ┗━━━ DiagramCanvas.vue
-┃     ┃      ┃━━━ Login.vue
-┃     ┃      ┗━━━ MainPage.vue
+┃     ┃       ┃━━━ designer
+┃     ┃       ┃        ┃━━━ Designer.vue 负责组合组件
+┃     ┃       ┃        ┃━━━ ComponentsStoreSideBar.vue
+┃     ┃       ┃        ┃━━━ ToolTopBar.vue
+┃     ┃       ┃        ┗━━━ DiagramCanvas.vue
+┃     ┃       ┃━━━ Login.vue
+┃     ┃       ┗━━━ MainPage.vue
 ┃     ┃━━━ App.vue 主页面
 ┃     ┃━━━ main.js vue挂载入口
 ┃     ┃━━━ router.js 路由配置
