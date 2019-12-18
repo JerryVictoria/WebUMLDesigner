@@ -36,7 +36,7 @@ vue+springboot
 ┃     ┃━━━ const.js 通用变量（和后端一致）
 ┃     ┃━━━ views 页面.vue文件
 ┃     ┃      ┃━━━ designer
-┃     ┃      ┃        ┃━━━ designer.vue 负责组合组件
+┃     ┃      ┃        ┃━━━ Designer.vue 负责组合组件
 ┃     ┃      ┃        ┃━━━ ComponentsStoreSideBar.vue
 ┃     ┃      ┃        ┃━━━ ToolTopBar.vue
 ┃     ┃      ┃        ┗━━━ DiagramCanvas.vue
@@ -47,7 +47,7 @@ vue+springboot
 ┃     ┃━━━ router.js 路由配置
 ┃     ┗━━━ store.js vuex配置
 ┃━━━ package.json 依赖配置
-┗━━━ README
+┗━━━ README.md
 ```
 
 ## 功能
