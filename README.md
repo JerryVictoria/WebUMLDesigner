@@ -6,6 +6,50 @@ UML图的web版编辑器，2020NJU毕设
 
 vue+springboot
 
+### 前端项目结构
+
+```
+┃
+┃━━━ node_modules  //npm install 后的所有依赖
+┃
+┃━━━ public  //不用使用
+┃
+┃━━━ src
+┃     ┃
+┃     ┃━━━ assets 资源文件
+┃     ┃       ┃━━━ icons 组件图标
+┃     ┃       ┗━━━ images 其余图片
+┃     ┃━━━ components 组件.vue
+┃     ┃       ┃━━━ classdiagram 类图组件
+┃     ┃       ┃━━━ componentdiagram 组件图组件
+┃     ┃       ┃━━━ deploymentdiagram 部署图组件
+┃     ┃       ┃━━━ erdiagram 实体关系图组件
+┃     ┃       ┃━━━ sequencediagram 顺序图组件
+┃     ┃       ┃━━━ statediagram 状态图组件
+┃     ┃       ┃━━━ usecasediagram 用例图组件
+┃     ┃       ┃━━━ Resizer.vue 拖拽效果组件
+┃     ┃       ┃━━━ CommonComponent.vue 图例父组件（通用功能）
+┃     ┃       ┃
+┃     ┃       ┃━━━ line 线条组件
+┃     ┃       ┃━━━ toolbar 工具栏组件，包括保存、打开、历史功能等
+┃     ┃       ┗━━━ ComponentsStore.js 组件库定义数据
+┃     ┃━━━ const.js 通用变量（和后端一致）
+┃     ┃━━━ views 页面.vue文件
+┃     ┃      ┃━━━ designer
+┃     ┃      ┃        ┃━━━ designer.vue 负责组合组件
+┃     ┃      ┃        ┃━━━ ComponentsStoreSideBar.vue
+┃     ┃      ┃        ┃━━━ ToolTopBar.vue
+┃     ┃      ┃        ┗━━━ DiagramCanvas.vue
+┃     ┃      ┃━━━ Login.vue
+┃     ┃      ┗━━━ MainPage.vue
+┃     ┃━━━ App.vue 主页面
+┃     ┃━━━ main.js vue挂载入口
+┃     ┃━━━ router.js 路由配置
+┃     ┗━━━ store.js vuex配置
+┃━━━ package.json 依赖配置
+┗━━━ README
+```
+
 ## 功能
 
 ### 前后端交互相关
