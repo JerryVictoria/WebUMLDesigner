@@ -41,9 +41,9 @@ vue+springboot
 
 ```js
 {
-    id: ""
-    type : "" // e.g. class
-    style : {
+    id: "",
+    type : "", // e.g. class
+    styles : {
         width : 0, 
         hight : 0,
         positionX : 0,
@@ -52,8 +52,8 @@ vue+springboot
     properties : {	// 各个组件不一样，这里以类图里的类举例
         className: "",
         type: "", // e.g. abstract
-        variables: [{modifier: "", dataType: "", name: ""}]
-        functions: [{modifier: "", dataType: "", name: ""}]
+        variables: [{modifier: "", dataType: "", name: ""}],
+        functions: [{modifier: "", dataType: "", name: "", params: ""}]
     }
 }
 ```
@@ -63,10 +63,10 @@ vue+springboot
 ```js
 {
     id: ""
-    type: ""	// relation type
+    relationType: ""	// relation type
     fromId: "",
     toId: "",
-    style:{
+    styles:{
        color: "",
        lineType: "", //虚线之类的
        lineThickness: "", //固定几种
@@ -80,7 +80,7 @@ vue+springboot
 ```java
 class UML{
     private UMLType type;
-    private String id;
+    private String UMLid;
     private User user;
     private Group group;
     private ArrayList<Node> nodes;
@@ -184,6 +184,85 @@ enum Modifier{
     DEFAULT,
     PRIVATE
 }
+```
+
+### Vuex.store设计
+
+```js
+import vuex from "vuex";
+Vue.use(vuex);
+var store = new vuex.Store({
+    //store对象
+    state: {
+        UML: {
+            UMLType: "",
+            UMLId: "",
+            userId: "",
+            groupId: "",
+            nodes:[{
+                id: "",
+                type: "",
+                styles: {},
+                properties: {}
+            }],
+            lines:[{
+                id: "",
+                relationType: "", 
+                fromId: "",
+                toId: "",
+                styles: {
+                    color: "",
+                    lineType: "", //虚线之类的
+                    lineThickness: "", //固定几种
+                }
+            }]
+        },
+        histories: []//循环队列实现
+    },
+    mutations: {
+        //初始化图数据/多人协作同步图数据
+        setUML(state, params){
+            
+        },
+        //增加节点数据
+        addNode(state, params){
+            
+        },
+        //增加线条数据
+        addLine(state, params){
+            
+        },
+        //删除节点数据
+        removeNode(state, params){
+            
+        },
+        //删除线条数据
+        removeLine(state, params){
+            
+        },
+        //修改节点数据
+        modifyNode(state, params){
+            
+        },
+        //修改线条数据
+        modifyLine(state, params){
+            
+        },
+        //修改历史数组
+        changeHistories(state, params){
+            
+        },
+        //后退
+        backward(state){
+            
+        },
+        //前进
+        forward(state){
+            
+        }
+    }
+});
+
 ```
 
 ## 数据库
