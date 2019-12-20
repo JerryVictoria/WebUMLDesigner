@@ -102,6 +102,76 @@ vue+springboot
 }
 ```
 
+#### properties定义
+
+```js
+// 1 用例图(3)
+// type: 1.1 character, 1.2 usercase
+properties: {
+    name: ""
+}
+// type: 1.3 border/container
+properties: {}
+
+// 2 状态图(14)
+// type: 2.1 object, 2.2 state, 2.8 msgSender, 2.9 msgReceiver, 2.11 synchronizer, 2.13 verticalLane, 2.14 horizontalLane
+properties: {
+    name: ""
+}
+// type: 2.3 begin, 2.4 end, 2.5 streamEnd, 2.6 history, 2.7 detailedHistory, 2.10 fork, 2.12 container
+properties: {}
+
+// 3 类图(2+)
+// type: 3.1 class
+properties : {
+   className: "",
+   classtype: "", // e.g. abstract
+   variables: [{modifier: "", dataType: "", name: "", propId: ""}],
+   functions: [{modifier: "", dataType: "", name: "", params: "", propId: ""}]
+}
+// type: 3.2 package
+properties: {
+    name: ""
+}
+
+// 4 顺序图(2+)
+// type: 4.1 lifeline
+properties: {
+    name: ""
+}
+// type: 4.2 activation
+properties: {}
+
+// 5 部署图（4）
+// type: 5.1 component, 5.2 node
+properties: {
+    name: "",
+    isInstance: false
+}
+// type: 5.3 object, 5.4 constraint
+properties: {
+    name: ""
+}
+
+// 6 组件图(3)
+// type: 6.1 component, 6.2 node, 6.3 interface
+properties: {
+    name: ""
+}
+
+// 7 ER图(3+)
+// type: 7.1 entity, 7.3 relationship
+properties: {
+    name: "",
+    isWeak: false
+}
+// type: 7.2 property
+properties: {
+    name: "",
+    propType: "" //children, key, multivalue
+}
+```
+
 ### UML图例线条line数据
 
 ```js
