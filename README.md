@@ -89,15 +89,15 @@ vue+springboot
     type : "", // e.g. class
     styles : {
         width : 0, 
-        hight : 0,
-        positionX : 0,
-        positionY : 0,
+        height : 0,
+        left : 0,
+        top : 0,
     },
     properties : {	// 各个组件不一样，这里以类图里的类举例
         className: "",
-        type: "", // e.g. abstract
-        variables: [{modifier: "", dataType: "", name: ""}],
-        functions: [{modifier: "", dataType: "", name: "", params: ""}]
+        classtype: "", // e.g. abstract
+        variables: [{modifier: "", dataType: "", name: "", propId: ""}],
+        functions: [{modifier: "", dataType: "", name: "", params: "", propId: ""}]
     }
 }
 ```
@@ -238,6 +238,8 @@ Vue.use(vuex);
 var store = new vuex.Store({
     //store对象
     state: {
+        editing: false, //是否正在处于编辑状态（禁用其他功能）
+        editingId: "", //当前编辑组件（显示功能）
         UML: {
             UMLType: "",
             UMLId: "",
@@ -288,6 +290,14 @@ var store = new vuex.Store({
         modifyNode(state, params){
             
         },
+        //删除类节点属性
+        deleteClassNodeProp(state, params){
+            
+        },
+        //修改类节点属性（需要分辨类型是否切换）
+        changeClassNodeProp(state, params){
+            
+        }
         //修改线条数据
         modifyLine(state, params){
             
@@ -302,6 +312,9 @@ var store = new vuex.Store({
         },
         //前进
         forward(state){
+            
+        },
+        setEditState(state, params){
             
         }
     }
