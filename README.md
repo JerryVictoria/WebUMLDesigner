@@ -30,9 +30,12 @@ vue+springboot
 ┃     ┃       ┃━━━ Resizer.vue 拖拽效果组件
 ┃     ┃       ┃━━━ CommonComponent.vue 图例父组件（通用功能）
 ┃     ┃       ┃
+┃     ┃       ┃━━━ ContextMenu.vue 右键菜单（删除等）
+┃     ┃       ┃
 ┃     ┃       ┃━━━ line 线条组件
 ┃     ┃       ┃━━━ toolbar 工具栏组件，包括保存、打开、历史功能等
 ┃     ┃       ┗━━━ ComponentsStore.js 组件库定义数据
+┃     ┃━━━ style 存放通用css文件
 ┃     ┃━━━ const.js 通用变量（和后端一致）
 ┃     ┃━━━ views 页面.vue文件
 ┃     ┃       ┃━━━ designer
