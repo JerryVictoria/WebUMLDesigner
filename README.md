@@ -132,18 +132,20 @@ properties : {
    variables: [{modifier: "", dataType: "", name: "", propId: ""}],
    functions: [{modifier: "", dataType: "", name: "", params: "", propId: ""}]
 }
-// type: 3.2 package
+// type: 3.2 interface 3.3 constraint
 properties: {
     name: ""
 }
+//活动类、多例类、端口(啥玩意?)
 
 // 4 顺序图(2+)
-// type: 4.1 lifeline
+// type: 4.1 lifeline 4.4 constraint
 properties: {
     name: ""
 }
-// type: 4.2 activation
+// type: 4.2 activation 4.3 delete
 properties: {}
+//对象、实体、控制、绑定、时间信号（啥玩意？）
 
 // 5 部署图（4）
 // type: 5.1 component, 5.2 node
@@ -173,6 +175,18 @@ properties: {
     name: "",
     propType: "" //children, key, multivalue
 }
+//概化、全部概化（啥玩意？）
+
+// 8 通用图例
+// type: 8.1 package(属性1或2个?) 8.3 comment 8.4 text
+properties: {
+    name: ""
+}
+// type: 8.2 composition(是通用吗?)
+properties: {
+    compositionType: "" // Opt/Alt/Loop
+    condition: ""
+}
 ```
 
 ### UML图例线条line数据
@@ -181,12 +195,14 @@ properties: {
 {
     id: ""
     relationType: ""	// relation type
-    fromId: "",
+    fromId: "", //实现的时候可能需要重新考虑
     toId: "",
     styles:{
        color: "",
        lineType: "", //虚线之类的
        lineThickness: "", //固定几种
+       left: 0,
+       top: 0
     },
      
 }
