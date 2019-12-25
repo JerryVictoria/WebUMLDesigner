@@ -98,7 +98,7 @@ vue+springboot
     },
     properties : {	// 各个组件不一样，这里以类图里的类举例
         className: "",
-        classtype: "", // e.g. abstract
+        classType: "", // e.g. abstract
         variables: [{modifier: "", dataType: "", name: "", propId: ""}],
         functions: [{modifier: "", dataType: "", name: "", params: "", propId: ""}]
     }
