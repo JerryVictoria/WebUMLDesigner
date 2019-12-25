@@ -213,7 +213,7 @@ properties: {
 ```java
 class UML{
     private UMLType type;
-    private String UMLid;
+    private String UMLId;
     private User user;
     private Group group;
     private ArrayList<Node> nodes;
@@ -404,6 +404,9 @@ var store = new vuex.Store({
             
         },
         setEditState(state, params){
+            
+        },
+    	setEditId(state, params) {
             
         }
     }
