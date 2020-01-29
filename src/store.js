@@ -14,8 +14,7 @@ export default new Vuex.Store({
             UMLId: "",
             userId: "",
             groupId: "",
-            nodes: [
-                {
+            nodes: [{
                     id: "1", //唯一
                     type: "Class",
                     styles: {
@@ -27,18 +26,23 @@ export default new Vuex.Store({
                     properties: {
                         className: "someClass1",
                         classType: "abstract", // e.g. abstract
-                        variables: [
-                            { modifier: "public", dataType: "boolean", name: "var1" },
-                            { modifier: "public", dataType: "char", name: "var2" }
-                        ], // mock data
-                        functions: [
+                        variables: [{
+                                modifier: "public",
+                                dataType: "boolean",
+                                name: "var1"
+                            },
                             {
                                 modifier: "public",
-                                dataType: "int",
-                                name: "func",
-                                params: "int count"
+                                dataType: "char",
+                                name: "var2"
                             }
-                        ]
+                        ], // mock data
+                        functions: [{
+                            modifier: "public",
+                            dataType: "int",
+                            name: "func",
+                            params: "int count"
+                        }]
                     }
                 },
                 {
@@ -53,19 +57,26 @@ export default new Vuex.Store({
                     properties: {
                         className: "someClass2",
                         classType: "normal",
-                        variables: [
-                            { modifier: "public", dataType: "boolean", name: "var1", propId: 0 },
-                            { modifier: "public", dataType: "char", name: "var2", propId: 1 }
-                        ], // mock data
-                        functions: [
+                        variables: [{
+                                modifier: "public",
+                                dataType: "boolean",
+                                name: "var1",
+                                propId: 0
+                            },
                             {
                                 modifier: "public",
-                                dataType: "int",
-                                name: "func",
-                                params: "int count",
-                                propId: 0
+                                dataType: "char",
+                                name: "var2",
+                                propId: 1
                             }
-                        ]
+                        ], // mock data
+                        functions: [{
+                            modifier: "public",
+                            dataType: "int",
+                            name: "func",
+                            params: "int count",
+                            propId: 0
+                        }]
                     }
                 },
                 {
@@ -361,23 +372,34 @@ export default new Vuex.Store({
                         name: "node",
                         isInstance: true
                     }
-                }
-            ],
-            lines: [
+                },
                 {
-                    id: "",
-                    relationType: "",
-                    fromId: "",
-                    toId: "",
+                    id: "27",
+                    type: "ComponentInterface",
                     styles: {
-                        color: "",
-                        lineType: "", //虚线之类的
-                        lineThickness: "", //固定几种
-                        left: 0,
-                        top: 0
+                        width: 170,
+                        height: 130,
+                        left: 310,
+                        top: 450
+                    },
+                    properties: {
+                        name: "component interface"
                     }
                 }
-            ]
+            ],
+            lines: [{
+                id: "",
+                relationType: "",
+                fromId: "",
+                toId: "",
+                styles: {
+                    color: "",
+                    lineType: "", //虚线之类的
+                    lineThickness: "", //固定几种
+                    left: 0,
+                    top: 0
+                }
+            }]
         },
         histories: [] //循环队列实现
     },

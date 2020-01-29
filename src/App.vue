@@ -56,6 +56,8 @@ import HorizontalLane from "./components/statediagram/HorizontalLane.vue";
 import DiagramComponent from "./components/deploymentdiagram/DiagramComponent.vue";
 import Node from "./components/deploymentdiagram/Node.vue";
 
+import ComponentInterface from "./components/componentdiagram/ComponentInterface.vue";
+
 import Resizer from "./components/Resizer.vue";
 import ContextMenu from "./components/ContextMenu.vue";
 import $ from "jquery";
@@ -86,6 +88,7 @@ export default {
         HorizontalLane,
         DiagramComponent,
         Node,
+        ComponentInterface,
         Resizer,
         ContextMenu
     },
