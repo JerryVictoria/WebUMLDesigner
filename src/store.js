@@ -14,7 +14,8 @@ export default new Vuex.Store({
             UMLId: "",
             userId: "",
             groupId: "",
-            nodes: [{
+            nodes: [
+                {
                     id: "1", //唯一
                     type: "Class",
                     styles: {
@@ -26,7 +27,8 @@ export default new Vuex.Store({
                     properties: {
                         className: "someClass1",
                         classType: "abstract", // e.g. abstract
-                        variables: [{
+                        variables: [
+                            {
                                 modifier: "public",
                                 dataType: "boolean",
                                 name: "var1"
@@ -37,12 +39,14 @@ export default new Vuex.Store({
                                 name: "var2"
                             }
                         ], // mock data
-                        functions: [{
-                            modifier: "public",
-                            dataType: "int",
-                            name: "func",
-                            params: "int count"
-                        }]
+                        functions: [
+                            {
+                                modifier: "public",
+                                dataType: "int",
+                                name: "func",
+                                params: "int count"
+                            }
+                        ]
                     }
                 },
                 {
@@ -57,7 +61,8 @@ export default new Vuex.Store({
                     properties: {
                         className: "someClass2",
                         classType: "normal",
-                        variables: [{
+                        variables: [
+                            {
                                 modifier: "public",
                                 dataType: "boolean",
                                 name: "var1",
@@ -70,13 +75,15 @@ export default new Vuex.Store({
                                 propId: 1
                             }
                         ], // mock data
-                        functions: [{
-                            modifier: "public",
-                            dataType: "int",
-                            name: "func",
-                            params: "int count",
-                            propId: 0
-                        }]
+                        functions: [
+                            {
+                                modifier: "public",
+                                dataType: "int",
+                                name: "func",
+                                params: "int count",
+                                propId: 0
+                            }
+                        ]
                     }
                 },
                 {
@@ -387,19 +394,21 @@ export default new Vuex.Store({
                     }
                 }
             ],
-            lines: [{
-                id: "",
-                relationType: "",
-                fromId: "",
-                toId: "",
-                styles: {
-                    color: "",
-                    lineType: "", //虚线之类的
-                    lineThickness: "", //固定几种
-                    left: 0,
-                    top: 0
+            lines: [
+                {
+                    id: "",
+                    relationType: "",
+                    fromId: "",
+                    toId: "",
+                    styles: {
+                        color: "",
+                        lineType: "", //虚线之类的
+                        lineThickness: "", //固定几种
+                        left: 0,
+                        top: 0
+                    }
                 }
-            }]
+            ]
         },
         histories: [] //循环队列实现
     },
@@ -421,6 +430,17 @@ export default new Vuex.Store({
         },
         //删除线条数据
         removeLine(state, params) {},
+        //专门用于移动结点[移动的过程]
+        moveNode(state, params) {
+            for (var i = 0, l = state.UML.nodes.length; i < l; i++) {
+                if (state.UML.nodes[i].id == params.id) {
+                    state.UML.nodes[i].styles.left = params.left;
+                    state.UML.nodes[i].styles.top = params.top;
+                    console.log("move node");
+                    break;
+                }
+            }
+        },
         //修改节点数据
         modifyNode(state, params) {
             console.log("modifyNode", params);
@@ -428,9 +448,13 @@ export default new Vuex.Store({
             var modifiedFlag = false;
             for (var i = 0, l = state.UML.nodes.length; i < l; i++) {
                 if (state.UML.nodes[i].id == params.id) {
-                    if (state.UML.nodes[i][params.nodeKey][params.key] != params.value) {
+                    if (
+                        state.UML.nodes[i][params.nodeKey][params.key] !=
+                        params.value
+                    ) {
                         modifiedFlag = true;
-                        state.UML.nodes[i][params.nodeKey][params.key] = params.value;
+                        state.UML.nodes[i][params.nodeKey][params.key] =
+                            params.value;
                     }
                     break;
                 }
@@ -445,7 +469,8 @@ export default new Vuex.Store({
         deleteClassNodeProp(state, params) {
             for (var i = 0, l = state.UML.nodes.length; i < l; i++) {
                 if (state.UML.nodes[i].id == params.id) {
-                    var arr = state.UML.nodes[i]["properties"][params.contentType];
+                    var arr =
+                        state.UML.nodes[i]["properties"][params.contentType];
                     for (var j = 0; j < arr.length; j++) {
                         if (arr[j].propId == params.propId) {
                             arr.splice(j, 1);
@@ -485,20 +510,28 @@ export default new Vuex.Store({
                     }
                     if (params.originContentType == params.contentType) {
                         //相同则直接修改属性
-                        var arr = state.UML.nodes[i]["properties"][params.contentType];
+                        var arr =
+                            state.UML.nodes[i]["properties"][
+                                params.contentType
+                            ];
                         for (var j = 0; j < arr.length; j++) {
                             if (arr[j].propId == params.propId) {
                                 arr[j].modifier = params.modifier;
                                 arr[j].dataType = params.dataType;
                                 arr[j].name = params.name;
                                 if (params.contentType == "functions") {
-                                    arr[j].params = params.params ? params.params : "";
+                                    arr[j].params = params.params
+                                        ? params.params
+                                        : "";
                                 }
                                 return;
                             }
                         }
                     } else {
-                        var arrOrigin = state.UML.nodes[i]["properties"][params.originContentType];
+                        var arrOrigin =
+                            state.UML.nodes[i]["properties"][
+                                params.originContentType
+                            ];
                         //删除
                         for (j = 0; j < arrOrigin.length; j++) {
                             if (arrOrigin[j].propId == params.propId) {

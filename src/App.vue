@@ -16,13 +16,20 @@
                 <Resizer
                     :key="item.id"
                     :id="item.id"
-                    :style="{left: item.styles.left + 'px', top: item.styles.top + 'px'}"
+                    :style="{
+                        left: item.styles.left + 'px',
+                        top: item.styles.top + 'px'
+                    }"
                 >
                     <component :is="item.type" v-bind="item"></component>
                 </Resizer>
             </div>
         </div>
-        <ContextMenu v-show="showMenu" id="menu" @hide-menu="clickOutSide"></ContextMenu>
+        <ContextMenu
+            v-show="showMenu"
+            id="menu"
+            @hide-menu="clickOutSide"
+        ></ContextMenu>
     </div>
 </template>
 
@@ -96,8 +103,8 @@ export default {
         return {
             cursorToLeft: 0, //拖动的鼠标位置距离父div的距离
             cursorToTop: 0,
-            showMenu: false,
-            ghost: null //拖拽的虚影（如果使用原生的虚影，在组件重叠的情况下，会有多余图像）
+            showMenu: false
+            //ghost: null //拖拽的虚影（如果使用原生的虚影，在组件重叠的情况下，会有多余图像）
         };
     },
     methods: {
@@ -121,17 +128,20 @@ export default {
             let resizer = $(event.target);
             this.cursorToLeft = event.clientX - resizer.offset().left;
             this.cursorToTop = event.clientY - resizer.offset().top;
-            this.ghost = resizer.clone()[0];
+            console.log(this.cursorToLeft, this.cursorToTop);
+            /* this.ghost = resizer.clone()[0];
             this.ghost.style.position = "absolute";
             this.ghost.style.left = "-2000px";
             this.ghost.style.top = "0px";
             document.getElementById("visualEditor").appendChild(this.ghost);
             //console.log(this.ghost);
+            //这个方法和电脑的缩放比例还有点关系，之后最好修改
             event.dataTransfer.setDragImage(
                 this.ghost,
                 this.cursorToLeft,
                 this.cursorToTop
-            );
+            ); */
+            event.dataTransfer.setDragImage(resizer.clone()[0], 0, 0);
         },
         handleDragEnd(event) {
             console.log("handleDragEnd");
@@ -150,10 +160,10 @@ export default {
             });
             this.cursorToLeft = 0;
             this.cursorToTop = 0;
-            if (this.ghost) {
+            /* if (this.ghost) {
                 document.getElementById("visualEditor").removeChild(this.ghost);
                 this.ghost = null;
-            }
+            } */
         },
         handleDragEnter(event) {
             console.log("handleDragEnter");
@@ -164,6 +174,11 @@ export default {
             console.log("handleDragOver");
             event.preventDefault();
             event.dataTransfer.dropEffect = "copy";
+            this.$store.commit("moveNode", {
+                left: event.clientX - this.cursorToLeft,
+                top: event.clientY - this.cursorToTop,
+                id: this.$store.state.editingId
+            });
         }
     }
 };
