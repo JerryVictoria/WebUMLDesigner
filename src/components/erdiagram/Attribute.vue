@@ -8,35 +8,39 @@
         v-clickoutside="hideInputAndSave"
     >
         <div
-            class="outsideDiv"
+            :class="{
+                roundDiv: true,
+                childrenType: this.propType == 'children',
+                keyType: this.propType == 'key',
+                multiType: this.propType == 'multivalue'
+            }"
             :style="{
-                width: this.width * 0.97 + 'px',
-                height: this.height * 0.97 + 'px'
+                width: this.width * 0.96 + 'px',
+                height: this.height * 0.96 + 'px'
             }"
         >
-            <div
-                class="insideDiv"
-                v-show="isWeak"
-                :style="{
-                    width: this.width * 0.9 + 'px',
-                    height: this.height * 0.9 + 'px'
-                }"
-            ></div>
-            <div
-                class="insideContent"
-                :style="{
-                    width: this.width * 0.9 + 'px',
-                    height: this.height * 0.9 + 'px',
-                    paddingTop: this.height * 0.2 + 'px'
-                }"
-            >
+            <div :style="{ marginTop: this.height * 0.2 + 'px' }">
                 <div v-if="showInput && id == $store.state.editingId">
-                    <el-checkbox v-model="isWeak">弱</el-checkbox>
+                    <el-select
+                        v-model="propType"
+                        placeholder="请选择"
+                        size="mini"
+                        style="width: 65%"
+                    >
+                        <el-option
+                            v-for="item in options"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value"
+                        >
+                        </el-option>
+                    </el-select>
                     <el-input
                         class="contentSpan"
                         v-model="name"
                         size="mini"
                         :autofocus="true"
+                        style="width: 65%"
                     ></el-input>
                 </div>
                 <span
@@ -56,17 +60,22 @@
 <script>
 import CommonComponent from "../CommonComponent.vue";
 export default {
-    name: "Entity",
+    name: "Attribute",
     extends: CommonComponent,
     data() {
         return {
             name: "",
-            isWeak: true
+            propType: "",
+            options: [
+                { label: "派生", value: "children" },
+                { label: "键值", value: "key" },
+                { label: "多选", value: "multivalue" }
+            ]
         };
     },
     mounted() {
-        if (this.properties && this.properties.isWeak) {
-            this.isWeak = this.properties.isWeak;
+        if (this.properties && this.properties.propType) {
+            this.propType = this.properties.propType;
         }
     },
     watch: {
@@ -74,7 +83,7 @@ export default {
             deep: true,
             handler(prop) {
                 this.name = prop.name;
-                this.isWeak = prop.isWeak;
+                this.propType = prop.propType;
             }
         },
         name(newName) {
@@ -85,11 +94,11 @@ export default {
                 id: this.id
             });
         },
-        isWeak(newBool) {
+        propType(newPropType) {
             this.$store.commit("modifyNode", {
                 nodeKey: "properties",
-                key: "isWeak",
-                value: newBool,
+                key: "propType",
+                value: newPropType,
                 id: this.id
             });
         }
@@ -103,26 +112,19 @@ export default {
 };
 </script>
 <style scoped>
-.outsideDiv {
+.roundDiv {
+    border-radius: 50%;
+    background-color: white;
+}
+.childrenType {
+    border: 2px dashed black;
+}
+.keyType {
     border: 2px solid black;
-    position: relative;
-    background: white;
 }
-.insideDiv {
-    border: 1px solid black;
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    margin: auto;
-}
-.insideContent {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    margin: auto;
+.multiType {
+    border-color: black;
+    border-style: double;
+    border-width: 2px;
 }
 </style>

@@ -66,6 +66,7 @@ import Node from "./components/deploymentdiagram/Node.vue";
 import ComponentInterface from "./components/componentdiagram/ComponentInterface.vue";
 
 import Entity from "./components/erdiagram/Entity.vue";
+import Attribute from "./components/erdiagram/Attribute.vue";
 
 import Resizer from "./components/Resizer.vue";
 import ContextMenu from "./components/ContextMenu.vue";
@@ -99,6 +100,7 @@ export default {
         Node,
         ComponentInterface,
         Entity,
+        Attribute,
         Resizer,
         ContextMenu
     },
