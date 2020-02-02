@@ -65,6 +65,8 @@ import Node from "./components/deploymentdiagram/Node.vue";
 
 import ComponentInterface from "./components/componentdiagram/ComponentInterface.vue";
 
+import Entity from "./components/erdiagram/Entity.vue";
+
 import Resizer from "./components/Resizer.vue";
 import ContextMenu from "./components/ContextMenu.vue";
 import $ from "jquery";
@@ -96,6 +98,7 @@ export default {
         DiagramComponent,
         Node,
         ComponentInterface,
+        Entity,
         Resizer,
         ContextMenu
     },
