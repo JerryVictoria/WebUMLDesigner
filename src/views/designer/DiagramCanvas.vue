@@ -63,6 +63,7 @@ import ComponentInterface from "../../components/componentdiagram/ComponentInter
 
 import Entity from "../../components/erdiagram/Entity.vue";
 import Attribute from "../../components/erdiagram/Attribute.vue";
+import Relationship from "../../components/erdiagram/Relationship.vue";
 
 import Resizer from "../../components/Resizer.vue";
 import ContextMenu from "../../components/ContextMenu.vue";
@@ -97,6 +98,7 @@ export default {
         ComponentInterface,
         Entity,
         Attribute,
+        Relationship,
         Resizer,
         ContextMenu
     },

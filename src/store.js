@@ -14,8 +14,7 @@ export default new Vuex.Store({
             UMLId: "",
             userId: "",
             groupId: "",
-            nodes: [
-                {
+            nodes: [{
                     id: "29",
                     type: "Attribute",
                     styles: {
@@ -28,23 +27,35 @@ export default new Vuex.Store({
                         name: "attribute",
                         propType: "multivalue"
                     }
-                }
-            ],
-            lines: [
+                },
                 {
-                    id: "",
-                    relationType: "",
-                    fromId: "",
-                    toId: "",
+                    id: "30",
+                    type: "Relationship",
                     styles: {
-                        color: "",
-                        lineType: "", //虚线之类的
-                        lineThickness: "", //固定几种
-                        left: 0,
-                        top: 0
+                        width: 200,
+                        height: 100,
+                        left: 100,
+                        top: 300
+                    },
+                    properties: {
+                        name: "relationship",
+                        isWeak: true
                     }
                 }
-            ]
+            ],
+            lines: [{
+                id: "",
+                relationType: "",
+                fromId: "",
+                toId: "",
+                styles: {
+                    color: "",
+                    lineType: "", //虚线之类的
+                    lineThickness: "", //固定几种
+                    left: 0,
+                    top: 0
+                }
+            }]
         },
         histories: [] //循环队列实现
     },
@@ -156,9 +167,9 @@ export default new Vuex.Store({
                                 arr[j].dataType = params.dataType;
                                 arr[j].name = params.name;
                                 if (params.contentType == "functions") {
-                                    arr[j].params = params.params
-                                        ? params.params
-                                        : "";
+                                    arr[j].params = params.params ?
+                                        params.params :
+                                        "";
                                 }
                                 return;
                             }
