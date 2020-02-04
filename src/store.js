@@ -41,6 +41,19 @@ export default new Vuex.Store({
                         name: "relationship",
                         isWeak: true
                     }
+                },
+                {
+                    id: "31",
+                    type: "Package",
+                    styles: {
+                        width: 200,
+                        height: 100,
+                        left: 400,
+                        top: 100
+                    },
+                    properties: {
+                        name: "package"
+                    }
                 }
             ],
             lines: [{

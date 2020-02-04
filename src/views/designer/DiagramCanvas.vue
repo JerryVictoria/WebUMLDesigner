@@ -65,6 +65,8 @@ import Entity from "../../components/erdiagram/Entity.vue";
 import Attribute from "../../components/erdiagram/Attribute.vue";
 import Relationship from "../../components/erdiagram/Relationship.vue";
 
+import Package from "../../components/universalcomponents/Package.vue";
+
 import Resizer from "../../components/Resizer.vue";
 import ContextMenu from "../../components/ContextMenu.vue";
 import $ from "jquery";
@@ -99,6 +101,7 @@ export default {
         Entity,
         Attribute,
         Relationship,
+        Package,
         Resizer,
         ContextMenu
     },
