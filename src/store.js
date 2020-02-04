@@ -54,6 +54,19 @@ export default new Vuex.Store({
                     properties: {
                         name: "package"
                     }
+                },
+                {
+                    id: "32",
+                    type: "Comment",
+                    styles: {
+                        width: 200,
+                        height: 100,
+                        left: 700,
+                        top: 100
+                    },
+                    properties: {
+                        name: "comment"
+                    }
                 }
             ],
             lines: [{

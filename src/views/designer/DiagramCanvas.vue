@@ -66,6 +66,7 @@ import Attribute from "../../components/erdiagram/Attribute.vue";
 import Relationship from "../../components/erdiagram/Relationship.vue";
 
 import Package from "../../components/universalcomponents/Package.vue";
+import Comment from "../../components/universalcomponents/Comment.vue";
 
 import Resizer from "../../components/Resizer.vue";
 import ContextMenu from "../../components/ContextMenu.vue";
@@ -102,6 +103,7 @@ export default {
         Attribute,
         Relationship,
         Package,
+        Comment,
         Resizer,
         ContextMenu
     },
