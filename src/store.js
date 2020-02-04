@@ -67,6 +67,20 @@ export default new Vuex.Store({
                     properties: {
                         name: "comment"
                     }
+                },
+                {
+                    id: "33",
+                    type: "Composition",
+                    styles: {
+                        width: 250,
+                        height: 120,
+                        left: 700,
+                        top: 200
+                    },
+                    properties: {
+                        compositionType: "Opt",
+                        condition: "condition"
+                    }
                 }
             ],
             lines: [{
