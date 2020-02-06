@@ -32,6 +32,7 @@
 .underline {
     text-decoration: underline;
 }
+
 /* .div_horizontal_center {
     text-align: center;
     border: 1px solid #000;
@@ -39,3 +40,10 @@
 .img_horizontal_center {
     margin: 0 auto;
 } */
+
+.avatarImg {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 1px dashed grey;
+}
