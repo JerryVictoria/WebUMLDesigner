@@ -7,7 +7,7 @@
         </div>
         <div id="other">
             <div id="left">
-                <button id="newfile">新建文件</button>
+                <button id="newfile" @click="newfile()">新建文件</button>
             </div>
             <div id="right">
                 <p>我的文件:</p>
@@ -64,6 +64,9 @@
             this.getfile()
         },
         methods:{
+            newfile(){
+                this.$router.push({ name: "Designer" });
+            },
            getfile(){
                console.log("getfile");
            }

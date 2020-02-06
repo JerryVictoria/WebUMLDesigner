@@ -42,8 +42,8 @@
             }
         },
         methods: {
-            Login() {
-
+            login() {
+                this.$router.push({ name: "Login" });
             },
             register() {
                 //判断用户名是否为空、用户名长度不超过10、密码是否为空、验证码输入是否正确

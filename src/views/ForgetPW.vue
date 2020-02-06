@@ -33,7 +33,7 @@
         },
         methods:{
             Login(){
-
+                this.$router.push({ name: "Login" });
             },
             register(){
                 this.$router.push({ name: "Register" });

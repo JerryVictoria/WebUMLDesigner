@@ -42,6 +42,7 @@
                     }else{
                         console.log("邮箱和密码都输入正确");
                         //前后端传数据
+                        this.$router.push({ name: "PersonalPage" });
                     }
                 }
             },
