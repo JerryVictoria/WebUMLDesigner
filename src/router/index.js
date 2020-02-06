@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import DiagramCanvas from "../views/designer/DiagramCanvas.vue"
+import Designer from "../views/designer/Designer.vue"
 import About from "../views/About.vue"
 import Login from "../views/Login.vue";
 import ForgetPW from "../views/ForgetPW.vue";
@@ -14,6 +15,11 @@ const routes = [{
     component: DiagramCanvas
   },
   {
+    path: "/designer",
+    name: "Designer",
+    component: Designer
+  },
+  {
     path: "/about",
     name: "About",
     component: About
@@ -23,21 +29,21 @@ const routes = [{
     //component: () =>
     //  import( /* webpackChunkName: "about" */ "../views/About.vue")
   },
-    {
-        path: "/login",
-        name: "Login",
-        component: Login
-    },
-    {
-        path: "/forgetpw",
-        name: "ForgetPW",
-        component: ForgetPW
-    },
-    {
-        path: "/register",
-        name: "Register",
-        component: Register
-    },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login
+  },
+  {
+    path: "/forgetpw",
+    name: "ForgetPW",
+    component: ForgetPW
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: Register
+  },
 
 
 ];

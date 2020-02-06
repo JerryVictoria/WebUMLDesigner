@@ -61,8 +61,8 @@ export default new Vuex.Store({
                     styles: {
                         width: 200,
                         height: 100,
-                        left: 700,
-                        top: 100
+                        left: 400,
+                        top: 200
                     },
                     properties: {
                         name: "comment"
@@ -74,8 +74,8 @@ export default new Vuex.Store({
                     styles: {
                         width: 250,
                         height: 120,
-                        left: 700,
-                        top: 200
+                        left: 400,
+                        top: 300
                     },
                     properties: {
                         compositionType: "Opt",

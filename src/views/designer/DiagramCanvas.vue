@@ -205,7 +205,7 @@ export default {
 #visualEditor {
     margin-top: 10px;
     width: 100%;
-    height: 800px;
+    height: 600px;
     border: 1px solid grey;
     background: url("../../assets/grid.png") repeat;
 }
