@@ -4,9 +4,19 @@
             <SelfDialogBox :text="'self text text......y...a.....f..........'"></SelfDialogBox>
             <OtherDialogBox :text="'other text'"></OtherDialogBox>
             <SelfDialogBox :text="'self text'"></SelfDialogBox>
-            <OtherDialogBox :text="'other text text.........g.....gfdf.......df........'"></OtherDialogBox>
+            <OtherDialogBox
+                :text="'other text text...sdfdsfdsf..sdfsfd....g.....gfdf..sfgfgfg.....df....dfgdfgdfg....'"
+            ></OtherDialogBox>
             <SelfDialogBox :text="'self text'"></SelfDialogBox>
             <OtherDialogBox :text="'other text'"></OtherDialogBox>
+            <!--
+                <template v-for>
+                    if id == self
+                    <component :is="SelfDialogBox"></component>
+                    else
+                    <component :is="OtherDialogBox"></component>
+                </template>
+            -->
         </div>
         <hr />
         <div style="margin-top: 20px; display: flex; ">
@@ -23,6 +33,19 @@ export default {
     components: {
         SelfDialogBox,
         OtherDialogBox
+    },
+    data() {
+        return {
+            content: [
+                { id: "me", text: "", time: "" },
+                { id: "other", text: "", time: "" }
+            ]
+        };
+    },
+    methods: {
+        getChatContent() {
+            //axios
+        }
     }
 };
 </script>
