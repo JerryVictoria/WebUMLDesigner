@@ -1,4 +1,3 @@
-<!--制图界面-->
 <template>
     <div id="designer">
         <div id="top">
@@ -11,18 +10,14 @@
             <div id="side">
                 <components-store-side-bar></components-store-side-bar>
             </div>
-            <div id="canvas">
-                <div style="display: flex">
-                    <DiagramCanvas
-                            style="display: inline-block; width: 2000px;"
-                    ></DiagramCanvas>
-                    <ChatPanel style="display: inline-block"></ChatPanel>
-                </div>
-            </div>
+        <div id="canvas" style="display: flex">
+            <DiagramCanvas id="Diagram" style="display: inline-block; width: 2000px;"
+            ></DiagramCanvas>
+            <ChatPanel style="display: inline-block"></ChatPanel>
+        </div>
         </div>
     </div>
 </template>
-
 <script>
     import ToolTopBar from "../designer/ToolTopBar.vue";
     import DiagramCanvas from "../designer/DiagramCanvas.vue";
@@ -30,15 +25,15 @@
     import ChatPanel from "./ChatPanel.vue";
     export default {
         name: "Designer",
-        components:{
+        components: {
             ToolTopBar,
             DiagramCanvas,
             ComponentsStoreSideBar,
             ChatPanel
-        }
-    }
-</script>
 
+        }
+    };
+</script>
 <style scoped>
     #designer{
         width:100%;
@@ -62,20 +57,19 @@
         display:block;
     }
     #side{
-        position:absolute;
+        position:fixed;
         left:0;
         width:20%;
         height:800px;
-        background-color: darkslategrey;
+        background-color: white;
         display:inline-block;
-        overflow:scroll;
+        z-index:1;
     }
     #canvas{
-        position:absolute;
+        position:fixed;
         left:20%;
         width:80%;
         height:800px;
-        display:inline-block;
         overflow:scroll;
     }
 </style>
