@@ -5,9 +5,13 @@ import App from "./App.vue";
 import "./components/util/checkoutside.js";
 import store from "./store.js";
 import router from "./router"
+import axios from './httpConfig/url_config'
+import qs from 'qs'
 Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
+Vue.prototype.$axios = axios
+Vue.prototype.$qs = qs
 
 import "./style/common.css";
 
