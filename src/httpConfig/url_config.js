@@ -2,8 +2,8 @@
  * ajax请求配置
  */
 import axios from 'axios'
-import router from '../router/index.js'
-import store from '../vuex/store'
+//import router from '../router/index.js'
+//import store from '../vuex/store'
 //import * as types from '../vuex/types'
 
 // axios默认配置
@@ -59,5 +59,5 @@ axios.interceptors.request.use(
     console.log(JSON.stringify(error))
     return Promise.reject(error.response) // 返回接口返回的错误信息
   })
-export default axios
  */
+export default axios

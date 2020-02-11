@@ -7,6 +7,7 @@ import Login from "../views/Login.vue";
 import ForgetPW from "../views/ForgetPW.vue";
 import Register from "../views/Register.vue";
 import PersonalPage from "../views/PersonalPage.vue";
+import Test from "../views/Test.vue"
 
 Vue.use(VueRouter);
 
@@ -45,12 +46,16 @@ const routes = [{
     name: "Register",
     component: Register
   },
-    {
-        path: "/personal",
-        name: "PersonalPage",
-        component: PersonalPage
-    },
-
+  {
+    path: "/personal",
+    name: "PersonalPage",
+    component: PersonalPage
+  },
+  {
+    path: "/test",
+    name: "Test",
+    component: Test
+  },
 
 ];
 
