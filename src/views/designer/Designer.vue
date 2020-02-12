@@ -60,7 +60,7 @@
         position:fixed;
         left:0;
         width:20%;
-        height:800px;
+        height:700px;
         background-color: white;
         display:inline-block;
         z-index:1;

@@ -10,11 +10,11 @@
     },
     "dependencies": {
         "axios": "^0.19.2",
-        "qs": "^6.6.0",
         "core-js": "^3.4.4",
-        "element-ui": "2.9.2",
+        "element-ui": "^2.9.2",
         "jquery": "^3.3.1",
         "nodemailer": "^6.4.2",
+        "qs": "^6.6.0",
         "vue": "^2.6.10",
         "vuex": "^3.1.2"
     },

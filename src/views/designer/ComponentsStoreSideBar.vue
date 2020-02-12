@@ -1,30 +1,43 @@
 <template>
     <div id="asideBox">
         <div id="top">
-            <input id="search" v-model="Search" type="text" placeholder="搜索">
-            <button id="searchbutton">搜索</button>
+            <el-input placeholder="请输入内容" v-model="Search" class="input" id="search" type="text" >
+                <el-button slot="append" icon="el-icon-search" id="searchbutton" type="primary" @click="searchimg"></el-button>
+            </el-input>
         </div>
-        <div id="menu" v-for="(item,index) in menuList" :key="item.name">
-            <div style="display:block;width:100%;height:auto">
-                <div class="oneMenu" @click="showToggle(item,index)">
-                    <p v-bind:id="item.name">{{item.name}}</p>
-                </div>
-                <div v-show="item.isSubShow">
-                    <div  v-for="subItem in item.subItems" :key="subItem.name" draggable="true"
-                          @mouseenter="enter(subItem)"
-                          @mouseleave="leave(subItem)"
-                          @mousemove="moveBG(subItem.name)"
-                          @dragstart.stop="MouseDragStart;leave(subItem,item)"
-                          @dragend.stop="MouseDragEnd">
-                        <div id="image">
-                            <img v-bind:src="subItem.imgUrl" v-bind:id="subItem.name" />
+        <div id="menu">
+            <el-collapse v-model="activeNames" @change="handleChange">
+                <el-collapse-item title="搜索结果" name="1" v-show="searchresult">
+                        <div  v-for="(item,index) in searchList" :key="item.name" :name="index" draggable="true"
+                              @mouseenter="enter(item)"
+                              @mouseleave="leave(item)"
+                              @mousemove="moveBG(item.name)"
+                              @dragstart.stop="MouseDragStart;leave(item)"
+                              @dragend.stop="MouseDragEnd">
+                            <div id="searchresult" class="image">
+                                <img v-bind:src="item.imgUrl" v-bind:id="item.name" class="img"/>
+                            </div>
+                            <div v-show="item.issubShow" class="hover_con" v-bind:style="positionsty">
+                                <img  v-bind:src="item.imgUrl" v-bind:style="newimg" />
+                            </div>
                         </div>
-                        <div v-show="subItem.issubShow" class="hover_con" id="positionStyle" v-bind:style="positionsty">
-                            <img id="newimage" v-bind:src="subItem.imgUrl" v-bind:style="newimg" />
+                    </el-collapse-item>
+                <el-collapse-item v-for="item in menuList" :key="item.name" :title="item.name">
+                        <div  v-for="subItem in item.subItems" :key="subItem.name" draggable="true"
+                              @mouseenter="enter(subItem)"
+                              @mouseleave="leave(subItem)"
+                              @mousemove="moveBG(subItem.name)"
+                              @dragstart.stop="MouseDragStart;leave(subItem)"
+                              @dragend.stop="MouseDragEnd">
+                            <div class="image">
+                                <img v-bind:src="subItem.imgUrl" v-bind:id="subItem.name" class="img"/>
+                            </div>
+                            <div v-show="subItem.issubShow" class="hover_con" v-bind:style="positionsty">
+                                <img  v-bind:src="subItem.imgUrl" v-bind:style="newimg" />
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                </el-collapse-item>
+            </el-collapse>
         </div>
     </div>
 </template>
@@ -34,6 +47,8 @@
         name: "components-store-side-bar",
         data(){
             return {
+                activeNames: ['1'],
+                searchresult:false,
                 Search:'',
                 imgURL:'',
                 type:'',
@@ -57,54 +72,14 @@
                     top:'',
                     left:''
                 },
-                menuList:[{
-                    name: 'UML时序图',
-                    isSubShow: false,
-                    subItems: [
-                        {
-                            name: 'Object',
-                            imgUrl: require('../../assets/icons/sequence/Object.png'),
-                        },
-                        {
-                            name: 'Entity',
-                            imgUrl: require('../../assets/icons/sequence/Entity.png'),
-                        },
-                        {
-                            name: 'Control',
-                            imgUrl: require('../../assets/icons/sequence/Control.png'),
-                        },
-                        {
-                            name: 'Bind',
-                            imgUrl: require('../../assets/icons/sequence/Bind.png'),
-                        },
-                        {
-                            name: 'Timesignal',
-                            imgUrl: require('../../assets/icons/sequence/Timesignal.png'),
-                        },
-                        {
-                            name: 'Constraint',
-                            imgUrl: require('../../assets/icons/sequence/Constraint.png'),
-                        },
-                        {
-                            name: 'Activation',
-                            imgUrl: require('../../assets/icons/sequence/Activation.png'),
-                        },
-                        {
-                            name: 'Lifeline',
-                            imgUrl: require('../../assets/icons/sequence/Lifeline.png'),
-                        },
-                        {
-                            name: 'Delete',
-                            imgUrl: require('../../assets/icons/sequence/Delete.png'),
-                        },
-                    ]
-                },
+                menuList:[
                     {
                 name:'UML状态图',
                 isSubShow:false,
                 subItems:[
                     {
                         name: 'state-object',
+                        Cname: '对象',
                         issubShow:false,
                         width:120,
                         height:90,
@@ -114,6 +89,7 @@
                         name: 'state-state',
                         width:120,
                         height:90,
+                        Cname: '状态',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/state.png'),
                     },
@@ -121,6 +97,7 @@
                         name: 'state-start',
                         width:60,
                         height:60,
+                        Cname: '开始',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/begin.png'),
                     },
@@ -128,6 +105,7 @@
                         name: 'state-end',
                         width:60,
                         height:60,
+                        Cname: '结束',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/end.png'),
                     },
@@ -135,6 +113,7 @@
                         name: 'state-streamEnd',
                         width:60,
                         height:60,
+                        Cname: '流终止',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/streamEnd.png'),
                     },
@@ -142,6 +121,7 @@
                         name: 'state-history',
                         width:60,
                         height:60,
+                        Cname: '历史',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/history.png'),
                     },
@@ -149,6 +129,7 @@
                         name: 'state-detailedHistory',
                         width:60,
                         height:60,
+                        Cname: '详细历史',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/detailedHistory.png'),
                     },
@@ -156,6 +137,7 @@
                         name: 'state-msgSender',
                         width:170,
                         height:90,
+                        Cname: '发送信号',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/msgSender.png'),
                     },
@@ -163,12 +145,14 @@
                         name: 'state-msgReceiver',
                         width:170,
                         height:90,
+                        Cname: '接收信号',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/msgReceiver.png'),
                     },{
                         name: 'state-fork',
                         width:60,
                         height:60,
+                        Cname: '分支',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/fork.png'),
                     },
@@ -176,37 +160,189 @@
                         name: 'state-synchronizer',
                         width:140,
                         height:40,
+                        Cname: '同步',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/synchronizer.png'),
                     },{
                         name: 'state-container',
                         width:160,
                         height:130,
+                        Cname: '容器',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/container.png'),
                     },{
                         name: 'state-verticalLane',
                         width:135,
                         height:280,
+                        Cname: '泳道（垂直）',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/verticalLane.png'),
                     },{
                         name: 'state-horizontalLane',
                         width:280,
                         height:135,
+                        Cname: '泳道（水平）',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/horizontalLane.png'),
                     },
-
-
-
-
-
-            ]
-        }],
+                ]}, {
+                        name: 'UML时序图',
+                        isSubShow: false,
+                        subItems: [
+                            {
+                                name: 'Object',
+                                Cname: 'Object',
+                                issubShow:false,
+                                width:120,
+                                height:90,
+                                imgUrl: require('../../assets/icons/sequence/Object.png'),
+                            },
+                            {
+                                name: 'Entity',
+                                Cname: 'Object',
+                                issubShow:false,
+                                width:120,
+                                height:90,
+                                imgUrl: require('../../assets/icons/sequence/Entity.png'),
+                            },
+                            {
+                                name: 'Control',
+                                Cname: 'Object',
+                                issubShow:false,
+                                width:120,
+                                height:90,
+                                imgUrl: require('../../assets/icons/sequence/Control.png'),
+                            },
+                            {
+                                name: 'Bind',
+                                Cname: 'Object',
+                                issubShow:false,
+                                width:120,
+                                height:90,
+                                imgUrl: require('../../assets/icons/sequence/Bind.png'),
+                            },
+                            {
+                                name: 'Timesignal',
+                                Cname: 'Object',
+                                issubShow:false,
+                                width:120,
+                                height:90,
+                                imgUrl: require('../../assets/icons/sequence/Timesignal.png'),
+                            },
+                            {
+                                name: 'Constraint',
+                                Cname: 'Object',
+                                issubShow:false,
+                                width:120,
+                                height:90,
+                                imgUrl: require('../../assets/icons/sequence/Constraint.png'),
+                            },
+                            {
+                                name: 'Activation',
+                                Cname: 'Object',
+                                issubShow:false,
+                                width:120,
+                                height:90,
+                                imgUrl: require('../../assets/icons/sequence/Activation.png'),
+                            },
+                            {
+                                name: 'Lifeline',
+                                Cname: 'Object',
+                                issubShow:false,
+                                width:120,
+                                height:90,
+                                imgUrl: require('../../assets/icons/sequence/Lifeline.png'),
+                            },
+                            {
+                                name: 'Delete',
+                                Cname: 'Object',
+                                issubShow:false,
+                                width:120,
+                                height:90,
+                                imgUrl: require('../../assets/icons/sequence/Delete.png'),
+                            },
+                        ]
+                    },
+                    {
+                        name: 'UML用例图',
+                        isSubShow: false,
+                        subItems: [{
+                            name: 'state-object',
+                            Cname: '对象',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/state/object.png'),
+                        },]
+                    },
+                    {
+                        name: 'UML类图',
+                        isSubShow: false,
+                        subItems: [{
+                            name: 'state-object',
+                            Cname: '对象',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/state/object.png'),
+                        },]
+                    },
+                    {
+                        name: 'UML部署图',
+                        isSubShow: false,
+                        subItems: [{
+                            name: 'state-object',
+                            Cname: '对象',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/state/object.png'),
+                        },]
+                    },
+                    {
+                        name: 'UML组件图',
+                        isSubShow: false,
+                        subItems: [{
+                            name: 'state-object',
+                            Cname: '对象',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/state/object.png'),
+                        },]
+                    },
+                    {
+                        name: '实体关系图',
+                        isSubShow: false,
+                        subItems: [{
+                            name: 'state-object',
+                            Cname: '对象',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/state/object.png'),
+                        },]
+                    },
+                ],
+                searchList:[]
             }
         },
         methods:{
+            searchimg(){
+                var imgname=this.Search;
+                for(var i=0;i<this.menuList.length;i++){
+                    for(var j=0;j<this.menuList[i].subItems.length;j++){
+                        if(this.menuList[i].subItems[j].Cname.indexOf(imgname.toString())!=-1){
+                            //console.log(this.menuList[i].subItems[j]);
+                            this.searchList.push(this.menuList[i].subItems[j]);
+                            this.searchresult=true;
+                        }
+                    }
+                }
+            },
+            handleChange(val) {
+                console.log(val);
+            },
             showToggle:function(item,ind){
                 this.menuList.forEach(i=>{
                     if(i.isSubShow !==this.menuList[ind].isSubShow){
@@ -219,7 +355,8 @@
             enter(item){
                 item.issubShow=true;
             },
-            leave(subitem,item){
+            leave(subitem){
+                console.log(subitem.Cname);
                 subitem.issubShow=false;
                 this.name=subitem.name.split('-')[1];
                 this.type=subitem.name.split('-')[1].charAt(0).toUpperCase() + subitem.name.split('-')[1].slice(1);
@@ -285,7 +422,7 @@
                 //alert("tianjiacheng")
                 console.log("clickOutSide");
                 this.showMenu = false;
-                console.log("*****************"+this.dragid);
+                console.log("*****************"+newid);
             },
             moveBG:function(name){
                 var menu=document.getElementById('side');
@@ -317,31 +454,55 @@
                //alert(image.getBoundingClientRect().bottom);
             }
         },
+        watch:{
+            Search:function(){
+                if(this.Search==''){
+                    while(this.searchList.length!=0){
+                        this.searchList.pop();
+                    }
+                    console.log(this.searchList);
+                    this.searchresult=false;
+                }
+            },
+        }
     }
 </script>
 
 <style scoped>
+    #top{
+        margin-top: 15px;
+        margin-bottom: 15px;
+        margin-left:2%;
+        margin-right:2%;
+    }
     #asideBox{
         width:100%;
         display:block;
     }
     #menu{
-        color:black;
-        width:100%;
-        display:flex;
         margin-left:5%;
+        overflow:scroll;
+        margin-bottom: 5%;
+        height:600px;
     }
     #searchbutton{
         cursor: pointer;  /*鼠标悬停变小手*/
     }
-    #image{
+    .image{
         display:inline-block;
         width:auto;
-        height:45px;
-        margin:0 1%;
+        height:50px;
+        margin:0 2% 2% 0;
         outline:none;
         float:left;
     }
+    .img {
+        display: block;
+        width: 45px;
+        height: 45px;
+        flex-wrap: wrap;
+    }
+    /*
     #Object{
         display:flex;
         width:50px;
@@ -479,4 +640,5 @@
         height:45px;
         flex-wrap:wrap;
     }
+    */
 </style>

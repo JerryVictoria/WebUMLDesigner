@@ -84,18 +84,47 @@ export default new Vuex.Store({
                 }
             ],
             lines: [{
-                id: "",
-                relationType: "",
-                fromId: "",
-                toId: "",
+                id: "1",
+                relationType: "xbrokrn",
+                fromId: "29",
+                toId: "30",
+                startposition:{
+                    left:0,
+                    top:0,
+                    arrow:"",
+                },
+                endpostion:{
+                    left:250,
+                    top:250,
+                    arrow:"",
+                },
                 styles: {
-                    color: "",
-                    lineType: "", //虚线之类的
-                    lineThickness: "", //固定几种
-                    left: 0,
-                    top: 0
+                    stroke:"rgb(255,0,0)",
+                    strokeDasharray:"5,5", //虚线之类的
+                    strokeWidth:"10", //固定几种
                 }
-            }]
+            },
+                {
+                    id: "2",
+                    relationType: "xbrokrn",
+                    fromId: "29",
+                    toId: "30",
+                    startposition:{
+                        left:10,
+                        top:10,
+                        arrow:"",
+                    },
+                    endpostion:{
+                        left:200,
+                        top:200,
+                        arrow:"",
+                    },
+                    styles: {
+                        stroke:"rgb(255,0,0)",
+                        strokeDasharray:"1,1", //虚线之类的
+                        strokeWidth:"2", //固定几种
+                    }
+                }]
         },
         histories: [] //循环队列实现
     },
