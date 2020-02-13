@@ -1,21 +1,20 @@
 <template>
     <div id="designer">
-        <div id="top">
+        <el-header  id="top">
             mmmm
-        </div>
-        <div id="tool">
+        </el-header >
+        <el-divider></el-divider>
+        <el-header id="tool">
             <tool-top-bar></tool-top-bar>
-        </div>
-        <div id="bottom">
-            <div id="side">
+        </el-header>
+            <el-aside id="side" style="width:20%;">
                 <components-store-side-bar></components-store-side-bar>
-            </div>
-        <div id="canvas" style="display: flex">
+            </el-aside>
+        <el-main id="canvas" style="display: flex">
             <DiagramCanvas id="Diagram" style="display: inline-block; width: 2000px;"
             ></DiagramCanvas>
             <ChatPanel style="display: inline-block"></ChatPanel>
-        </div>
-        </div>
+        </el-main>
     </div>
 </template>
 <script>
@@ -44,16 +43,11 @@
     #top{
         width:100%;
         height:auto;
-        background-color: darkgrey;
         display:block;
     }
     #tool{
         width:100%;
         height:auto;
-        background-color: grey;
-        display:block;
-    }
-    #bottom{
         display:block;
     }
     #side{
@@ -70,6 +64,7 @@
         left:20%;
         width:80%;
         height:800px;
-        overflow:scroll;
+        overflow-x:scroll;
+        overflow-y:scroll;
     }
 </style>

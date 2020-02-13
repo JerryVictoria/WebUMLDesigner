@@ -24,6 +24,14 @@
                     <component :is="item.type" v-bind="item"></component>
                 </Resizer>
             </div>
+            <div  v-for="lines in $store.state.UML.lines"
+                  :key="lines.id">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <line  :x1="lines.startposition.left" :y1="lines.startposition.top" :x2="lines.endpostion.left" :y2="lines.endpostion.top"
+                           :style="lines.styles"/>
+            </svg>
+            </div>
+
         </div>
         <ContextMenu v-show="showMenu" id="menu" @hide-menu="clickOutSide"></ContextMenu>
     </div>
@@ -136,6 +144,14 @@ export default {
         handleDragStart(event) {
             event.dataTransfer.effectAllowed = "copyMove";
             let resizer = $(event.target);
+            /*
+            console.log("resizer.offset().left:"+resizer.offset().left);
+            console.log("resizer.offset().top:"+resizer.offset().top);
+            console.log("event.clientX:"+event.clientX);
+            console.log("event.clientY:"+event.clientY);
+            console.log("canv.width:"+canv.offsetLeft);
+            console.log("canv.width:"+canv.offsetTop);
+            */
             this.cursorToLeft = event.clientX - resizer.offset().left;
             this.cursorToTop = event.clientY - resizer.offset().top;
             console.log(this.cursorToLeft, this.cursorToTop);
@@ -154,18 +170,20 @@ export default {
             event.dataTransfer.setDragImage(resizer.clone()[0], 0, 0);
         },
         handleDragEnd(event) {
-            console.log("handleDragEnd");
+
+            console.log("handleDragEnd:"+this.cursorToLeft+"  "+this.cursorToTop);
+            var canv=document.getElementById("canvas");
             //更新图数据（vue数据驱动图像变化）
             this.$store.commit("modifyNode", {
                 nodeKey: "styles",
                 key: "left",
-                value: event.clientX - this.cursorToLeft,
+                value: event.clientX - this.cursorToLeft-canv.offsetLeft,
                 id: this.$store.state.editingId
             });
             this.$store.commit("modifyNode", {
                 nodeKey: "styles",
                 key: "top",
-                value: event.clientY - this.cursorToTop,
+                value: event.clientY - this.cursorToTop-canv.offsetTop,
                 id: this.$store.state.editingId
             });
             this.cursorToLeft = 0;
@@ -181,12 +199,13 @@ export default {
             event.dataTransfer.dropEffect = "copy";
         },
         handleDragOver(event) {
+            var canv=document.getElementById("canvas");
             console.log("handleDragOver");
             event.preventDefault();
             event.dataTransfer.dropEffect = "copy";
             this.$store.commit("moveNode", {
-                left: event.clientX - this.cursorToLeft,
-                top: event.clientY - this.cursorToTop,
+                left: event.clientX - this.cursorToLeft-canv.offsetLeft,
+                top: event.clientY - this.cursorToTop-canv.offsetTop,
                 id: this.$store.state.editingId
             });
         }
