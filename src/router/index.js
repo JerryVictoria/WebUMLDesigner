@@ -7,6 +7,7 @@ import Login from "../views/Login.vue";
 import ForgetPW from "../views/ForgetPW.vue";
 import Register from "../views/Register.vue";
 import PersonalPage from "../views/PersonalPage.vue";
+import ComponentsStoreSideBar from "../views/designer/ComponentsStoreSideBar.vue";
 import Test from "../views/Test.vue"
 
 Vue.use(VueRouter);
@@ -51,6 +52,11 @@ const routes = [{
     name: "PersonalPage",
     component: PersonalPage
   },
+    {
+        path: "/c",
+        name: "ComponentsStoreSideBar",
+        component: ComponentsStoreSideBar
+    },
   {
     path: "/test",
     name: "Test",

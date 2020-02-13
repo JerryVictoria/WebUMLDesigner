@@ -5,15 +5,17 @@
                 <el-button slot="append" icon="el-icon-search" id="searchbutton" type="primary" @click="searchimg"></el-button>
             </el-input>
         </div>
-        <div id="menu">
+        <div id="sidemenu">
             <el-collapse v-model="activeNames" @change="handleChange">
                 <el-collapse-item title="搜索结果" name="1" v-show="searchresult">
                         <div  v-for="(item,index) in searchList" :key="item.name" :name="index" draggable="true"
                               @mouseenter="enter(item)"
                               @mouseleave="leave(item)"
                               @mousemove="moveBG(item.name)"
-                              @dragstart.stop="MouseDragStart;leave(item)"
-                              @dragend.stop="MouseDragEnd">
+                              @dragstart.stop="Dragleave(item);DragStart"
+                              @dragend.stop="MouseDragEnd"
+                              @dragenter.stop="leave(item);DragStart"
+                              @dragover.stop="MouseDragEnd">
                             <div id="searchresult" class="image">
                                 <img v-bind:src="item.imgUrl" v-bind:id="item.name" class="img"/>
                             </div>
@@ -27,7 +29,7 @@
                               @mouseenter="enter(subItem)"
                               @mouseleave="leave(subItem)"
                               @mousemove="moveBG(subItem.name)"
-                              @dragstart.stop="MouseDragStart;leave(subItem)"
+                              @mousedown="MouseDragStart;leave(subItem)"
                               @dragend.stop="MouseDragEnd">
                             <div class="image">
                                 <img v-bind:src="subItem.imgUrl" v-bind:id="subItem.name" class="img"/>
@@ -47,6 +49,7 @@
         name: "components-store-side-bar",
         data(){
             return {
+                scrollheight:0,
                 activeNames: ['1'],
                 searchresult:false,
                 Search:'',
@@ -363,70 +366,77 @@
                 this.w=subitem.width;
                 this.h=subitem.height;
             },
+            Dragleave(subitem){
+                console.log("Dragleave");
+                subitem.issubShow=false;
+                this.name=subitem.name.split('-')[1];
+                this.type=subitem.name.split('-')[1].charAt(0).toUpperCase() + subitem.name.split('-')[1].slice(1);
+                this.w=subitem.width;
+                this.h=subitem.height;
+            },
+            DragStart(event){
+                console.log("DragStart");
+            },
             MouseDragStart(event){
+                console.log("MouseDragStart");
                 let resizer =event.target;
-                //添加拖拽效果
-                this.cursorToLeft = event.clientX - resizer.offset().left;
-                this.cursorToTop = event.clientY - resizer.offset().top;
-
+                console.log("MouseDragStart"+resizer.offsetTop);
+                console.log("MouseDragStart"+resizer.offsetLeft);
+                this.canvasdrage=false;
             },
             MouseDragEnd(event){
+                console.log("MouseDragEnd");
                 //判断是否已在画布中
-                //console.log("MouseDragEnd:X"+event.clientX+",Y: "+event.clientY)
-                var side=document.getElementById("side");
-                var canv=document.getElementById("canvas");
+                console.log(this.canvasdrage);
+                var canv=document.getElementById("canvas").childNodes[0];
                 var length=this.$store.state.UML.nodes.length;
+                var side=document.getElementById("side");
                 var newid;
                 if(length!=0) {
                     newid = parseInt(this.$store.state.UML.nodes[length - 1].id) + 1 + '';
                 }else{
                     newid='1';
                 }
-                console.log(newid);
+                console.log("newid:"+newid);
+                var c={
+                    l:canv.offsetLeft+canv.clientLeft,
+                    t:canv.offsetTop+canv.clientTop,
+                };
                 var e={
                     x:event.clientX,
                     y:event.clientY,
                 }
-                var c={
-                    x: this.cursorToLeft,
-                    y: this.cursorToTop,
-                };
-                var s={
-                    x: side.getBoundingClientRect().left,
-                    y: side.getBoundingClientRect().top,
-                    l:side.offsetLeft,
-                    t:side.offsetTop,
-                    w:side.offsetWidth,
-                }
-
-                console.log(e);
-                console.log(c);
-                console.log(s);
-                event.preventDefault();
-                event.dataTransfer.dropEffect = "copy";
-                var addcom= {
-                    id: newid,
-                    type: this.type,
-                    styles: {
-                        width: this.w,
-                        height: this.h,
-                        left: event.clientX-100-s.w,
-                        top: event.clientY-50,
-                    },
-                    properties: {
-                        name: this.name,
-                        propType: "multivalue"
+                if(e.x>0&&e.y>0){
+                    console.log("画布内");
+                    console.log(document.documentElement.scrollTop);
+                    console.log(e);
+                    console.log(c);
+                    event.preventDefault();
+                    event.dataTransfer.dropEffect = "copy";
+                    var addcom= {
+                        id: newid,
+                        type: this.type,
+                        styles: {
+                            width: this.w,
+                            height: this.h,
+                            left: e.x-this.w/2,
+                            top: e.y+document.documentElement.scrollTop,
+                        },
+                        properties: {
+                            name: this.name,
+                            propType: "multivalue"
+                        }
                     }
-                }
-                this.$store.state.UML.nodes.push(addcom);
-                //alert("tianjiacheng")
-                console.log("clickOutSide");
+                    console.log(e);
+                    this.$store.state.UML.nodes.push(addcom);
+                    //alert("tianjiacheng");
+                };
+                this.canvasdrage=true;
                 this.showMenu = false;
-                console.log("*****************"+newid);
             },
             moveBG:function(name){
-                var menu=document.getElementById('side');
-               var image=document.getElementById(name);
+                var canvas=document.getElementById('canvas');
+                var image=document.getElementById(name);
                console.log(name);
                //alert(image.offsetHeight);
                //alert(image.offsetWidth);
@@ -443,7 +453,7 @@
                var newimage=document.getElementById("positionStyle");
                //console.log(menu.offsetWidth);
                //console.log(c.y);
-               this.positionsty.left=menu.offsetWidth+'px';
+               this.positionsty.left=canvas.childNodes[0].offsetLeft+'px';
                this.positionsty.top=c.y+'px';
                //this.newimg.left=c.x+'px';
                //this.newimg.right=c.y+'px';
@@ -464,7 +474,7 @@
                     this.searchresult=false;
                 }
             },
-        }
+        },
     }
 </script>
 
@@ -479,7 +489,7 @@
         width:100%;
         display:block;
     }
-    #menu{
+    #sidemenu{
         margin-left:5%;
         overflow:scroll;
         margin-bottom: 5%;
