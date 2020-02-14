@@ -491,7 +491,7 @@
     }
     #sidemenu{
         margin-left:5%;
-        overflow:scroll;
+        overflow:auto;
         margin-bottom: 5%;
         height:600px;
     }

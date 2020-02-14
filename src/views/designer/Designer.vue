@@ -47,7 +47,7 @@
 </script>
 <style scoped>
     #designer {
-        overflow: scroll;
+        overflow: auto;
         width: 100%;
         height: auto;
         position: absolute;
@@ -79,6 +79,6 @@
         left: 20%;
         width: 80%;
         height: 800px;
-        overflow: scroll;
+        overflow: auto;
     }
 </style>
