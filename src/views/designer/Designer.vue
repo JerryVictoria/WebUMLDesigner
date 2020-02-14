@@ -31,9 +31,6 @@
         name: "Designer",
         data() {
             return {
-                canvasdrage: false,
-                sidedrag: false,
-                linedrag: false
             }
         },
         components: {

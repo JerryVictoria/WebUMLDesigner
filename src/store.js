@@ -5,6 +5,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   //store对象
   state: {
+    canvasdrage: false,
+      sidedrag: false,
+      linedrag: false,
     editing: false, //是否正在处于编辑状态（禁用其他功能）
     editingId: "", //当前编辑组件（显示功能）
     autoId: 100, // max of all TODO init

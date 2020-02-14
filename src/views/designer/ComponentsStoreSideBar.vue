@@ -12,10 +12,8 @@
                               @mouseenter="enter(item)"
                               @mouseleave="leave(item)"
                               @mousemove="moveBG(item.name)"
-                              @dragstart.stop="Dragleave(item);DragStart"
-                              @dragend.stop="MouseDragEnd"
-                              @dragenter.stop="leave(item);DragStart"
-                              @dragover.stop="MouseDragEnd">
+                              @dragstart.stop="leave(item);MouseDragStart"
+                              @dragend.stop="MouseDragEnd">
                             <div id="searchresult" class="image">
                                 <img v-bind:src="item.imgUrl" v-bind:id="item.name" class="img"/>
                             </div>
@@ -49,6 +47,8 @@
         name: "components-store-side-bar",
         data(){
             return {
+                cdrag:false,
+                ldrag:false,
                 scrollheight:0,
                 activeNames: ['1'],
                 searchresult:false,
@@ -366,28 +366,22 @@
                 this.w=subitem.width;
                 this.h=subitem.height;
             },
-            Dragleave(subitem){
-                console.log("Dragleave");
-                subitem.issubShow=false;
-                this.name=subitem.name.split('-')[1];
-                this.type=subitem.name.split('-')[1].charAt(0).toUpperCase() + subitem.name.split('-')[1].slice(1);
-                this.w=subitem.width;
-                this.h=subitem.height;
-            },
-            DragStart(event){
-                console.log("DragStart");
-            },
             MouseDragStart(event){
                 console.log("MouseDragStart");
                 let resizer =event.target;
                 console.log("MouseDragStart"+resizer.offsetTop);
                 console.log("MouseDragStart"+resizer.offsetLeft);
-                this.canvasdrage=false;
+                this.cdrag=this.$store.state.canvasdrage;
+                this.$store.state.canvasdrage=false;
+                this.ldrag=this.$store.state.linedrag;
+                this.$store.state.linedrag=false;
+                console.log("this.$store.state.canvasdrage:"+this.$store.state.canvasdrage);
+
             },
             MouseDragEnd(event){
                 console.log("MouseDragEnd");
                 //判断是否已在画布中
-                console.log(this.canvasdrage);
+                console.log(this.cdrag);
                 var canv=document.getElementById("canvas").childNodes[0];
                 var length=this.$store.state.UML.nodes.length;
                 var side=document.getElementById("side");
@@ -431,7 +425,9 @@
                     this.$store.state.UML.nodes.push(addcom);
                     //alert("tianjiacheng");
                 };
-                this.canvasdrage=true;
+                this.$store.state.canvasdrage=this.cdrag;
+                this.$store.state.linedrag=this.ldrag;
+                console.log("this.$store.state.canvasdrage:"+this.$store.state.canvasdrage);
                 this.showMenu = false;
             },
             moveBG:function(name){
