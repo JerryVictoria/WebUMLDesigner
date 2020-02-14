@@ -12,7 +12,7 @@
                               @mouseenter="enter(item)"
                               @mouseleave="leave(item)"
                               @mousemove="moveBG(item.name)"
-                              @dragstart.stop="leave(item);MouseDragStart"
+                              @dragstart.stop="MouseDragStart(item)"
                               @dragend.stop="MouseDragEnd">
                             <div id="searchresult" class="image">
                                 <img v-bind:src="item.imgUrl" v-bind:id="item.name" class="img"/>
@@ -27,7 +27,7 @@
                               @mouseenter="enter(subItem)"
                               @mouseleave="leave(subItem)"
                               @mousemove="moveBG(subItem.name)"
-                              @mousedown="MouseDragStart;leave(subItem)"
+                              @dragstart.stop="MouseDragStart(subItem);"
                               @dragend.stop="MouseDragEnd">
                             <div class="image">
                                 <img v-bind:src="subItem.imgUrl" v-bind:id="subItem.name" class="img"/>
@@ -366,17 +366,14 @@
                 this.w=subitem.width;
                 this.h=subitem.height;
             },
-            MouseDragStart(event){
+            MouseDragStart(subItem){
                 console.log("MouseDragStart");
-                let resizer =event.target;
-                console.log("MouseDragStart"+resizer.offsetTop);
-                console.log("MouseDragStart"+resizer.offsetLeft);
                 this.cdrag=this.$store.state.canvasdrage;
                 this.$store.state.canvasdrage=false;
                 this.ldrag=this.$store.state.linedrag;
                 this.$store.state.linedrag=false;
                 console.log("this.$store.state.canvasdrage:"+this.$store.state.canvasdrage);
-
+                this.leave(subItem);
             },
             MouseDragEnd(event){
                 console.log("MouseDragEnd");
@@ -430,23 +427,18 @@
                 console.log("this.$store.state.canvasdrage:"+this.$store.state.canvasdrage);
                 this.showMenu = false;
             },
-            moveBG:function(name){
+            moveBG(name){
                 var canvas=document.getElementById('canvas');
                 var image=document.getElementById(name);
                console.log(name);
                //alert(image.offsetHeight);
                //alert(image.offsetWidth);
-               var e={
-                   w:image.offsetWidth,
-                   h:image.offsetHeight,
-               };
                var c={
                    x: image.getBoundingClientRect().left,
                    y: image.getBoundingClientRect().top,
                };
                //alert(name.toString().split('-')[0]);
                //alert(name);
-               var newimage=document.getElementById("positionStyle");
                //console.log(menu.offsetWidth);
                //console.log(c.y);
                this.positionsty.left=canvas.childNodes[0].offsetLeft+'px';

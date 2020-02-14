@@ -29,8 +29,6 @@
                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
                     <line  :x1="lines.startposition.left" :y1="lines.startposition.top" :x2="lines.endpostion.left" :y2="lines.endpostion.top"
                            :style="lines.styles"
-                           @click="clickone(lines.id)"
-                           @dbclick="clicktwo(lines.id)"
                     />
                 </svg>
             </div>
@@ -142,12 +140,12 @@ export default {
             this.$store.commit("setEditState", { editing: false });
             this.$store.commit("setEditId", { id: "" });
             this.showMenu = false;
-            this.$store.state.canvasdrage=true;
         },
         handleDragStart(event) {
-            if (this.$store.state.canvasdrage) {
-                event.dataTransfer.effectAllowed = "copyMove";
-                let resizer = $(event.target);
+            console.log("handleDragStart")
+            this.$store.state.canvasdrage=true;
+            event.dataTransfer.effectAllowed = "copyMove";
+            let resizer = $(event.target);
                 /*
             console.log("resizer.offset().left:"+resizer.offset().left);
             console.log("resizer.offset().top:"+resizer.offset().top);
@@ -170,7 +168,6 @@ export default {
                 this.cursorToTop
             ); */
                 event.dataTransfer.setDragImage(resizer.clone()[0], 0, 0);
-            }
         },
         handleDragEnd(event) {
             if (this.$store.state.canvasdrage) {
