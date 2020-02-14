@@ -1,11 +1,8 @@
 <template>
     <div id="designer">
         <el-container>
-            <el-header id="top">
-                mmmm
-            </el-header>
-            <el-divider></el-divider>
             <el-header id="tool">
+
                 <tool-top-bar></tool-top-bar>
             </el-header>
             <el-container>
@@ -33,6 +30,7 @@
             return {
             }
         },
+
         components: {
             ToolTopBar,
             DiagramCanvas,
@@ -61,6 +59,7 @@
     #tool {
         width: 100%;
         height: auto;
+        margin-top:1%;
         display: block;
     }
 
