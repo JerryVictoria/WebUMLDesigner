@@ -188,7 +188,8 @@
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/horizontalLane.png'),
                     },
-                ]}, {
+                ]},
+                    {
                         name: 'UML时序图',
                         isSubShow: false,
                         subItems: [
@@ -282,12 +283,61 @@
                         name: 'UML类图',
                         isSubShow: false,
                         subItems: [{
-                            name: 'state-object',
-                            Cname: '对象',
+                            name: 'class-simple',
+                            Cname: '简单类',
                             issubShow:false,
                             width:120,
                             height:90,
-                            imgUrl: require('../../assets/icons/state/object.png'),
+                            imgUrl: require('../../assets/icons/class/simple.png'),
+                        },{
+                            name: 'class-interfaceandclass',
+                            Cname: '接口和类',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/class/interfaceandclass.png'),
+                        },{
+                            name: 'class-class',
+                            Cname: '类',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/class/class.png'),
+                        },{
+                            name: 'class-activity',
+                            Cname: '活动类',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/class/activity.png'),
+                        },{
+                            name: 'class-multiple',
+                            Cname: '多例类',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/class/multiple.png'),
+                        },{
+                            name: 'class-interface',
+                            Cname: '接口',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/class/interface.png'),
+                        },{
+                            name: 'class-constraint',
+                            Cname: '约束',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/class/constraint.png'),
+                        },{
+                            name: 'class-port',
+                            Cname: '端口',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/class/port.png'),
                         },]
                     },
                     {
