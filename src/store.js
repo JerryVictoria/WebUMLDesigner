@@ -11,6 +11,7 @@ export default new Vuex.Store({
     editing: false, //是否正在处于编辑状态（禁用其他功能）
     editingId: "", //当前编辑组件（显示功能）
     autoId: 100, // max of all TODO init
+
     UML: {
       //mock data
       UMLType: "CLASS_DIAGRAM",
@@ -18,6 +19,7 @@ export default new Vuex.Store({
       userId: "",
       groupId: "",
       nodes: [
+          /*
         {
           id: "29",
           type: "Attribute",
@@ -31,8 +33,7 @@ export default new Vuex.Store({
             name: "attribute",
             propType: "multivalue"
           }
-        }
-        /*
+        },
                 {
                     id: "30",
                     type: "Relationship",
@@ -87,9 +88,10 @@ export default new Vuex.Store({
                         condition: "condition"
                     }
                 }
-                */
+               */
       ],
       lines: [
+          /*
         {
           id: "1",
           relationType: "xbrokrn",
@@ -111,6 +113,7 @@ export default new Vuex.Store({
             strokeWidth: "3" //固定几种
           }
         }
+        */
       ]
     },
     histories: [] //循环队列实现
