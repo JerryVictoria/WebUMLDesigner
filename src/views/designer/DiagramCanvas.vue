@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="diagramCanvas">
         <div
             id="visualEditor"
             @dragstart.stop="handleDragStart"
@@ -24,16 +24,23 @@
                     <component :is="item.type" v-bind="item"></component>
                 </Resizer>
             </div>
-            <div  v-for="lines in $store.state.UML.lines"
-                  :key="lines.id">
+            <div v-for="lines in $store.state.UML.lines" :key="lines.id">
                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-                    <line  :x1="lines.startposition.left" :y1="lines.startposition.top" :x2="lines.endpostion.left" :y2="lines.endpostion.top"
-                           :style="lines.styles"
+                    <line
+                        :x1="lines.startposition.left"
+                        :y1="lines.startposition.top"
+                        :x2="lines.endpostion.left"
+                        :y2="lines.endpostion.top"
+                        :style="lines.styles"
                     />
                 </svg>
             </div>
         </div>
-        <ContextMenu v-show="showMenu" id="menu" @hide-menu="clickOutSide"></ContextMenu>
+        <ContextMenu
+            v-show="showMenu"
+            id="menu"
+            @hide-menu="clickOutSide"
+        ></ContextMenu>
     </div>
 </template>
 
@@ -142,20 +149,20 @@ export default {
             this.showMenu = false;
         },
         handleDragStart(event) {
-            console.log("handleDragStart")
-            this.$store.state.canvasdrage=true;
+            console.log("handleDragStart");
+            this.$store.state.canvasdrage = true;
             event.dataTransfer.effectAllowed = "copyMove";
             let resizer = $(event.target);
-                /*
+            /*
             console.log("resizer.offset().left:"+resizer.offset().left);
             console.log("resizer.offset().top:"+resizer.offset().top);
             console.log("event.clientX:"+event.clientX);
             console.log("event.clientY:"+event.clientY);
             */
-                this.cursorToLeft = event.clientX - resizer.offset().left;
-                this.cursorToTop = event.clientY - resizer.offset().top;
-                console.log(this.cursorToLeft, this.cursorToTop);
-                /* this.ghost = resizer.clone()[0];
+            this.cursorToLeft = event.clientX - resizer.offset().left;
+            this.cursorToTop = event.clientY - resizer.offset().top;
+            console.log(this.cursorToLeft, this.cursorToTop);
+            /* this.ghost = resizer.clone()[0];
             this.ghost.style.position = "absolute";
             this.ghost.style.left = "-2000px";
             this.ghost.style.top = "0px";
@@ -167,11 +174,16 @@ export default {
                 this.cursorToLeft,
                 this.cursorToTop
             ); */
-                event.dataTransfer.setDragImage(resizer.clone()[0], 0, 0);
+            event.dataTransfer.setDragImage(resizer.clone()[0], 0, 0);
         },
         handleDragEnd(event) {
             if (this.$store.state.canvasdrage) {
-                console.log("handleDragEnd:" + this.cursorToLeft + "  " + this.cursorToTop);
+                console.log(
+                    "handleDragEnd:" +
+                        this.cursorToLeft +
+                        "  " +
+                        this.cursorToTop
+                );
                 //更新图数据（vue数据驱动图像变化）
                 this.$store.commit("modifyNode", {
                     nodeKey: "styles",
@@ -194,7 +206,7 @@ export default {
             }
         },
         handleDragEnter(event) {
-            if(this.$store.state.canvasdrage) {
+            if (this.$store.state.canvasdrage) {
                 console.log("handleDragEnter");
                 event.preventDefault();
                 event.dataTransfer.dropEffect = "copy";
@@ -218,7 +230,7 @@ export default {
 </script>
 
 <style>
-#app {
+#diagramCanvas {
     font-family: "Avenir", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -231,6 +243,5 @@ export default {
     height: 600px;
     border: 1px solid grey;
     background: url("../../assets/grid.png") repeat;
-
 }
 </style>
