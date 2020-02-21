@@ -60,6 +60,7 @@
                 h:'',
                 cursorToLeft:0,
                 cursorToRight:0,
+                prop:' ',
                 newimg:{
                     width:'150px',
                     height:'150px',
@@ -87,6 +88,9 @@
                         width:120,
                         height:90,
                         imgUrl: require('../../assets/icons/state/object.png'),
+                        properties: {
+                            name: "object"
+                        }
                     },
                     {
                         name: 'state-state',
@@ -95,6 +99,9 @@
                         Cname: '状态',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/state.png'),
+                        properties: {
+                            name: "state"
+                        }
                     },
                     {
                         name: 'state-start',
@@ -103,6 +110,7 @@
                         Cname: '开始',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/begin.png'),
+                        properties: {}
                     },
                     {
                         name: 'state-end',
@@ -111,6 +119,7 @@
                         Cname: '结束',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/end.png'),
+                        properties: {}
                     },
                     {
                         name: 'state-streamEnd',
@@ -119,6 +128,7 @@
                         Cname: '流终止',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/streamEnd.png'),
+                        properties: {}
                     },
                     {
                         name: 'state-history',
@@ -127,6 +137,7 @@
                         Cname: '历史',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/history.png'),
+                        properties: {}
                     },
                     {
                         name: 'state-detailedHistory',
@@ -135,6 +146,7 @@
                         Cname: '详细历史',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/detailedHistory.png'),
+                        properties: {}
                     },
                     {
                         name: 'state-msgSender',
@@ -143,6 +155,9 @@
                         Cname: '发送信号',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/msgSender.png'),
+                        properties: {
+                            name: "msg sender"
+                        }
                     },
                     {
                         name: 'state-msgReceiver',
@@ -151,6 +166,9 @@
                         Cname: '接收信号',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/msgReceiver.png'),
+                        properties: {
+                            name: "msg receiver"
+                        }
                     },{
                         name: 'state-fork',
                         width:60,
@@ -158,6 +176,7 @@
                         Cname: '分支',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/fork.png'),
+                        properties: {}
                     },
                     {
                         name: 'state-synchronizer',
@@ -166,13 +185,7 @@
                         Cname: '同步',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/synchronizer.png'),
-                    },{
-                        name: 'state-container',
-                        width:160,
-                        height:130,
-                        Cname: '容器',
-                        issubShow:false,
-                        imgUrl: require('../../assets/icons/state/container.png'),
+                        properties: {}
                     },{
                         name: 'state-verticalLane',
                         width:135,
@@ -180,6 +193,9 @@
                         Cname: '泳道（垂直）',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/verticalLane.png'),
+                        properties: {
+                            name: "vertical lane"
+                        }
                     },{
                         name: 'state-horizontalLane',
                         width:280,
@@ -187,83 +203,44 @@
                         Cname: '泳道（水平）',
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/horizontalLane.png'),
+                        properties: {
+                            name: "horizontal lane"
+                        }
                     },
                 ]},
                     {
                         name: 'UML时序图',
                         isSubShow: false,
                         subItems: [
+
                             {
-                                name: 'Object',
-                                Cname: 'Object',
+                                name: 'Sequence-Activation',
+                                Cname: '激活',
                                 issubShow:false,
-                                width:120,
-                                height:90,
-                                imgUrl: require('../../assets/icons/sequence/Object.png'),
-                            },
-                            {
-                                name: 'Entity',
-                                Cname: 'Object',
-                                issubShow:false,
-                                width:120,
-                                height:90,
-                                imgUrl: require('../../assets/icons/sequence/Entity.png'),
-                            },
-                            {
-                                name: 'Control',
-                                Cname: 'Object',
-                                issubShow:false,
-                                width:120,
-                                height:90,
-                                imgUrl: require('../../assets/icons/sequence/Control.png'),
-                            },
-                            {
-                                name: 'Bind',
-                                Cname: 'Object',
-                                issubShow:false,
-                                width:120,
-                                height:90,
-                                imgUrl: require('../../assets/icons/sequence/Bind.png'),
-                            },
-                            {
-                                name: 'Timesignal',
-                                Cname: 'Object',
-                                issubShow:false,
-                                width:120,
-                                height:90,
-                                imgUrl: require('../../assets/icons/sequence/Timesignal.png'),
-                            },
-                            {
-                                name: 'Constraint',
-                                Cname: 'Object',
-                                issubShow:false,
-                                width:120,
-                                height:90,
-                                imgUrl: require('../../assets/icons/sequence/Constraint.png'),
-                            },
-                            {
-                                name: 'Activation',
-                                Cname: 'Object',
-                                issubShow:false,
-                                width:120,
-                                height:90,
+                                width:40,
+                                height:200,
                                 imgUrl: require('../../assets/icons/sequence/Activation.png'),
+                                properties: {}
                             },
                             {
-                                name: 'Lifeline',
-                                Cname: 'Object',
+                                name: 'Sequence-LifeLine',
+                                Cname: '生命线',
                                 issubShow:false,
-                                width:120,
-                                height:90,
+                                width:160,
+                                height:500,
                                 imgUrl: require('../../assets/icons/sequence/Lifeline.png'),
+                                properties: {
+                                    name: "life1"
+                                }
                             },
                             {
-                                name: 'Delete',
-                                Cname: 'Object',
+                                name: 'Sequence-Delete',
+                                Cname: '删除',
                                 issubShow:false,
-                                width:120,
-                                height:90,
+                                width:30,
+                                height:30,
                                 imgUrl: require('../../assets/icons/sequence/Delete.png'),
+                                properties: {}
                             },
                         ]
                     },
@@ -271,18 +248,40 @@
                         name: 'UML用例图',
                         isSubShow: false,
                         subItems: [{
-                            name: 'state-object',
-                            Cname: '对象',
+                            name: 'Usecase-Character',
+                            Cname: '角色',
                             issubShow:false,
-                            width:120,
-                            height:90,
-                            imgUrl: require('../../assets/icons/state/object.png'),
+                            width:100,
+                            height:100,
+                            imgUrl: require('../../assets/icons/Usecase/Character.png'),
+                            properties: {
+                                name: "character"
+                            }
+                        },{
+                            name: 'Usecase-Container',
+                            Cname: '容器',
+                            issubShow:false,
+                            width:300,
+                            height:500,
+                            imgUrl: require('../../assets/icons/Usecase/Container2.png'),
+                            properties: {},
+                        },{
+                            name: 'Usecase-UseCase',
+                            Cname: '用例',
+                            issubShow:false,
+                            width:160,
+                            height:60,
+                            imgUrl: require('../../assets/icons/Usecase/UseCase.png'),
+                            properties: {
+                                name: "usercase1"
+                            }
                         },]
                     },
                     {
                         name: 'UML类图',
                         isSubShow: false,
-                        subItems: [{
+                        subItems: [
+                            /*{
                             name: 'Class-Simple',
                             Cname: '简单类',
                             issubShow:false,
@@ -296,14 +295,39 @@
                             width:120,
                             height:90,
                             imgUrl: require('../../assets/icons/Class/Interfaceandclass.png'),
-                        },{
+                        },*/
+                            {
                             name: 'Class-Class',
                             Cname: '类',
                             issubShow:false,
-                            width:120,
-                            height:90,
+                            width:200,
+                            height:200,
                             imgUrl: require('../../assets/icons/Class/Class.png'),
-                        },{
+                                properties: {
+                                    className: "someClass",
+                                    classType: "abstract", // e.g. abstract
+                                    variables: [
+                                        {
+                                            modifier: "public",
+                                            dataType: "boolean",
+                                            name: "var1"
+                                        },
+                                        {
+                                            modifier: "public",
+                                            dataType: "char",
+                                            name: "var2"
+                                        }
+                                    ], // mock data
+                                    functions: [
+                                        {
+                                            modifier: "public",
+                                            dataType: "int",
+                                            name: "func",
+                                            params: "int count"
+                                        }
+                                    ]
+                                }
+                        },  /*{
                             name: 'Class-Activity',
                             Cname: '活动类',
                             issubShow:false,
@@ -317,64 +341,86 @@
                             width:120,
                             height:90,
                             imgUrl: require('../../assets/icons/Class/Multiple.png'),
-                        },{
+                        },
+                        */{
                             name: 'Class-Interface',
                             Cname: '接口',
                             issubShow:false,
-                            width:120,
-                            height:90,
+                            width:200,
+                            height:100,
                             imgUrl: require('../../assets/icons/Class/Interface.png'),
+                                properties: {
+                                    name: "interface"
+                                }
                         },{
                             name: 'Class-Constraint',
                             Cname: '约束',
                             issubShow:false,
-                            width:120,
-                            height:90,
+                            width:200,
+                            height:150,
                             imgUrl: require('../../assets/icons/Class/Constraint.png'),
-                        },{
-                            name: 'Class-Port',
-                            Cname: '端口',
-                            issubShow:false,
-                            width:120,
-                            height:90,
-                            imgUrl: require('../../assets/icons/Class/Port.png'),
+                                properties: {
+                                    name: "constraint"
+                                }
                         },]
                     },
                     {
                         name: 'UML部署图',
                         isSubShow: false,
                         subItems: [{
-                            name: 'state-object',
-                            Cname: '对象',
+                            name: 'Deployment-Node',
+                            Cname: '节点',
                             issubShow:false,
-                            width:120,
-                            height:90,
-                            imgUrl: require('../../assets/icons/state/object.png'),
+                            width:170,
+                            height:130,
+                            imgUrl: require('../../assets/icons/Deployment/Node.png'),
+                            properties: {
+                                name: "node",
+                                isInstance: true
+                            }
+                        },{
+                            name: 'Deployment-DiagramComponent',
+                            Cname: '实例化组件',
+                            issubShow:false,
+                            width:170,
+                            height:130,
+                            imgUrl: require('../../assets/icons/Deployment/DiagramComponent.png'),
+                            properties: {
+                                name: "component",
+                                isInstance: true
+                            }
                         },]
                     },
                     {
                         name: 'UML组件图',
                         isSubShow: false,
                         subItems: [{
-                            name: 'state-object',
-                            Cname: '对象',
+                            name: 'Component-ComponentInterface',
+                            Cname: '接口',
                             issubShow:false,
                             width:120,
                             height:90,
-                            imgUrl: require('../../assets/icons/state/object.png'),
+                            imgUrl: require('../../assets/icons/Component/ComponentInterface.png'),
+                            properties: {
+                                name: "component interface"
+                            },
                         },]
                     },
                     {
                         name: '实体关系图',
                         isSubShow: false,
                         subItems: [{
-                            name: 'state-object',
-                            Cname: '对象',
+                            name: 'Er-Entity',
+                            Cname: '实体',
                             issubShow:false,
                             width:120,
                             height:90,
-                            imgUrl: require('../../assets/icons/state/object.png'),
-                        },]
+                            imgUrl: require('../../assets/icons/Er/Entity.png'),
+                            properties: {
+                                name: "entity",
+                                isWeak: true
+                            },
+                        }]
                     },
                 ],
                 searchList:[]
@@ -415,6 +461,7 @@
                 this.type=subitem.name.split('-')[1].charAt(0).toUpperCase() + subitem.name.split('-')[1].slice(1);
                 this.w=subitem.width;
                 this.h=subitem.height;
+                this.prop=subitem.properties;
             },
             MouseDragStart(subItem){
                 console.log("MouseDragStart");
@@ -463,18 +510,16 @@
                             left: e.x-this.w/2,
                             top: e.y+document.documentElement.scrollTop,
                         },
-                        properties: {
-                            name: this.name,
-                            propType: "multivalue"
-                        }
-                    }
-                    console.log(e);
+                        properties: this.prop,
+                    };
+                    console.log(addcom);
                     this.$store.state.UML.nodes.push(addcom);
                     //alert("tianjiacheng");
                 };
                 this.$store.state.canvasdrage=this.cdrag;
                 this.$store.state.linedrag=this.ldrag;
-                console.log("this.$store.state.canvasdrage:"+this.$store.state.canvasdrage);
+                //console.log("this.$store.state.canvasdrage:"+this.$store.state.canvasdrage);
+                console.log("this.$store.state.UML.nodes:"+this.$store.state.UML.nodes);
                 this.showMenu = false;
             },
             moveBG(name){
