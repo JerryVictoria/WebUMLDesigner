@@ -12,7 +12,7 @@ export default new Vuex.Store({
         editing: false, //是否正在处于编辑状态（禁用其他功能）
         editingId: "", //当前编辑组件（显示功能）
         lineEditing:false,
-        lineEditingId:"",
+        lineEditId:"",
         autoId: 100, // max of all TODO init
 
         UML: {
@@ -95,10 +95,10 @@ export default new Vuex.Store({
             ],
             lines: [
                 {
-                    line: "2",
+                    line: "1",
                     relationType: "xbrokrn",
-                    fromId: "29",
-                    toId: "30",
+                    from: "29",
+                    to: "30",
                     text: "",
                     startposition: {
                         left: 0,
@@ -113,7 +113,7 @@ export default new Vuex.Store({
                         position:""
                     },
                     styles: {
-                        stroke: "blue",
+                        stroke: "#409EFF",
                         strokeDasharray: "10,10", //虚线之类的
                         strokeWidth: "3" //固定几种
                     }
@@ -250,14 +250,15 @@ export default new Vuex.Store({
         },
         //修改线条数据
         modifyLine(state, param) {
-            console.log("modifyline", param);
+            //console.log("modifyline", param);
             //TODO如果修改数值和上一次一样，记录为未修改
             var modifiedFlag = false;
             for (var i = 0, l = state.UML.lines.length; i < l; i++) {
-                console.log(state.UML.lines[i].id+" "+param.id);
-                console.log(state.UML.lines[i][param.lineKey]);
-                if (state.UML.lines[i].id == param.id) {
-                    console.log(state.UML.lines[i])
+                //console.log("for:"+state.UML.lines[i][param.lineKey]);
+                //console.log(state.UML.lines[i].line);
+                //console.log(param.id);
+                if (state.UML.lines[i].line == param.id) {
+                    //console.log("lineKey:"+state.UML.lines[i])
                     if(param.key===''){
                         if (state.UML.lines[i][param.lineKey] != param.value) {
                             modifiedFlag = true;
@@ -265,16 +266,16 @@ export default new Vuex.Store({
                         }
                         break;
                     }else{
-                        console.log(state.UML.lines[i])
+                        //console.log("key")
                         if (state.UML.lines[i][param.lineKey][param.key] != (param.value+"")) {
-                            console.log(state.UML.lines[i]);
+                            //console.log(state.UML.lines[i]);
                             state.UML.lines[i][param.lineKey][param.key] = (param.value+"");
                             modifiedFlag = true;
                         }
                         break;
                     }
                 }
-                console.log("for");
+                //console.log("for");
                 break;
             }
             //TODO历史记录
@@ -305,8 +306,8 @@ export default new Vuex.Store({
             state.lineEditing = params.lineEditing;
         },
         setLineEditId(state, params) {
-            console.log("setLineEditingId", params);
-            state.lineEditingId = params.id;
+            console.log("setLineEditId", params);
+            state.lineEditId = params.id;
         }
     },
     actions: {}

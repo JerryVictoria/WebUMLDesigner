@@ -24,7 +24,7 @@
                     <component :is="item.type" v-bind="item"></component>
                 </Resizer>
             </div>
-            <div v-for="lines in $store.state.UML.lines" :key="lines.id">
+            <div v-for="lines in $store.state.UML.lines" :key="lines.lineid">
                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
                     <line
                         :x1="lines.startposition.left"
@@ -32,6 +32,8 @@
                         :x2="lines.endpostion.left"
                         :y2="lines.endpostion.top"
                         :style="lines.styles"
+                        :id="lines.lineid"
+                        @click="editline(lines.line)"
                     />
                 </svg>
             </div>
@@ -221,9 +223,14 @@ export default {
                 this.$store.commit("moveNode", {
                     left: event.clientX - this.cursorToLeft,
                     top: event.clientY - this.cursorToTop,
-                    id: this.$store.state.editingId
+                    id: this.$store.state.editingId,
                 });
             }
+        },
+        editline(item){
+            this.$store.commit("setLineEditState", { lineEditing: true });
+            this.$store.commit("setLineEditId", { id: item });
+            console.log(this.$store.state.lineEditId);
         }
     }
 };
