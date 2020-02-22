@@ -169,7 +169,8 @@
                         properties: {
                             name: "msg receiver"
                         }
-                    },{
+                    },
+                    {
                         name: 'state-fork',
                         width:60,
                         height:60,
@@ -186,7 +187,8 @@
                         issubShow:false,
                         imgUrl: require('../../assets/icons/state/synchronizer.png'),
                         properties: {}
-                    },{
+                    },
+                    {
                         name: 'state-verticalLane',
                         width:135,
                         height:280,
@@ -196,7 +198,8 @@
                         properties: {
                             name: "vertical lane"
                         }
-                    },{
+                    },
+                    {
                         name: 'state-horizontalLane',
                         width:280,
                         height:135,
@@ -513,13 +516,14 @@
                         properties: this.prop,
                     };
                     console.log(addcom);
-                    this.$store.state.UML.nodes.push(addcom);
+                    this.$store.commit("addNode", addcom);
+                    //this.$store.state.UML.nodes.push(addcom);
                     //alert("tianjiacheng");
                 };
                 this.$store.state.canvasdrage=this.cdrag;
                 this.$store.state.linedrag=this.ldrag;
                 //console.log("this.$store.state.canvasdrage:"+this.$store.state.canvasdrage);
-                console.log("this.$store.state.UML.nodes:"+this.$store.state.UML.nodes);
+                //console.log("this.$store.state.UML.nodes:"+this.$store.state.UML.nodes);
                 this.showMenu = false;
             },
             moveBG(name){
