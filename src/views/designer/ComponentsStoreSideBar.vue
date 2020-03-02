@@ -421,9 +421,71 @@
                             imgUrl: require('../../assets/icons/er/Entity.png'),
                             properties: {
                                 name: "entity",
-                                isWeak: true
+                                isWeak: false
                             },
-                        }]
+                        },
+                            {
+                                name: 'Er-Attribute',
+                                Cname: '属性',
+                                issubShow:false,
+                                width:120,
+                                height:90,
+                                imgUrl: require('../../assets/icons/er/Attribute.png'),
+                                properties: {
+                                    name: "attribute",
+                                    isWeak: false
+                                },
+                            },
+                            {
+                                name: 'Er-Relationship',
+                                Cname: '关系',
+                                issubShow:false,
+                                width:120,
+                                height:90,
+                                imgUrl: require('../../assets/icons/er/Relationship.png'),
+                                properties: {
+                                    name: "relationship",
+                                    isWeak: false
+                                },
+                            },]
+                    },
+                    {
+                        name: 'UML通用图',
+                        isSubShow: false,
+                        subItems: [{
+                            name: 'Universal-Package',
+                            Cname: '包',
+                            issubShow:false,
+                            width:120,
+                            height:90,
+                            imgUrl: require('../../assets/icons/universal/Package.png'),
+                            properties: {
+                                name: "package",
+                            },
+                        },
+                            {
+                                name: 'Universal-Composition',
+                                Cname: '组合片段',
+                                issubShow:false,
+                                width:200,
+                                height:150,
+                                imgUrl: require('../../assets/icons/universal/Composition.png'),
+                                properties: {
+                                    name: "composition",
+                                },
+                            },
+                            {
+                                name: 'Universal-Comment',
+                                Cname: '注释',
+                                issubShow:false,
+                                width:120,
+                                height:90,
+                                imgUrl: require('../../assets/icons/universal/Comment.png'),
+                                properties: {
+                                    name: "comment",
+                                },
+                            },
+                        ]
                     },
                 ],
                 searchList:[]
