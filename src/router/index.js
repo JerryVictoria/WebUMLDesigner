@@ -14,8 +14,8 @@ Vue.use(VueRouter);
 
 const routes = [{
     path: "/",
-    name: "DiagramCanvas",
-    component: DiagramCanvas
+    name: "Login",
+    component: Login
   },
   {
     path: "/designer",
@@ -52,11 +52,11 @@ const routes = [{
     name: "PersonalPage",
     component: PersonalPage
   },
-    {
-        path: "/c",
-        name: "ComponentsStoreSideBar",
-        component: ComponentsStoreSideBar
-    },
+  {
+    path: "/c",
+    name: "ComponentsStoreSideBar",
+    component: ComponentsStoreSideBar
+  },
   {
     path: "/test",
     name: "Test",
