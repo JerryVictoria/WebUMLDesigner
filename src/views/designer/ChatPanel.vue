@@ -1,11 +1,15 @@
 <template>
     <div class="panel">
         <div style="height: 500px; width: 100%; margin-top: 20px;">
-            <SelfDialogBox :text="'self text text......y...a.....f..........'"></SelfDialogBox>
+            <SelfDialogBox
+                :text="'self text text......y...a.....f..........'"
+            ></SelfDialogBox>
             <OtherDialogBox :text="'other text'"></OtherDialogBox>
             <SelfDialogBox :text="'self text'"></SelfDialogBox>
             <OtherDialogBox
-                :text="'other text text...sdfdsfdsf..sdfsfd....g.....gfdf..sfgfgfg.....df....dfgdfgdfg....'"
+                :text="
+                    'other text text...sdfdsfdsf..sdfsfd....g.....gfdf..sfgfgfg.....df....dfgdfgdfg....'
+                "
             ></OtherDialogBox>
             <SelfDialogBox :text="'self text'"></SelfDialogBox>
             <OtherDialogBox :text="'other text'"></OtherDialogBox>
@@ -51,7 +55,6 @@ export default {
 </script>
 <style scoped>
 .panel {
-    margin-top: 10px;
     width: 100%;
     height: 600px;
     border: 1px solid grey;
