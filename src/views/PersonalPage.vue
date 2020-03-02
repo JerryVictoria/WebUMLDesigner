@@ -1,56 +1,70 @@
 <template>
     <div id="main">
         <div id="head">
-            <p id="username">用户名</p>
-            <p id="personal" @click="personal()">个人</p>
-            <p id="team" @click="team()">团队</p>
+            <el-menu
+                :default-active="activeIndex"
+                class="el-menu-demo"
+                mode="horizontal"
+                @select="handleSelect"
+            >
+                <el-menu-item index="1">个人</el-menu-item>
+                <el-menu-item index="2">团队</el-menu-item>
+            </el-menu>
         </div>
-        <div id="other">
-            <div id="left">
-                <el-button id="newfile" @click="newfile()" type="primary">新建文件</el-button>
-            </div>
-            <div id="right">
-                <p>我的文件:</p>
-                <div id="files">
-                    <div id="file0">
-                        <img :src="file0" id="pic0" />
-                        <p id="filename0">文件0</p>
-                    </div>
-                    <div id="file1">
-                        <img :src="file1" id="pic1" />
-                        <p id="filename1">文件1</p>
-                    </div>
-                    <div id="file2">
-                        <img :src="file2" id="pic2" />
-                        <p id="filename2">文件2</p>
-                    </div>
-                    <div id="file3">
-                        <img :src="file3" id="pic3" />
-                        <p id="filename3">文件3</p>
-                    </div>
-                    <div id="file4">
-                        <img :src="file4" id="pic4" />
-                        <p id="filename4">文件4</p>
-                    </div>
-                    <div id="file5">
-                        <img :src="file5" id="pic5" />
-                        <p id="filename5">文件5</p>
-                    </div>
-                    <div id="file6">
-                        <img :src="file6" id="pic6" />
-                        <p id="filename6">文件6</p>
+        <div v-if="activeIndex == '1'">
+            <div id="other">
+                <div id="left">
+                    <el-button id="newfile" @click="newfile()" type="primary">新建文件</el-button>
+                </div>
+                <div id="right">
+                    <p>我的文件:</p>
+                    <div id="files">
+                        <div id="file0">
+                            <img :src="file0" id="pic0" />
+                            <p id="filename0">文件0</p>
+                        </div>
+                        <div id="file1">
+                            <img :src="file1" id="pic1" />
+                            <p id="filename1">文件1</p>
+                        </div>
+                        <div id="file2">
+                            <img :src="file2" id="pic2" />
+                            <p id="filename2">文件2</p>
+                        </div>
+                        <div id="file3">
+                            <img :src="file3" id="pic3" />
+                            <p id="filename3">文件3</p>
+                        </div>
+                        <div id="file4">
+                            <img :src="file4" id="pic4" />
+                            <p id="filename4">文件4</p>
+                        </div>
+                        <div id="file5">
+                            <img :src="file5" id="pic5" />
+                            <p id="filename5">文件5</p>
+                        </div>
+                        <div id="file6">
+                            <img :src="file6" id="pic6" />
+                            <p id="filename6">文件6</p>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div v-else>
+            <GroupPanel></GroupPanel>
         </div>
     </div>
 </template>
 
 <script>
+import GroupPanel from "../views/mainpage/GroupPanel.vue";
 export default {
     name: "personal-page",
+    components: { GroupPanel },
     data() {
         return {
+            activeIndex: "1",
             file0: require("../assets/file0.png"),
             file1: require("../assets/file0.png"),
             file2: require("../assets/file0.png"),
@@ -64,6 +78,9 @@ export default {
         this.getfile();
     },
     methods: {
+        handleSelect(key, keyPath) {
+            this.activeIndex = key;
+        },
         newfile() {
             //@TODO 参数变化，弹框，要求输入名字，选择类型
             var self = this;
@@ -105,17 +122,6 @@ export default {
 #username {
     position: absolute;
     left: 5%;
-    display: inline;
-}
-#personal {
-    position: absolute;
-    left: 45%;
-    display: inline;
-    color: deepskyblue;
-}
-#team {
-    position: absolute;
-    left: 50%;
     display: inline;
 }
 #other {
