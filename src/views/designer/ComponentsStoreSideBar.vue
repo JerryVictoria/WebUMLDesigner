@@ -256,7 +256,7 @@
                             issubShow:false,
                             width:100,
                             height:100,
-                            imgUrl: require('../../assets/icons/Usecase/Character.png'),
+                            imgUrl: require('../../assets/icons/usecase/Character.png'),
                             properties: {
                                 name: "character"
                             }
@@ -266,7 +266,7 @@
                             issubShow:false,
                             width:300,
                             height:500,
-                            imgUrl: require('../../assets/icons/Usecase/Container2.png'),
+                            imgUrl: require('../../assets/icons/usecase/Container2.png'),
                             properties: {},
                         },{
                             name: 'Usecase-UseCase',
@@ -274,7 +274,7 @@
                             issubShow:false,
                             width:160,
                             height:60,
-                            imgUrl: require('../../assets/icons/Usecase/UseCase.png'),
+                            imgUrl: require('../../assets/icons/usecase/UseCase.png'),
                             properties: {
                                 name: "usercase1"
                             }
@@ -305,7 +305,7 @@
                             issubShow:false,
                             width:200,
                             height:200,
-                            imgUrl: require('../../assets/icons/Class/Class.png'),
+                            imgUrl: require('../../assets/icons/class/Class.png'),
                                 properties: {
                                     className: "someClass",
                                     classType: "abstract", // e.g. abstract
@@ -351,7 +351,7 @@
                             issubShow:false,
                             width:200,
                             height:100,
-                            imgUrl: require('../../assets/icons/Class/Interface.png'),
+                            imgUrl: require('../../assets/icons/class/Interface.png'),
                                 properties: {
                                     name: "interface"
                                 }
@@ -361,7 +361,7 @@
                             issubShow:false,
                             width:200,
                             height:150,
-                            imgUrl: require('../../assets/icons/Class/Constraint.png'),
+                            imgUrl: require('../../assets/icons/class/Constraint.png'),
                                 properties: {
                                     name: "constraint"
                                 }
@@ -376,7 +376,7 @@
                             issubShow:false,
                             width:170,
                             height:130,
-                            imgUrl: require('../../assets/icons/Deployment/Node.png'),
+                            imgUrl: require('../../assets/icons/deployment/Node.png'),
                             properties: {
                                 name: "node",
                                 isInstance: true
@@ -387,7 +387,7 @@
                             issubShow:false,
                             width:170,
                             height:130,
-                            imgUrl: require('../../assets/icons/Deployment/DiagramComponent.png'),
+                            imgUrl: require('../../assets/icons/deployment/DiagramComponent.png'),
                             properties: {
                                 name: "component",
                                 isInstance: true
@@ -403,7 +403,7 @@
                             issubShow:false,
                             width:120,
                             height:90,
-                            imgUrl: require('../../assets/icons/Component/ComponentInterface.png'),
+                            imgUrl: require('../../assets/icons/component/ComponentInterface.png'),
                             properties: {
                                 name: "component interface"
                             },
@@ -418,7 +418,7 @@
                             issubShow:false,
                             width:120,
                             height:90,
-                            imgUrl: require('../../assets/icons/Er/Entity.png'),
+                            imgUrl: require('../../assets/icons/er/Entity.png'),
                             properties: {
                                 name: "entity",
                                 isWeak: true
