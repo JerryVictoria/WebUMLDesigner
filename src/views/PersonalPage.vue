@@ -12,6 +12,8 @@
             </el-menu>
         </div>
         <div v-if="activeIndex == '1'">
+            <PersonalPanel></PersonalPanel>
+            <!--
             <div id="other">
                 <div id="left">
                     <el-button id="newfile" @click="newfile()" type="primary">新建文件</el-button>
@@ -50,6 +52,7 @@
                     </div>
                 </div>
             </div>
+            -->
         </div>
         <div v-else>
             <GroupPanel></GroupPanel>
@@ -59,9 +62,13 @@
 
 <script>
 import GroupPanel from "../views/mainpage/GroupPanel.vue";
+import PersonalPanel from "../views/mainpage/PersonalPanel.vue";
 export default {
     name: "personal-page",
-    components: { GroupPanel },
+    components: {
+        GroupPanel,
+        PersonalPanel
+    },
     data() {
         return {
             activeIndex: "1",
@@ -71,42 +78,13 @@ export default {
             file3: require("../assets/file0.png"),
             file4: require("../assets/file0.png"),
             file5: require("../assets/file0.png"),
-            file6: require("../assets/file0.png")
+            file6: require("../assets/file0.png"),
         };
-    },
-    mounted() {
-        this.getfile();
     },
     methods: {
         handleSelect(key, keyPath) {
             this.activeIndex = key;
         },
-        newfile() {
-            //@TODO 参数变化，弹框，要求输入名字，选择类型
-            var self = this;
-            self.$axios
-                .get("/createFile", {
-                    params: {
-                        uid: 1,
-                        fileName: "filename",
-                        fileType: "CLASS_DIAGRAM"
-                    }
-                })
-                .then(function(response) {
-                    console.log("success");
-                    self.$message({
-                        message: "创建成功",
-                        type: "success"
-                    });
-                    self.$router.push({ name: "Designer" });
-                })
-                .catch(function(error) {
-                    console.log("error:" + error);
-                });
-        },
-        getfile() {
-            console.log("getfile");
-        }
     }
 };
 </script>

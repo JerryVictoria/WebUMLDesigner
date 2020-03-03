@@ -28,7 +28,12 @@ import ComponentsStoreSideBar from "../designer/ComponentsStoreSideBar.vue";
 export default {
     name: "Designer",
     data() {
-        return {};
+        return {
+            fileName:"",
+            fileType:"",
+            userID:"",
+            userEmail:"",
+        };
     },
 
     components: {

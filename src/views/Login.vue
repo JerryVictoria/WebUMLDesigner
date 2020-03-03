@@ -54,14 +54,18 @@ export default {
                         .then(function(response) {
                             console.log(
                                 "success: response.data--",
-                                response.data
+                                response.data,
                             );
-                            //@TODO response.data == Failed to login
-                            self.$message({
-                                message: "登录成功",
-                                type: "success"
-                            });
-                            self.$router.push({ name: "PersonalPage" });
+                            if(response.data!="Failed to login"){
+                                self.$message({
+                                    message: "登录成功",
+                                    type: "success"
+                                });
+                                self.$router.push({ name: "PersonalPage",params:{userID:response.data,userEmail:self.Mailbox} });
+                            }else{
+                                //@TODO response.data == Failed to login
+                                alert(response.data);
+                            }
                         })
                         .catch(function(error) {
                             console.log("error:" + error);
