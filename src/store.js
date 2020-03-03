@@ -11,8 +11,8 @@ export default new Vuex.Store({
         linedrag: false,
         editing: false, //是否正在处于编辑状态（禁用其他功能）
         editingId: "", //当前编辑组件（显示功能）
-        lineEditing:false,
-        lineEditId:"",
+        lineEditing: false,
+        lineEditId: "",
         autoId: 100, // max of all TODO init
 
         UML: {
@@ -93,47 +93,43 @@ export default new Vuex.Store({
                       }
                      */
             ],
-            lines: [
-                {
-                    line: "1",
-                    relationType: "xbrokrn",
-                    from: "29",
-                    to: "30",
-                    text: "",
-                    startposition: {
-                        left: 0,
-                        top: 30,
-                        arrow: "",
-                        position:"",
-                    },
-                    endpostion: {
-                        left: 250,
-                        top: 30,
-                        arrow: "",
-                        position:""
-                    },
-                    styles: {
-                        stroke: "#409EFF",
-                        strokeDasharray: "10,10", //虚线之类的
-                        strokeWidth: "3" //固定几种
-                    }
+            lines: [{
+                line: "1",
+                relationType: "xbrokrn",
+                from: "29",
+                to: "30",
+                text: "",
+                startposition: {
+                    left: 0,
+                    top: 30,
+                    arrow: "",
+                    position: "",
+                },
+                endpostion: {
+                    left: 250,
+                    top: 30,
+                    arrow: "",
+                    position: ""
+                },
+                styles: {
+                    stroke: "#409EFF",
+                    strokeDasharray: "10,10", //虚线之类的
+                    strokeWidth: "3" //固定几种
                 }
-            ]
+            }]
         },
         histories: [] //循环队列实现
     },
     mutations: {
         //初始化图数据/多人协作同步图数据
-        setUML(state, params) {
-        },
+        setUML(state, params) {},
         //增加节点数据
         addNode(state, params) {
             //console.log("params:"+state.UML.nodes);
             state.UML.nodes.push(params);
         },
         //增加线条数据
-        addLine(state, params) {
-        },
+        addLine(state, params) {},
         //删除节点数据
         removeNode(state, params) {
             for (var i = 0; i < state.UML.nodes.length; i++) {
@@ -144,8 +140,7 @@ export default new Vuex.Store({
             }
         },
         //删除线条数据
-        removeLine(state, params) {
-        },
+        removeLine(state, params) {},
         //专门用于移动结点[移动的过程]
         moveNode(state, params) {
             for (var i = 0, l = state.UML.nodes.length; i < l; i++) {
@@ -164,9 +159,18 @@ export default new Vuex.Store({
             var modifiedFlag = false;
             for (var i = 0, l = state.UML.nodes.length; i < l; i++) {
                 if (state.UML.nodes[i].id == params.id) {
-                    if (state.UML.nodes[i][params.nodeKey][params.key] != params.value) {
-                        modifiedFlag = true;
-                        state.UML.nodes[i][params.nodeKey][params.key] = params.value;
+                    if (params.key instanceof Array) {
+                        for (var j = 0, keylen = params.key.length; j < keylen; j++) {
+                            if (state.UML.nodes[i][params.nodeKey][params.key[j]] != params.value[j]) {
+                                modifiedFlag = true;
+                                state.UML.nodes[i][params.nodeKey][params.key[j]] = params.value[j];
+                            }
+                        }
+                    } else {
+                        if (state.UML.nodes[i][params.nodeKey][params.key] != params.value) {
+                            modifiedFlag = true;
+                            state.UML.nodes[i][params.nodeKey][params.key] = params.value;
+                        }
                     }
                     break;
                 }
@@ -259,17 +263,17 @@ export default new Vuex.Store({
                 //console.log(param.id);
                 if (state.UML.lines[i].line == param.id) {
                     //console.log("lineKey:"+state.UML.lines[i])
-                    if(param.key===''){
+                    if (param.key === '') {
                         if (state.UML.lines[i][param.lineKey] != param.value) {
                             modifiedFlag = true;
                             state.UML.lines[i][param.lineKey] = param.value;
                         }
                         break;
-                    }else{
+                    } else {
                         //console.log("key")
-                        if (state.UML.lines[i][param.lineKey][param.key] != (param.value+"")) {
+                        if (state.UML.lines[i][param.lineKey][param.key] != (param.value + "")) {
                             //console.log(state.UML.lines[i]);
-                            state.UML.lines[i][param.lineKey][param.key] = (param.value+"");
+                            state.UML.lines[i][param.lineKey][param.key] = (param.value + "");
                             modifiedFlag = true;
                         }
                         break;
@@ -285,14 +289,11 @@ export default new Vuex.Store({
             }
         },
         //修改历史数组
-        changeHistories(state, params) {
-        },
+        changeHistories(state, params) {},
         //后退
-        backward(state) {
-        },
+        backward(state) {},
         //前进
-        forward(state) {
-        },
+        forward(state) {},
         setEditState(state, params) {
             //console.log("setEditState");
             state.editing = params.editing;

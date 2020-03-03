@@ -128,24 +128,39 @@ export default {
             console.log("up");
             //数据修改
             if (this.id == this.$store.state.editingId) {
+                var keys = [];
+                var values = [];
                 if (this.widthChangeFlag) {
-                    this.$slots.default[0].componentInstance.commitWidth();
-                    this.widthChangeFlag = false;
+                    keys.push("width");
+                    values.push(this.$el.style.width);
                 }
                 if (this.heightChangeFlag) {
-                    this.$slots.default[0].componentInstance.commitHeight();
-                    this.heightChangeFlag = false;
+                    keys.push("height");
+                    values.push(this.$el.style.height);
                 }
                 if (this.topChangeFlag) {
-                    this.$slots.default[0].componentInstance.commitTop(
-                        parseFloat(this.$el.style.top)
-                    );
-                    this.topChangeFlag = false;
+                    keys.push("top");
+                    values.push(this.$el.style.top);
                 }
                 if (this.leftChangeFlag) {
-                    this.$slots.default[0].componentInstance.commitLeft(
-                        parseFloat(this.$el.style.left)
-                    );
+                    keys.push("left");
+                    values.push(this.$el.style.left);
+                }
+                if (
+                    this.widthChangeFlag ||
+                    this.heightChangeFlag ||
+                    this.topChangeFlag ||
+                    this.leftChangeFlag
+                ) {
+                    this.$store.commit("modifyNode", {
+                        nodeKey: "styles",
+                        key: keys,
+                        value: values,
+                        id: this.$store.state.editingId
+                    });
+                    this.widthChangeFlag = false;
+                    this.heightChangeFlag = false;
+                    this.topChangeFlag = false;
                     this.leftChangeFlag = false;
                 }
             }
