@@ -23,7 +23,7 @@
                         </div>
                     </div>
                 </el-collapse-item>
-                <el-collapse-item v-for="item in menuList" :key="item.name" :title="item.name" v-show="item.value==fileType||item.value==universal">
+                <el-collapse-item v-for="item in menuList" :key="item.name" :title="item.name" v-show="item.value==UMLType||item.value==universal">
                     <div v-for="subItem in item.subItems" :key="subItem.name" draggable="true"
                          @mouseenter="enter(subItem)"
                          @mouseleave="leave(subItem)"
@@ -47,13 +47,13 @@
     export default {
         name: "components-store-side-bar",
         mounted() {
-            this.fileType=this.$route.params.fileType;
-            console.log(this.fileType);
+            this.UMLType=this.$store.state.UML.UMLType;
+            //console.log(this.UMLType);
         },
         data() {
             return {
                 universal:"UNIVERSAL_DIAGRAM",
-                fileType:"",
+                UMLType:"",
                 cdrag: false,
                 ldrag: false,
                 scrollheight: 0,

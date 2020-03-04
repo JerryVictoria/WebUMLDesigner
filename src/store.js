@@ -15,11 +15,11 @@ export default new Vuex.Store({
         lineEditing: false,
         lineEditId: "",
         autoId: 100, // max of all TODO init
-
         UML: {
             //mock data
             UMLType: "CLASS_DIAGRAM",
             UMLId: "",
+            UMLName:"",
             userId: "",
             groupId: "",
             nodes: [
@@ -122,8 +122,18 @@ export default new Vuex.Store({
         histories: [] //循环队列实现
     },
     mutations: {
+        setuserId(state, params) {
+            state.UML.userId = params.id;
+            console.log(("store:"+state.UML.userId));
+        },
         setUMLId(state, params) {
             state.UML.UMLId = params.id;
+        },
+        setUMLName(state, params) {
+            state.UML.UMLName = params.name;
+        },
+        setUMLType(state, params) {
+            state.UML.UMLType = params.type;
         },
         //初始化图数据/多人协作同步图数据
         setUML(state, params) {},

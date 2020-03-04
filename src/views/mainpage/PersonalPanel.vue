@@ -18,10 +18,10 @@
             >
                 <el-form ref="form" :model="form" label-width="80px" style="width: 300px;">
                     <el-form-item label="文件名称">
-                        <el-input v-model="form.fileName"></el-input>
+                        <el-input v-model="form.UMLName"></el-input>
                     </el-form-item>
                     <el-form-item label="UML类型">
-                        <el-select v-model="form.fileType" placeholder="请选择UML类型">
+                        <el-select v-model="form.UMLType" placeholder="请选择UML类型">
                             <el-option label="类图" value="CLASS_DIAGRAM"></el-option>
                             <el-option label="顺序图" value="SEQUENCE_DIAGRAM"></el-option>
                             <el-option label="组件图" value="COMPONENT_DIAGRAM"></el-option>
@@ -57,18 +57,10 @@
             return {
                 activeIndex: "1",
                 form: {
-                    fileName: "",
-                    fileType: "",
-                    fileID:"",
+                    UMLName: "",
+                    UMLType: "",
                 },
-                userID:"",
-                userEmail:""
             };
-        },
-        mounted() {
-            this.userID=this.$route.params.userID;
-            this.userEmail=this.$route.params.userEmail;
-            console.log(this.userID+" "+this.userEmail);
         },
         methods: {
             handleSelect(key, keyPath) {
@@ -81,19 +73,18 @@
                 console.log(key, keyPath);
             },
             resetForm() {
-                this.form.fileName = "";
-                this.form.fileType = "";
+                this.form.UMLName = "";
+                this.form.UMLType = "";
             },
             newfile() {
-                console.log(this.userID);
-                //@TODO 参数变化，弹框，要求输入名字，选择类型
                 var self = this;
+                //console.log("personal:"+self.$store.state.UML.userId);
                 self.$axios
                     .get("/createFile", {
                         params: {
-                            uid: this.userID,
-                            fileName: this.form.fileName,
-                            fileType: this.form.fileType
+                            uid: self.$store.state.UML.userId,
+                            fileName: self.form.UMLName,
+                            fileType: self.form.UMLType
                         }
                     })
                     .then(function(response) {
@@ -102,8 +93,13 @@
                             message: "创建成功",
                             type: "success"
                         });
-
-                        self.$router.push({ name: "Designer",params:{userID:self.userID,userEmail:self.userEmail,fileName:self.form.fileName,fileType:self.form.fileType} });
+                        self.$store.commit("setUMLId",{id:response.data});
+                        self.$store.commit("setUMLName",{name:self.form.UMLName});
+                        self.$store.commit("setUMLType",{type:self.form.UMLType});
+                        //console.log(self.$store.state.UML.UMLId);
+                        //console.log(self.$store.state.UML.UMLName);
+                        //console.log(self.$store.state.UML.UMLType);
+                        self.$router.push({ name: "Designer" });
                     })
                     .catch(function(error) {
                         console.log("error:" + error);

@@ -29,10 +29,6 @@ export default {
     name: "Designer",
     data() {
         return {
-            fileName:"",
-            fileType:"",
-            userID:"",
-            userEmail:"",
         };
     },
 

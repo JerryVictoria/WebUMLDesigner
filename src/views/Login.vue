@@ -61,7 +61,9 @@ export default {
                                     message: "登录成功",
                                     type: "success"
                                 });
-                                self.$router.push({ name: "PersonalPage",params:{userID:response.data,userEmail:self.Mailbox} });
+                                self.$store.commit("setuserId",{id:response.data})
+                                //console.log("login:"+self.$store.state.UML.userId);
+                                self.$router.push({ name: "PersonalPage"});
                             }else{
                                 //@TODO response.data == Failed to login
                                 alert(response.data);
