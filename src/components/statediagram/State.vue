@@ -39,7 +39,7 @@ export default {
             }
         },
         name(newName) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "name",
                 value: newName,

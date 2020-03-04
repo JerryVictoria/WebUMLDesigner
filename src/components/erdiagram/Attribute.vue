@@ -21,19 +21,13 @@
         >
             <div :style="{ marginTop: this.height * 0.2 + 'px' }">
                 <div v-if="showInput && id == $store.state.editingId">
-                    <el-select
-                        v-model="propType"
-                        placeholder="请选择"
-                        size="mini"
-                        style="width: 65%"
-                    >
+                    <el-select v-model="propType" placeholder="请选择" size="mini" style="width: 65%">
                         <el-option
                             v-for="item in options"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value"
-                        >
-                        </el-option>
+                        ></el-option>
                     </el-select>
                     <el-input
                         class="contentSpan"
@@ -51,8 +45,7 @@
                     v-else
                     class="contentSpan"
                     @click="handleNameClick"
-                    >{{ name }}
-                </span>
+                >{{ name }}</span>
             </div>
         </div>
     </div>
@@ -87,7 +80,7 @@ export default {
             }
         },
         name(newName) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "name",
                 value: newName,
@@ -95,7 +88,7 @@ export default {
             });
         },
         propType(newPropType) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "propType",
                 value: newPropType,

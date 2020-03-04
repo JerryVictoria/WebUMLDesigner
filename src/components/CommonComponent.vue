@@ -56,7 +56,7 @@ export default {
             this.$store.commit("setEditId", { id: this.id });
         },
         commitWidth() {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "styles",
                 key: "width",
                 value: this.width,
@@ -64,7 +64,7 @@ export default {
             });
         },
         commitHeight() {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "styles",
                 key: "height",
                 value: this.height,
@@ -72,7 +72,7 @@ export default {
             });
         },
         commitTop(top) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "styles",
                 key: "top",
                 value: top,
@@ -80,7 +80,7 @@ export default {
             });
         },
         commitLeft(left) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "styles",
                 key: "left",
                 value: left,

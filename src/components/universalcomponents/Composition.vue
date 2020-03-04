@@ -85,7 +85,7 @@ export default {
             }
         },
         condition(newCondition) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "name",
                 value: newCondition,
@@ -93,7 +93,7 @@ export default {
             });
         },
         compositionType(newCompositionType) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "compositionType",
                 value: newCompositionType,

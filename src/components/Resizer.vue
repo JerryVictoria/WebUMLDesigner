@@ -152,7 +152,7 @@ export default {
                     this.topChangeFlag ||
                     this.leftChangeFlag
                 ) {
-                    this.$store.commit("modifyNode", {
+                    this.$store.dispatch("modifyNode", {
                         nodeKey: "styles",
                         key: keys,
                         value: values,

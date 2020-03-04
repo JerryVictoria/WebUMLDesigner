@@ -32,12 +32,7 @@
             >
                 <div v-if="showInput && id == $store.state.editingId">
                     <el-checkbox v-model="isWeak">弱</el-checkbox>
-                    <el-input
-                        class="contentSpan"
-                        v-model="name"
-                        size="mini"
-                        :autofocus="true"
-                    ></el-input>
+                    <el-input class="contentSpan" v-model="name" size="mini" :autofocus="true"></el-input>
                 </div>
                 <span
                     :style="{
@@ -47,8 +42,7 @@
                     v-else
                     class="contentSpan"
                     @click="handleNameClick"
-                    >{{ name }}
-                </span>
+                >{{ name }}</span>
             </div>
         </div>
     </div>
@@ -78,7 +72,7 @@ export default {
             }
         },
         name(newName) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "name",
                 value: newName,
@@ -86,7 +80,7 @@ export default {
             });
         },
         isWeak(newBool) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "isWeak",
                 value: newBool,

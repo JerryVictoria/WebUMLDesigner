@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from './httpConfig/url_config'
 
 Vue.use(Vuex);
 
@@ -121,6 +122,9 @@ export default new Vuex.Store({
         histories: [] //循环队列实现
     },
     mutations: {
+        setUMLId(state, params) {
+            state.UML.UMLId = params.id;
+        },
         //初始化图数据/多人协作同步图数据
         setUML(state, params) {},
         //增加节点数据
@@ -311,5 +315,55 @@ export default new Vuex.Store({
             state.lineEditId = params.id;
         }
     },
-    actions: {}
+    actions: {
+        addNode({
+            commit,
+            state
+        }, params) {
+            console.log("params:", params);
+            //TODO 数据格式匹配问题
+            var styles = {
+                styleWidth: params.width,
+                styleHeight: params.height,
+                styleLeft: params.Left,
+                styleTop: params.top
+            }
+            axios.get("/addNode", {
+                    fid: state.UML.UMLId,
+                    nodeType: params.type,
+                    nodeStyle: styles,
+                    properties: params.properties
+                })
+                .then(function (response) {
+                    var node = {
+                        id: response.data,
+                        type: params.type,
+                        styles: params.styles,
+                        properties: params.properties,
+                    }
+                    commit("addNode", node);
+                }).catch(function (error) {
+                    console.log("error:" + error);
+                })
+        },
+        modifyNode({
+            commit
+        }, params) {
+            var keys = params.key instanceof Array ? params.key : [].push(params.key);
+            var values = params.value instanceof Array ? params.value : [].push(params.value);
+            axios.get("/updateNode", {
+                    params: {
+                        nid: params.id,
+                        nodeKey: params.nodeKey,
+                        key: keys,
+                        value: values
+                    }
+                })
+                .then(function (response) {
+                    commit("modifyNode", params);
+                }).catch(function (error) {
+                    console.log("error:" + error);
+                })
+        }
+    }
 });

@@ -63,7 +63,7 @@ export default {
             }
         },
         name(newName) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "name",
                 value: newName,
@@ -71,7 +71,7 @@ export default {
             });
         },
         isInstance(isInstance) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "isInstance",
                 value: isInstance,

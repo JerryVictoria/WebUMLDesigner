@@ -119,7 +119,7 @@ export default {
             }
         },
         className(cn) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "className",
                 value: cn,
@@ -127,7 +127,7 @@ export default {
             });
         },
         classType(ct) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "classType",
                 value: ct,

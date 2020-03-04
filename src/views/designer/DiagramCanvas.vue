@@ -38,11 +38,7 @@
                 </svg>
             </div>
         </div>
-        <ContextMenu
-            v-show="showMenu"
-            id="menu"
-            @hide-menu="clickOutSide"
-        ></ContextMenu>
+        <ContextMenu v-show="showMenu" id="menu" @hide-menu="clickOutSide"></ContextMenu>
     </div>
 </template>
 
@@ -187,13 +183,13 @@ export default {
                         this.cursorToTop
                 );
                 //更新图数据（vue数据驱动图像变化）
-                this.$store.commit("modifyNode", {
+                this.$store.dispatch("modifyNode", {
                     nodeKey: "styles",
                     key: "left",
                     value: event.clientX - this.cursorToLeft,
                     id: this.$store.state.editingId
                 });
-                this.$store.commit("modifyNode", {
+                this.$store.dispatch("modifyNode", {
                     nodeKey: "styles",
                     key: "top",
                     value: event.clientY - this.cursorToTop,
@@ -223,11 +219,11 @@ export default {
                 this.$store.commit("moveNode", {
                     left: event.clientX - this.cursorToLeft,
                     top: event.clientY - this.cursorToTop,
-                    id: this.$store.state.editingId,
+                    id: this.$store.state.editingId
                 });
             }
         },
-        editline(item){
+        editline(item) {
             this.$store.commit("setLineEditState", { lineEditing: true });
             this.$store.commit("setLineEditId", { id: item });
             console.log(this.$store.state.lineEditId);

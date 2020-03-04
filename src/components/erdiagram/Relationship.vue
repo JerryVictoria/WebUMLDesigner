@@ -69,7 +69,7 @@ export default {
             }
         },
         name(newName) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "name",
                 value: newName,
@@ -77,7 +77,7 @@ export default {
             });
         },
         isWeak(newBool) {
-            this.$store.commit("modifyNode", {
+            this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "isWeak",
                 value: newBool,
