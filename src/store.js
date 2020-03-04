@@ -19,7 +19,7 @@ export default new Vuex.Store({
             //mock data
             UMLType: "CLASS_DIAGRAM",
             UMLId: "",
-            UMLName:"",
+            UMLName: "",
             userId: "",
             groupId: "",
             nodes: [
@@ -124,7 +124,7 @@ export default new Vuex.Store({
     mutations: {
         setuserId(state, params) {
             state.UML.userId = params.id;
-            console.log(("store:"+state.UML.userId));
+            console.log(("store:" + state.UML.userId));
         },
         setUMLId(state, params) {
             state.UML.UMLId = params.id;
@@ -330,19 +330,13 @@ export default new Vuex.Store({
             commit,
             state
         }, params) {
-            console.log("params:", params);
-            //TODO 数据格式匹配问题
-            var styles = {
-                styleWidth: params.width,
-                styleHeight: params.height,
-                styleLeft: params.Left,
-                styleTop: params.top
-            }
-            axios.get("/addNode", {
+            axios.post("/addNode", {
+                    uid: state.UML.userId,
+                    gid: state.UML.groupId ? state.UML.groupId : -1,
                     fid: state.UML.UMLId,
                     nodeType: params.type,
-                    nodeStyle: styles,
-                    properties: params.properties
+                    styles: params.styles,
+                    props: params.properties
                 })
                 .then(function (response) {
                     var node = {
