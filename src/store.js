@@ -368,6 +368,22 @@ export default new Vuex.Store({
                 }).catch(function (error) {
                     console.log("error:" + error);
                 })
-        }
+        },
+        removeNode({
+            commit,
+            state
+        }, params) {
+            axios.get("/delNode", {
+                    params: {
+                        fid: state.UML.UMLId,
+                        nid: params.id
+                    }
+                })
+                .then(function (response) {
+                    commit("removeNode", params);
+                }).catch(function (error) {
+                    console.log("error:" + error);
+                })
+        },
     }
 });

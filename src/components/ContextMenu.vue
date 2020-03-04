@@ -14,7 +14,7 @@ export default {
     methods: {
         deleteNode() {
             if (this.$store.state.editingId) {
-                this.$store.commit("removeNode", {
+                this.$store.dispatch("removeNode", {
                     id: this.$store.state.editingId
                 });
             }
