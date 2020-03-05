@@ -50,23 +50,68 @@
                     </el-form-item>
                 </el-form>
             </div>
+            <div v-show="activeIndex == '2'" style="height: 400px; overflow-y: auto;">
+                <el-card class="box-card">
+                    <el-button
+                        class="createBtn"
+                        icon="el-icon-circle-plus-outline"
+                        @click="dialogVisible = true"
+                    >新建团队</el-button>
+                </el-card>
+                <GroupInfo></GroupInfo>
+                <GroupInfo></GroupInfo>
+                <GroupInfo></GroupInfo>
+                <GroupInfo></GroupInfo>
+                <GroupInfo></GroupInfo>
+                <GroupInfo></GroupInfo>
+                <GroupInfo></GroupInfo>
+                <!--TODO v-for-->
+            </div>
         </div>
         <div style="border-top: 1px solid #E4E7ED; height: 200px">
             <br />
             <span>联系我们……</span>
         </div>
+        <el-dialog title="创建你的团队" :visible.sync="dialogVisible" width="30%">
+            <el-form ref="groupform" :model="groupform" label-width="80px" style="width: 300px;">
+                <el-form-item label="团队名称">
+                    <el-input v-model="groupform.name"></el-input>
+                </el-form-item>
+                <el-form-item label="团队成员">
+                    <el-select
+                        v-model="groupform.member"
+                        multiple
+                        filterable
+                        allow-create
+                        default-first-option
+                        placeholder="输入你想邀请的成员邮箱"
+                    ></el-select>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 <script>
+import GroupInfo from "./GroupInfo.vue";
 export default {
     name: "GroupPanel",
+    components: { GroupInfo },
     data() {
         return {
             activeIndex: "1",
+            dialogVisible: false,
             form: {
                 name: "",
                 type: "",
                 group: ""
+            },
+            groupform: {
+                name: "",
+                member: []
             }
         };
     },
@@ -93,8 +138,20 @@ export default {
 .groupmenu {
     height: 400px;
     width: 150px;
+    min-width: 150px;
 }
 .detailContent {
     padding-top: 50px;
+}
+.createBtn {
+    width: 200px;
+    height: 150px;
+    display: inline-block;
+}
+.box-card {
+    width: 240px;
+    height: 190px;
+    display: inline-block;
+    margin: 10px;
 }
 </style>
