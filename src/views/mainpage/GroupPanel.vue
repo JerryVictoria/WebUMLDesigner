@@ -50,7 +50,7 @@
                     </el-form-item>
                 </el-form>
             </div>
-            <div v-show="activeIndex == '2'" style="height: 400px; overflow-y: auto;">
+            <div v-show="activeIndex == '2'" class="centerDiv">
                 <el-card class="box-card">
                     <el-button
                         class="createBtn"
@@ -66,6 +66,39 @@
                 <GroupInfo></GroupInfo>
                 <GroupInfo></GroupInfo>
                 <!--TODO v-for-->
+            </div>
+            <div v-show="activeIndex == '3'" class="centerDiv">
+                <!--TODO v-for-->
+                <InvitationCard></InvitationCard>
+                <InvitationCard></InvitationCard>
+                <InvitationCard></InvitationCard>
+                <InvitationCard></InvitationCard>
+                <InvitationCard></InvitationCard>
+                <InvitationCard></InvitationCard>
+                <InvitationCard></InvitationCard>
+            </div>
+            <div v-show="activeIndex == '4'" class="centerDiv">
+                <!--TODO v-for-->
+                <div v-if="detailList" class="fileListPane">
+                    <el-page-header @back="goBack" content="文件列表"></el-page-header>
+                </div>
+                <div v-else>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 1</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 2</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 3</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 4</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 5</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 1</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 2</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 3</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 4</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 5</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 1</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 2</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 3</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 4</el-button>
+                    <el-button class="fileListBtn" @click="selectGroupFile()">group 5</el-button>
+                </div>
             </div>
         </div>
         <div style="border-top: 1px solid #E4E7ED; height: 200px">
@@ -97,9 +130,10 @@
 </template>
 <script>
 import GroupInfo from "./GroupInfo.vue";
+import InvitationCard from "./InvitationCard.vue";
 export default {
     name: "GroupPanel",
-    components: { GroupInfo },
+    components: { GroupInfo, InvitationCard },
     data() {
         return {
             activeIndex: "1",
@@ -112,7 +146,8 @@ export default {
             groupform: {
                 name: "",
                 member: []
-            }
+            },
+            detailList: false
         };
     },
     methods: {
@@ -130,13 +165,19 @@ export default {
             this.form.name = "";
             this.form.type = "";
             this.form.group = "";
+        },
+        selectGroupFile() {
+            this.detailList = true;
+        },
+        goBack() {
+            this.detailList = false;
         }
     }
 };
 </script>
 <style scoped>
 .groupmenu {
-    height: 400px;
+    height: 420px;
     width: 150px;
     min-width: 150px;
 }
@@ -148,10 +189,25 @@ export default {
     height: 150px;
     display: inline-block;
 }
+.fileListBtn {
+    width: 180px;
+    height: 130px;
+    display: inline-block;
+    margin: 10px 10px;
+    font-size: 18px;
+}
 .box-card {
     width: 240px;
     height: 190px;
     display: inline-block;
     margin: 10px;
+}
+.fileListPane {
+    padding: 30px 20px;
+}
+.centerDiv {
+    height: 400px;
+    overflow-y: auto;
+    padding-top: 10px;
 }
 </style>

@@ -10,6 +10,7 @@
                     icon="el-icon-plus"
                     @click="dialogVisible = true"
                 >邀请</el-button>
+                <!--TODO leader == user-->
             </div>
             <div class="list">
                 <div v-for="o in 8" :key="o" class="text item">{{'队员 ' + o }}</div>
@@ -41,6 +42,9 @@ export default {
         },
         member: {
             type: Array
+        },
+        leader: {
+            type: String
         }
     },
     data() {
