@@ -177,7 +177,7 @@ export default {
 </script>
 <style scoped>
 .groupmenu {
-    height: 420px;
+    height: 400px;
     width: 150px;
     min-width: 150px;
 }
@@ -206,7 +206,7 @@ export default {
     padding: 30px 20px;
 }
 .centerDiv {
-    height: 400px;
+    height: 390px;
     overflow-y: auto;
     padding-top: 10px;
 }
