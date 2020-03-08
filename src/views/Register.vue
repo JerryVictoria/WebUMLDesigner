@@ -56,10 +56,12 @@ export default {
             //@TODO email邮件验证码
             var self = this;
             self.$axios
-                .post("/register", {
-                    userName: self.Username,
-                    userEmail: self.Password,
-                    userPassword: self.Password
+                .get("/register", {
+                    params: {
+                        userName: self.Username,
+                        userEmail: self.Mailbox,
+                        userPassword: self.Password
+                    }
                 })
                 .then(function(response) {
                     console.log("success, response.data--", response.data);
