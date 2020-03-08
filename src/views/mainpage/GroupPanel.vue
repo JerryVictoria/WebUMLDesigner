@@ -110,20 +110,10 @@
                 <el-form-item label="团队名称">
                     <el-input v-model="groupform.name"></el-input>
                 </el-form-item>
-                <el-form-item label="团队成员">
-                    <el-select
-                        v-model="groupform.member"
-                        multiple
-                        filterable
-                        allow-create
-                        default-first-option
-                        placeholder="输入你想邀请的成员邮箱"
-                    ></el-select>
-                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                <el-button type="primary" @click="createGroup">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -144,8 +134,7 @@ export default {
                 group: ""
             },
             groupform: {
-                name: "",
-                member: []
+                name: ""
             },
             detailList: false
         };
@@ -171,6 +160,34 @@ export default {
         },
         goBack() {
             this.detailList = false;
+        },
+        createGroup() {
+            if (this.groupform.name == "") {
+                this.$message({
+                    message: "小组名不能为空！",
+                    type: "warning"
+                });
+                this.dialogVisible = false;
+                return;
+            }
+            var self = this;
+            this.$axios
+                .get("/createGroup", {
+                    params: {
+                        groupName: self.groupform.name,
+                        uid: self.$store.state.UML.userId
+                    }
+                })
+                .then(function(response) {
+                    self.$message({
+                        message: "创建成功！",
+                        type: "success"
+                    });
+                })
+                .catch(function(error) {
+                    console.log("error:" + error);
+                });
+            this.dialogVisible = false;
         }
     }
 };

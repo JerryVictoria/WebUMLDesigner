@@ -54,7 +54,7 @@ export default {
                                 "success: response.data--",
                                 response.data
                             );
-                            if (response.data != "Failed to login") {
+                            if (response.data != -1) {
                                 self.$message({
                                     message: "登录成功",
                                     type: "success"
