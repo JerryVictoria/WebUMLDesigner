@@ -45,26 +45,26 @@ export default {
                     //前后端传数据
                     var self = this;
                     self.$axios
-                        .get("/login", {
-                            params: {
-                                userEmail: self.Mailbox,
-                                userPassword: self.Password
-                            }
+                        .post("/login", {
+                            userEmail: self.Mailbox,
+                            userPassword: self.Password
                         })
                         .then(function(response) {
                             console.log(
                                 "success: response.data--",
-                                response.data,
+                                response.data
                             );
-                            if(response.data!="Failed to login"){
+                            if (response.data != "Failed to login") {
                                 self.$message({
                                     message: "登录成功",
                                     type: "success"
                                 });
-                                self.$store.commit("setuserId",{id:response.data})
+                                self.$store.commit("setuserId", {
+                                    id: response.data
+                                });
                                 //console.log("login:"+self.$store.state.UML.userId);
-                                self.$router.push({ name: "PersonalPage"});
-                            }else{
+                                self.$router.push({ name: "PersonalPage" });
+                            } else {
                                 //@TODO response.data == Failed to login
                                 alert(response.data);
                             }
