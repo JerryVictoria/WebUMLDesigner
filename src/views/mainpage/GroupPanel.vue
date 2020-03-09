@@ -41,7 +41,12 @@
                     </el-form-item>
                     <el-form-item label="协作者">
                         <el-select v-model="form.group" placeholder="请选择协助小组">
-                            <el-option label="group stub" value="group"></el-option>
+                            <el-option
+                                v-for="(item, index) in groupList"
+                                :key="index"
+                                :label="item.groupName"
+                                :value="item.gid"
+                            ></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
@@ -58,24 +63,28 @@
                         @click="dialogVisible = true"
                     >新建团队</el-button>
                 </el-card>
-                <GroupInfo></GroupInfo>
-                <GroupInfo></GroupInfo>
-                <GroupInfo></GroupInfo>
-                <GroupInfo></GroupInfo>
-                <GroupInfo></GroupInfo>
-                <GroupInfo></GroupInfo>
-                <GroupInfo></GroupInfo>
+                <GroupInfo
+                    v-for="item in groupList"
+                    :key="item.gid"
+                    :name="item.groupName"
+                    :invitedMember="item.invitedUserList"
+                    :invitingMember="item.invitingUserList"
+                    :leader="item.captainEmail"
+                    :leaderId="item.captainId"
+                    :gid="item.gid"
+                    @refresh="getAllGroup"
+                ></GroupInfo>
                 <!--TODO v-for-->
             </div>
             <div v-show="activeIndex == '3'" class="centerDiv">
-                <!--TODO v-for-->
-                <InvitationCard></InvitationCard>
-                <InvitationCard></InvitationCard>
-                <InvitationCard></InvitationCard>
-                <InvitationCard></InvitationCard>
-                <InvitationCard></InvitationCard>
-                <InvitationCard></InvitationCard>
-                <InvitationCard></InvitationCard>
+                <InvitationCard
+                    v-for="(item, index) in invitationList"
+                    :key="index"
+                    :gid="item.gid"
+                    :groupName="item.groupName"
+                    :leader="item.captainEmail"
+                    @refresh="getAllInvitation()"
+                ></InvitationCard>
             </div>
             <div v-show="activeIndex == '4'" class="centerDiv">
                 <!--TODO v-for-->
@@ -136,10 +145,60 @@ export default {
             groupform: {
                 name: ""
             },
-            detailList: false
+            detailList: false,
+            groupList: [],
+            invitationList: []
+            /*
+                gid: 2
+                groupId: null
+                groupName: "test2"
+                invitedUidList: Array(1)
+                invitedUserNameList: Array(1)
+                invitingUidList: Array(0)
+                invitingUserNameList: Array(0)
+                fidList: Array(0)
+                captainId: 18
+                captainEmail: (...) 
+                */
         };
     },
+    mounted() {
+        this.getAllGroup();
+        this.getAllInvitation();
+    },
     methods: {
+        getAllGroup() {
+            var self = this;
+            this.$axios
+                .get("/getAllGroupByUid", {
+                    params: {
+                        uid: self.$store.state.UML.userId
+                    }
+                })
+                .then(function(response) {
+                    console.log(response.data);
+                    self.groupList = response.data;
+                })
+                .catch(function(error) {
+                    console.log("error:" + error);
+                });
+        },
+        getAllInvitation() {
+            var self = this;
+            this.$axios
+                .get("/getAllInvitingGroupByUid", {
+                    params: {
+                        uid: self.$store.state.UML.userId
+                    }
+                })
+                .then(function(response) {
+                    console.log(response.data);
+                    self.invitationList = response.data;
+                })
+                .catch(function(error) {
+                    console.log("error:" + error);
+                });
+        },
         handleSelect(key, keyPath) {
             this.activeIndex = key;
         },
@@ -149,7 +208,38 @@ export default {
         handleClose(key, keyPath) {
             console.log(key, keyPath);
         },
-        onSubmit() {},
+        onSubmit() {
+            var self = this;
+            //console.log("personal:"+self.$store.state.UML.userId);
+            self.$axios
+                .get("/createFile", {
+                    params: {
+                        uid: self.$store.state.UML.userId,
+                        gid: self.form.group,
+                        fileName: self.form.name,
+                        fileType: self.form.type
+                    }
+                })
+                .then(function(response) {
+                    console.log("success:" + response.data);
+                    self.$message({
+                        message: "创建成功",
+                        type: "success"
+                    });
+                    self.$store.commit("setUMLId", { id: response.data });
+                    self.$store.commit("setUMLName", {
+                        name: self.form.UMLName
+                    });
+                    self.$store.commit("setUMLType", {
+                        type: self.form.UMLType
+                    });
+                    //TODO set gid
+                    self.$router.push({ name: "Designer" });
+                })
+                .catch(function(error) {
+                    console.log("error:" + error);
+                });
+        },
         resetForm() {
             this.form.name = "";
             this.form.type = "";
@@ -183,10 +273,12 @@ export default {
                         message: "创建成功！",
                         type: "success"
                     });
+                    self.getAllGroup();
                 })
                 .catch(function(error) {
                     console.log("error:" + error);
                 });
+            this.groupform.name = "";
             this.dialogVisible = false;
         }
     }
