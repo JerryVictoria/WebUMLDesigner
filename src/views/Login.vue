@@ -9,11 +9,20 @@
                     <input id="mailbox" v-model="Mailbox" type="text" placeholder="请输入邮箱号" />
                     <input id="password" v-model="Password" type="password" placeholder="请输入密码" />
                 </div>
-                <button id="button" @click="Login()">登录</button>
-            </div>
-            <div id="other">
-                <p id="forgetPW" @click="forgetPW()">忘记密码</p>
-                <p id="register" @click="register()">注册</p>
+                <el-button
+                    style="width:400px; margin: 10px 0px"
+                    type="primary"
+                    @click="Login()"
+                    round
+                >登录</el-button>
+                <div>
+                    <el-button
+                        style="float: right; margin-left:10px"
+                        type="text"
+                        @click="forgetPW()"
+                    >忘记密码</el-button>
+                    <el-button style="float: right" type="text" @click="register()">注册</el-button>
+                </div>
             </div>
         </div>
     </div>
@@ -135,29 +144,9 @@ export default {
     font-size: 14px;
     outline: none;
 }
-#button {
-    display: block;
-    width: 400px;
-    height: 40px;
-    box-sizing: border-box;
-    border: 1px;
-    padding: 5px 20px;
-    margin: 20px 0;
-    border-radius: 30px;
-    font-size: 18px;
-    background-color: #5faeff;
-    outline: none;
-}
+
 #other {
     font-size: 14px;
     color: #666;
-}
-#forgetPW {
-    display: inline;
-    margin-left: 5px;
-}
-#register {
-    display: inline;
-    margin-left: 300px;
 }
 </style>
