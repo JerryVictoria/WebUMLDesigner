@@ -75,9 +75,6 @@ export default {
             default: -1
         }
     },
-    mounted() {
-        console.log(this.invitedMember, this.gid);
-    },
     data() {
         return {
             dialogVisible: false,

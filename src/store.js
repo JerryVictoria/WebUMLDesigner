@@ -129,6 +129,9 @@ export default new Vuex.Store({
         setUMLId(state, params) {
             state.UML.UMLId = params.id;
         },
+        setGroupId(state, params) {
+            state.UML.groupId = params.groupId;
+        },
         setUMLName(state, params) {
             state.UML.UMLName = params.name;
         },

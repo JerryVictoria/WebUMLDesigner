@@ -90,23 +90,15 @@
                 <!--TODO v-for-->
                 <div v-if="detailList" class="fileListPane">
                     <el-page-header @back="goBack" content="文件列表"></el-page-header>
+                    <SingleFile></SingleFile>
                 </div>
                 <div v-else>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 1</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 2</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 3</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 4</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 5</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 1</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 2</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 3</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 4</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 5</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 1</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 2</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 3</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 4</el-button>
-                    <el-button class="fileListBtn" @click="selectGroupFile()">group 5</el-button>
+                    <el-button
+                        v-for="(item, index) in groupList"
+                        :key="index"
+                        class="fileListBtn"
+                        @click="selectGroupFile(item.gid)"
+                    >{{item.groupName}}</el-button>
                 </div>
             </div>
         </div>
@@ -130,9 +122,10 @@
 <script>
 import GroupInfo from "./GroupInfo.vue";
 import InvitationCard from "./InvitationCard.vue";
+import SingleFile from "./SingleFile.vue";
 export default {
     name: "GroupPanel",
-    components: { GroupInfo, InvitationCard },
+    components: { GroupInfo, InvitationCard, SingleFile },
     data() {
         return {
             activeIndex: "1",
@@ -147,7 +140,8 @@ export default {
             },
             detailList: false,
             groupList: [],
-            invitationList: []
+            invitationList: [],
+            fileList: []
             /*
                 gid: 2
                 groupId: null
@@ -228,12 +222,14 @@ export default {
                     });
                     self.$store.commit("setUMLId", { id: response.data });
                     self.$store.commit("setUMLName", {
-                        name: self.form.UMLName
+                        name: self.form.name
                     });
                     self.$store.commit("setUMLType", {
-                        type: self.form.UMLType
+                        type: self.form.type
                     });
-                    //TODO set gid
+                    self.$store.commit("setGroupId", {
+                        groupId: self.form.group
+                    });
                     self.$router.push({ name: "Designer" });
                 })
                 .catch(function(error) {
@@ -245,7 +241,21 @@ export default {
             this.form.type = "";
             this.form.group = "";
         },
-        selectGroupFile() {
+        selectGroupFile(gid) {
+            console.log("gid:", gid);
+            this.$axios
+                .get("/getAllFileByGid", {
+                    params: {
+                        gid: gid
+                    }
+                })
+                .then(function(response) {
+                    console.log(response.data);
+                    self.fileList = response.data;
+                })
+                .catch(function(error) {
+                    console.log("error:" + error);
+                });
             this.detailList = true;
         },
         goBack() {
