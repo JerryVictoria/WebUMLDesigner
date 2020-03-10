@@ -75,7 +75,10 @@ export default {
                                 self.$router.push({ name: "PersonalPage" });
                             } else {
                                 //@TODO response.data == Failed to login
-                                alert(response.data);
+                                self.$message({
+                                    message: "用户名或密码错误",
+                                    type: "error"
+                                });
                             }
                         })
                         .catch(function(error) {

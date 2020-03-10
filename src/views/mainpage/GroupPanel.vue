@@ -102,10 +102,7 @@
                 </div>
             </div>
         </div>
-        <div style="border-top: 1px solid #E4E7ED; height: 200px">
-            <br />
-            <span>联系我们……</span>
-        </div>
+        <PageFooter></PageFooter>
         <el-dialog title="创建你的团队" :visible.sync="dialogVisible" width="30%">
             <el-form ref="groupform" :model="groupform" label-width="80px" style="width: 300px;">
                 <el-form-item label="团队名称">
@@ -123,9 +120,10 @@
 import GroupInfo from "./GroupInfo.vue";
 import InvitationCard from "./InvitationCard.vue";
 import SingleFile from "./SingleFile.vue";
+import PageFooter from "../PageFooter.vue";
 export default {
     name: "GroupPanel",
-    components: { GroupInfo, InvitationCard, SingleFile },
+    components: { GroupInfo, InvitationCard, SingleFile, PageFooter },
     data() {
         return {
             activeIndex: "1",
