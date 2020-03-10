@@ -9,6 +9,7 @@ import Register from "../views/Register.vue";
 import PersonalPage from "../views/PersonalPage.vue";
 import ComponentsStoreSideBar from "../views/designer/ComponentsStoreSideBar.vue";
 import Test from "../views/Test.vue"
+import ToolTopBar from "../views/designer/ToolTopBar.vue"
 
 Vue.use(VueRouter);
 
@@ -62,7 +63,11 @@ const routes = [{
     name: "Test",
     component: Test
   },
-
+    {
+        path: "/tooltop",
+        name: "ToolTopBar",
+        component: ToolTopBar
+    },
 ];
 
 const router = new VueRouter({

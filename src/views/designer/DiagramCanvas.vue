@@ -7,37 +7,58 @@
             @dragenter.stop="handleDragEnter"
             @dragover.stop="handleDragOver"
             @click="clickOutSide"
+            @mouseenter.stop="mouseEnter"
+            @mouseleave.stop="mouseLeave"
+            @mousedown.stop="mouseDown"
         >
             <div
                 v-for="item in $store.state.UML.nodes"
                 :key="item.id"
+                :id="item.id"
                 @contextmenu.prevent="showContextMenu(item.id, $event)"
+                style="z-index: 1"
             >
                 <Resizer
                     :key="item.id"
                     :id="item.id"
                     :style="{
                         left: item.styles.left + 'px',
-                        top: item.styles.top + 'px'
+                        top: item.styles.top + 'px',
+                        zIndex:2
                     }"
                 >
-                    <component :is="item.type" v-bind="item"></component>
+                    <component :is="item.type" v-bind="item" ></component>
                 </Resizer>
             </div>
-            <div v-for="lines in $store.state.UML.lines" :key="lines.lineid">
-                <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        version="1.1"
+                        v-for="line in $store.state.UML.lines"
+                        :key="line.lineId"
+                        :style="line.svgStyle"
+                        >
+
+                    <defs>
+                        <marker id="arrow1" markerUnits="strokeWidth" markerHeight="11" markerWidth="11" viewBox="0 0 12 12" refX="6" refY="6" orient="auto">
+                            <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style="fill:#000000"/>
+                        </marker>
+                        <marker id="arrow2" markerUnits="strokeWidth" markerHeight="11" markerWidth="11" viewBox="0 0 12 12" refX="6" refY="6" orient="auto">
+                            <path d="M2,6 L10,2 L6,6 L10,10 L2,6" style="fill:#000000"/>
+                        </marker>
+                    </defs>
                     <line
-                        :x1="lines.startposition.left"
-                        :y1="lines.startposition.top"
-                        :x2="lines.endpostion.left"
-                        :y2="lines.endpostion.top"
-                        :style="lines.styles"
-                        :id="lines.lineid"
-                        @click="editline(lines.line)"
+                            :x1="line.startPosition.left"
+                            :y1="line.startPosition.top"
+                            :x2="line.endPosition.left"
+                            :y2="line.endPosition.top"
+                            :style="line.styles"
+                            :id="line.lineId"
+                            :marker-end="line.markerEnd"
+                            :marker-start="line.markerStart"
+                            v-clickoutside="editline(line.lineId)"
                     />
-                </svg>
-            </div>
-        </div>
+                    </svg>
+             </div>
         <ContextMenu v-show="showMenu" id="menu" @hide-menu="clickOutSide"></ContextMenu>
     </div>
 </template>
@@ -126,9 +147,31 @@ export default {
         return {
             cursorToLeft: 0, //拖动的鼠标位置距离父div的距离
             cursorToTop: 0,
-            showMenu: false
+            showMenu: false,
+            mousedown:false,
             //ghost: null //拖拽的虚影（如果使用原生的虚影，在组件重叠的情况下，会有多余图像）
+            EStartX:0,
+            EStartY:0,
+            lineStartX:0,
+            lineStartY:0,
+            lineEndX:0,
+            lineEndY:0,
+            linenumber:0,
+            lineType:'',
+            lineText:'',
+            From:'',
+            To:'',
+            lineStartA:'',
+            lineStartD:'',
+            lineEndA:'',
+            lineEndD:'',
+            svgLeft:0,
+            svgTop:0,
+            svgWid:0,
+            svgHei:0
         };
+    },
+    mounted(){
     },
     methods: {
         showContextMenu(id, event) {
@@ -148,19 +191,21 @@ export default {
         },
         handleDragStart(event) {
             console.log("handleDragStart");
-            this.$store.state.canvasdrage = true;
-            event.dataTransfer.effectAllowed = "copyMove";
-            let resizer = $(event.target);
-            /*
+            //拖拽UML节点
+            if(this.$store.state.editingId!="") {
+                this.$store.state.canvasdrage = true;
+                event.dataTransfer.effectAllowed = "copyMove";
+                let resizer = $(event.target);
+                /*
             console.log("resizer.offset().left:"+resizer.offset().left);
             console.log("resizer.offset().top:"+resizer.offset().top);
             console.log("event.clientX:"+event.clientX);
             console.log("event.clientY:"+event.clientY);
             */
-            this.cursorToLeft = event.clientX - resizer.offset().left;
-            this.cursorToTop = event.clientY - resizer.offset().top;
-            console.log(this.cursorToLeft, this.cursorToTop);
-            /* this.ghost = resizer.clone()[0];
+                this.cursorToLeft = event.clientX - resizer.offset().left;
+                this.cursorToTop = event.clientY - resizer.offset().top;
+                console.log(this.cursorToLeft, this.cursorToTop);
+                /* this.ghost = resizer.clone()[0];
             this.ghost.style.position = "absolute";
             this.ghost.style.left = "-2000px";
             this.ghost.style.top = "0px";
@@ -172,9 +217,16 @@ export default {
                 this.cursorToLeft,
                 this.cursorToTop
             ); */
-            event.dataTransfer.setDragImage(resizer.clone()[0], 0, 0);
+                event.dataTransfer.setDragImage(resizer.clone()[0], 0, 0);
+            }
+
+            //拖拽线条
+            if(this.$store.state.lineEditId!=""){
+                console.log("lineEdit")
+            }
         },
         handleDragEnd(event) {
+            console.log("handleDragEnd");
             if (this.$store.state.canvasdrage) {
                 console.log(
                     "handleDragEnd:" +
@@ -204,6 +256,7 @@ export default {
             }
         },
         handleDragEnter(event) {
+            console.log("handleDragEnter");
             if (this.$store.state.canvasdrage) {
                 console.log("handleDragEnter");
                 event.preventDefault();
@@ -211,6 +264,7 @@ export default {
             }
         },
         handleDragOver(event) {
+            console.log("handleDragOver");
             if (this.$store.state.canvasdrage) {
                 var canv = document.getElementById("canvas");
                 console.log("handleDragOver");
@@ -223,12 +277,277 @@ export default {
                 });
             }
         },
+        //@TODO 删除栏showMenu变为false`
+        changeshowMenu(){
+            console.log("changeshowMenu");
+            this.showMenu=false;
+            console.log(this.showMenu);
+        },
         editline(item) {
+            //@TODO 不触发checkoutside，线条的
+            console.log("editline");
             this.$store.commit("setLineEditState", { lineEditing: true });
             this.$store.commit("setLineEditId", { id: item });
             console.log(this.$store.state.lineEditId);
+        },
+        mouseEnter(){
+            if(this.$store.state.drawLine){
+                //@TODO 鼠标箭头改为十字
+                console.log("mouseenter,箭头变为十字");
+                var cav1=document.getElementById("visualEditor");
+                cav1.style.cursor="crosshair";
+            }
+        },
+        mouseLeave(){
+            if(this.$store.state.drawLine){
+                //@TODO 鼠标箭头还原
+                console.log("鼠标箭头还原");
+                document.getElementById("visualEditor").style.cursor="default";
+            }
+        },
+        mouseUp(event) {
+            console.log($(event.target));
+            if(this.$store.state.drawLine&&this.mousedown&&this.$store.state.editingId==""){
+                console.log("lineUp:"+this.$store.state.drawLine+":"+this.$store.state.editingId);
+                this.mousedown=false;
+                this.$store.commit("setDrawLine",{drawLine:false});
+                //console.log("mouseUp");
+                console.log("鼠标箭头还原");
+                document.getElementById("visualEditor").style.cursor="default";
+                var newline = {
+                    Id: this.linenumber+"",
+                    svgId:"svg"+this.linenumber,
+                    lineId: "line"+this.linenumber,
+                    relationType: this.lineType,
+                    from:this.From,
+                    to:this.To,
+                    text:this.lineText,
+                    markerEnd:'url(#endarrow'+this.linenumber+')',
+                    markerStart:'url(#startarrow'+this.linenumber+')',
+                    //@TODO 添加linelist
+                    startPosition:{
+                        left:this.lineStartX,
+                        top:this.lineStartY,
+                        arrow:this.lineStartA,
+                        direction:this.lineStartD
+                    },
+                    endPosition:{
+                        left:this.lineEndX,
+                        top:this.lineEndY,
+                        arrow:this.lineEndA,
+                        direction:this.lineEndD
+                    },
+                    styles: {
+                        stroke:this.$store.state.lineColor,
+                        strokeDasharray:this.$store.state.lineStyle,
+                        strokeWidth:this.$store.state.lineSize
+                    },
+                    svgStyle:{
+                        position:'absolute',
+                        width:this.svgWid,
+                        height:this.svgHei,
+                        left:this.svgLeft,
+                        top:this.svgTop
+                    }
+                };
+                console.log(newline);
+                this.$store.dispatch("addLine",newline);
+                console.log(this.$store.state.UML.newlines);
+                this.lineStartX=0;
+                this.lineStartY=0;
+                document.body.removeEventListener(
+                    "mousemove",
+                    this.drawLine
+                );
+                document.body.removeEventListener(
+                    "mouseup",
+                    this.mouseUp
+                );
+            }
+        },
+        mouseDown(event) {
+            if(this.$store.state.drawLine&&this.$store.state.editingId==""){
+                document.body.addEventListener("mousemove", this.drawLine);
+                //console.log (document.getElementById("visualEditor"));
+                this.mousedown=true;
+                console.log("linedown");
+                var cav1=document.getElementById("visualEditor");
+                var c={
+                    x:cav1.offsetLeft,
+                    y:cav1.offsetTop
+                }
+                console.log(c.x);
+                console.log(c.y);
+                var e={
+                    x:event.clientX,
+                    y:event.clientY
+                };
+                this.EStartX=e.x;
+                this.EStartY=e.y;
+                this.linenumber=this.$store.state.UML.lines.length+1+this.$store.state.UML.newlines.length
+                console.log("Estartx:"+this.EStartX);
+                console.log("Estarty:"+this.EStartY);
+                var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+                svg.id="svg"+this.linenumber;
+                svg.position="absolute";
+                var line=document.createElementNS('http://www.w3.org/2000/svg','line');
+                line.id="line"+this.linenumber;
+                var def=document.createElementNS('http://www.w3.org/2000/svg','def');
+                var startmarker=document.createElementNS('http://www.w3.org/2000/svg','marker');
+                var startpath=document.createElementNS('http://www.w3.org/2000/svg','path');
+                var endmarker=document.createElementNS('http://www.w3.org/2000/svg','marker');
+                var endpath=document.createElementNS('http://www.w3.org/2000/svg','path');
+                startpath.setAttribute('d','M2,6 L10,2 L6,6 L10,10 L2,6');
+                startpath.setAttribute('style','fill:#000000');
+                endpath.setAttribute('d','M2,2 L10,6 L2,10 L6,6 L2,2');
+                endpath.setAttribute('style','fill:#000000');
+                startmarker.setAttribute('id','arrow2');
+                startmarker.setAttribute('markerHeight','11');
+                startmarker.setAttribute('markerWidth','11');
+                startmarker.setAttribute('viewBox','0 0 12 12');
+                startmarker.setAttribute('refX','6');
+                startmarker.setAttribute('refY','6');
+                startmarker.setAttribute('orient','auto');
+                endmarker.setAttribute('id','arrow1');
+                endmarker.setAttribute('markerHeight','11');
+                endmarker.setAttribute('markerWidth','11');
+                endmarker.setAttribute('viewBox','0 0 12 12');
+                endmarker.setAttribute('refX','6');
+                endmarker.setAttribute('refY','6');
+                endmarker.setAttribute('orient','auto');
+                startmarker.append(startpath);
+                endmarker.append(endpath);
+                def.append(startmarker);
+                def.append(endmarker);
+                cav1.appendChild(svg);
+                svg.appendChild(def);
+                svg.appendChild(line);
+                console.log(svg);
+            }
+        },
+        drawLine(event){
+            //画线
+            if(this.$store.state.drawLine&&this.mousedown&&this.$store.state.editingId==""){
+                console.log("linemove");
+                document.body.addEventListener("mouseup", this.mouseUp);
+                var cav1=document.getElementById("visualEditor");
+                var c={
+                    x:cav1.offsetLeft,
+                    y:cav1.offsetTop
+                }
+                var e={
+                    x:event.clientX,
+                    y:event.clientY
+                };
+                var svgId="svg"+this.linenumber;
+                var newsvg=document.getElementById(svgId);
+                var lineId="line"+this.linenumber;
+                var newline=document.getElementById(lineId);
+                newline.setAttribute('marker-start','url(#arrow2');
+                newline.setAttribute('marker-end','url(#arrow1');
+                newline.setAttribute('style',"stroke:"+this.$store.state.lineColor+";stroke-width:"+this.$store.state.lineSize+";stroke-dasharray:"+this.$store.state.lineStyle+";");
+                //左上
+                if(e.x<this.EStartX&&e.y<this.EStartY){
+                    newsvg.setAttribute('xmlns','http://www.w3.org/2000/svg');
+                    newsvg.setAttribute('version','1.1');
+                    newsvg.style.width=this.EStartX-e.x+22;
+                    newsvg.style.height=this.EStartY-e.y+22;
+                    //newsvg.style.border = "solid 1px red";
+                    newsvg.style.position = "absolute";
+                    newsvg.style.left=e.x-11+'';
+                    newsvg.style.top=e.y+document.documentElement.scrollTop-11+'';
+                    newline.setAttribute('x1',this.EStartX-e.x+11);
+                    newline.setAttribute('y1',this.EStartY-e.y+11);
+                    newline.setAttribute('x2','11');
+                    newline.setAttribute('y2','11');
+                    this.lineStartX=newsvg.style.width;
+                    this.lineStartY=newsvg.style.height;
+                    this.lineEndX=0;
+                    this.lineEndY=0;
+                    this.svgLeft=newsvg.style.left;
+                    this.svgTop=newsvg.style.top;
+                }
+                //左下
+                if(e.x<this.EStartX&&e.y>this.EStartY){
+                    newsvg.setAttribute('xmlns','http://www.w3.org/2000/svg');
+                    newsvg.setAttribute('version','1.1');
+                    newsvg.style.width=this.EStartX-e.x+22;
+                    newsvg.style.height=e.y-this.EStartY+22;
+                    /*
+                    newdiv.style.left=this.lineStartX-newdiv.width+"px";
+                    newdiv.style.top=this.lineStartY+document.documentElement.scrollTop+"px";
+                    */
+                    //newsvg.style.border = "solid 1px red";
+                    newsvg.style.position = "absolute";
+                    newsvg.style.left=e.x-11+'';
+                    newsvg.style.top=this.EStartY+document.documentElement.scrollTop-11+'';
+                    newline.setAttribute('x1',this.EStartX-e.x+11);
+                    newline.setAttribute('y1','11');
+                    newline.setAttribute('x2','11');
+                    newline.setAttribute('y2',e.y-this.EStartY+11);
+                    this.lineStartX=newsvg.style.width;
+                    this.lineStartY=0;
+                    this.lineEndX=0;
+                    this.lineEndY=newsvg.style.height;
+                    this.svgLeft=newsvg.style.left;
+                    this.svgTop=newsvg.style.top;
+                }
+                //右上
+                if(e.x>this.EStartX&&e.y<this.EStartY){
+                    newsvg.setAttribute('xmlns','http://www.w3.org/2000/svg');
+                    newsvg.setAttribute('version','1.1')
+                    newsvg.style.width=e.x-this.EStartX+22;
+                    newsvg.style.height=this.EStartY-e.y+22;
+                    /*
+                    newdiv.style.left=this.lineStartX+"px";
+                    newdiv.style.top=this.lineStartY+document.documentElement.scrollTop-newdiv.height+"px";
+                    */
+                    //newsvg.style.border = "solid 1px red";
+                    newsvg.style.position = "absolute";
+                    newsvg.style.left=this.EStartX-11+'';
+                    newsvg.style.top=e.y+document.documentElement.scrollTop-11+'';
+                    newline.setAttribute('x1','11');
+                    newline.setAttribute('y1',this.EStartY-e.y+11);
+                    newline.setAttribute('x2',e.x-this.EStartX+11);
+                    newline.setAttribute('y2','11');
+                    this.lineStartX=0;
+                    this.lineStartY=newsvg.style.height;
+                    this.lineEndX=newsvg.style.width;
+                    this.lineEndY=0;
+                    this.svgLeft=newsvg.style.left;
+                    this.svgTop=newsvg.style.top;
+                }
+                //右下
+                if(e.x>this.EStartX&&e.y>this.EStartY){
+                    /*
+                    newdiv.style.left=this.lineStartX+"px";
+                    newdiv.style.top=this.lineStartY+document.documentElement.scrollTop+"px";
+                    */
+                    newsvg.setAttribute('xmlns','http://www.w3.org/2000/svg');
+                    newsvg.setAttribute('version','1.1')
+                    //newsvg.style.border = "solid 1px red";
+                    newsvg.style.width=e.x-this.EStartX+22;
+                    newsvg.style.height=e.y-this.EStartY+22;
+                    newsvg.style.position = "absolute";
+                    newsvg.style.left=this.EStartX-11+'';
+                    newsvg.style.top=this.EStartY+document.documentElement.scrollTop-11+'';
+                    newline.setAttribute('x1',11);
+                    newline.setAttribute('y1',11);
+                    newline.setAttribute('x2',e.x-this.EStartX+11);
+                    newline.setAttribute('y2',e.y-this.EStartY+11);
+                    this.lineStartX=0;
+                    this.lineStartY=0;
+                    this.lineEndX=newsvg.style.width;
+                    this.lineEndY=newsvg.style.height;
+                    this.svgLeft=newsvg.style.left;
+                    this.svgTop=newsvg.style.top;
+                }
+                this.svgWid=newsvg.style.width;
+                this.svgHei=newsvg.style.height
+                console.log(newsvg);
+            }
         }
-    }
+    },
 };
 </script>
 
@@ -246,5 +565,6 @@ export default {
     height: 600px;
     border: 1px solid grey;
     background: url("../../assets/grid.png") repeat;
+    z-index: 0;
 }
 </style>

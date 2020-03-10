@@ -13,6 +13,13 @@ export default new Vuex.Store({
         editing: false, //是否正在处于编辑状态（禁用其他功能）
         editingId: "", //当前编辑组件（显示功能）
         lineEditing: false,
+        drawLine:false,
+        lineType:"",
+        lineStyle:"",
+        lineColor:"",
+        lineSize:"",
+        lineSA:"",
+        lineEA:"",
         lineEditId: "",
         autoId: 100, // max of all TODO init
         UML: {
@@ -78,6 +85,7 @@ export default new Vuex.Store({
                               name: "comment"
                           }
                       },
+                      */
                       {
                           id: "33",
                           type: "Composition",
@@ -92,32 +100,48 @@ export default new Vuex.Store({
                               condition: "condition"
                           }
                       }
-                     */
             ],
-            lines: [{
-                line: "1",
-                relationType: "xbrokrn",
-                from: "29",
-                to: "30",
-                text: "",
-                startposition: {
-                    left: 0,
-                    top: 30,
-                    arrow: "",
-                    position: "",
-                },
-                endpostion: {
-                    left: 250,
-                    top: 30,
-                    arrow: "",
-                    position: ""
-                },
-                styles: {
-                    stroke: "#409EFF",
-                    strokeDasharray: "10,10", //虚线之类的
-                    strokeWidth: "3" //固定几种
+            lines: [
+
+                {
+                    Id:"1",
+                    svgId: "line1",
+                    lineId: "line1",
+                    relationType: "xbrokrn",
+                    from: "29",
+                    to: "30",
+                    text: "",
+                    markerStart:'url(#arrow2)',
+                    markerEnd:'url(#arrow1)',
+                    lineList:[[10,200],[20,200],[20,100],[300,100]],
+                    startPosition: {
+                        left: 10,
+                        top: 200,
+                        direction: "",
+                    },
+                    endPosition: {
+                        left: 300,
+                        top: 100,
+                        direction: ""
+                    },
+                    styles: {
+                        stroke: "#409EFF",
+                        strokeDasharray: "20,10,5,10", //虚线之类的
+                        strokeWidth: "3px" //固定几种
+                    },
+                    svgStyle:{
+                        position:'absolute',
+                        width:"311px",
+                        height:"311px",
+                        left:"317px",
+                        top:"191px",
+                    }
                 }
-            }]
+
+            ],
+            newlines:[
+
+            ],
         },
         histories: [] //循环队列实现
     },
@@ -140,13 +164,65 @@ export default new Vuex.Store({
         },
         //初始化图数据/多人协作同步图数据
         setUML(state, params) {},
+        setDrawLine(state, params) {
+            //console.log("setEditState");
+            state.drawLine = params.drawLine;
+        },
+        setEditState(state, params) {
+            //console.log("setEditState");
+            state.editing = params.editing;
+        },
+        setEditId(state, params) {
+            console.log("setEditId", params);
+            state.editingId = params.id;
+        },
+        setLineEditState(state, params) {
+            //console.log("setEditState");
+            state.lineEditing = params.lineEditing;
+        },
+        setLineEditId(state, params) {
+            console.log("setLineEditId", params);
+            state.lineEditId = params.id;
+        },
+        //初始化线条颜色
+        setLineColor(state, params) {
+            console.log("setLineColor", params);
+            state.lineColor = params.lineColor;
+        },
+        //初始化线条类型
+        setLineType(state, params) {
+            console.log("setLineType", params);
+            state.lineType = params.lineType;
+        },
+        //初始化线条样式
+        setLineStyle(state, params) {
+            console.log("setLineStyle", params);
+            state.lineStyle = params.lineStyle;
+        },
+        //初始化线条宽度
+        setLineSize(state, params) {
+            console.log("setLineSize", params);
+            state.lineSize = params.lineSize;
+        },
+        //初始化线条开端样式
+        setLineSA(state, params) {
+            console.log("setLineSA", params);
+            state.lineSA = params.lineSA;
+        },
+        //初始化线条终端样式
+        setLineEA(state, params) {
+            console.log("setLineEA", params);
+            state.lineEA = params.lineEA;
+        },
         //增加节点数据
         addNode(state, params) {
             //console.log("params:"+state.UML.nodes);
             state.UML.nodes.push(params);
         },
         //增加线条数据
-        addLine(state, params) {},
+        addLine(state, params) {
+            state.UML.newlines.push(params);
+        },
         //删除节点数据
         removeNode(state, params) {
             for (var i = 0; i < state.UML.nodes.length; i++) {
@@ -311,22 +387,6 @@ export default new Vuex.Store({
         backward(state) {},
         //前进
         forward(state) {},
-        setEditState(state, params) {
-            //console.log("setEditState");
-            state.editing = params.editing;
-        },
-        setEditId(state, params) {
-            console.log("setEditId", params);
-            state.editingId = params.id;
-        },
-        setLineEditState(state, params) {
-            //console.log("setEditState");
-            state.lineEditing = params.lineEditing;
-        },
-        setLineEditId(state, params) {
-            console.log("setLineEditId", params);
-            state.lineEditId = params.id;
-        }
     },
     actions: {
         addNode({
@@ -387,6 +447,33 @@ export default new Vuex.Store({
                 }).catch(function (error) {
                     console.log("error:" + error);
                 })
+        },
+        addLine({
+                    commit,
+                    state
+                }, params) {
+            axios.post("/addLine", {
+                uid: state.UML.userId,
+                gid: state.UML.groupId ? state.UML.groupId : -1,
+                fid: state.UML.UMLId,
+                lineId:params.Id,
+                relationType:params.relationType,
+                fromId:params.from,
+                toId:params.to,
+                text:params.text,
+                marketStart:params.marketStart,
+                marketEnd:params.marketEnd,
+                lineList:params.lineList,
+                startPosition:params.startPosition,
+                endPosition:params.endPosition,
+                lineStyle:params.lineStyle,
+                lineSvgStyle:params.lineSvgStyle,
+            })
+                .then(function (response) {
+                    commit("addLine", params);
+                }).catch(function (error) {
+                console.log("error:" + error);
+            })
         },
     }
 });
