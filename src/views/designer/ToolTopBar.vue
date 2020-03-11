@@ -10,13 +10,13 @@
             <el-color-picker
                     v-model="lcolor"
                     size="mini"
-                    style="display:inline-flex;left:21%;position:absolute;width:5%;margin: -0.5% 1% 0 1%"
+                    style="display:inline-flex;left:16%;position:absolute;width:3%;margin: -0.5% 1% 0 1%"
                     @change="linecolor"></el-color-picker>
             <el-tooltip content="创建线条" placement="top">
                 <el-button round
                            id="createline"
                            @click="createline()"
-                           style="display:inline-flex;left:28%;position:absolute;width:auto;margin: -0.5% 1% 0 1%"
+                           style="display:inline-flex;left:19%;position:absolute;width:8%;margin: -1% 1% 0 1%"
                            v-show="create">创建线条</el-button>
             </el-tooltip>
             <el-tooltip content="线条类型" placement="top">
@@ -24,7 +24,7 @@
                         id="lineType"
                         v-model="lineType"
                         placeholder="线条类型"
-                        style="width: 110px;height: 40px;position:absolute;left:40%;background-image:url('../../assets/image/straight.png');"
+                        style="width: 8%;height: 40px;position:absolute;left:28%;margin: -1% 1% 0 1%"
                         @change="linetype(lineType)">
                     <el-option
                             v-for="item in options"
@@ -43,7 +43,7 @@
                         id="lineSize"
                         v-model="lineSize"
                         placeholder="线宽"
-                        style="width: 100px;height: 40px; position:absolute;left:50.5%"
+                        style="width: 6%;height: 40px;position:absolute;left:37%;margin: -1% 1% 0 1%"
                         @change="linesize(lineSize)"
                 >
                     <el-option
@@ -60,7 +60,7 @@
                         id="lineStyle"
                         v-model="lineStyle"
                         placeholder="线条样式"
-                        style="width: 200px;height: 40px;position:absolute;left:60%"
+                        style="width: 15%;height: 40px;position:absolute;left:44%;margin: -1% 1% 0 1%"
                         @change="linestyle(lineStyle)"
                 >
                     <el-option
