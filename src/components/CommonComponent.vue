@@ -2,7 +2,7 @@
 export default {
     name: "CommonComponent",
     props: {
-        id: String,
+        id: Number,
         type: String, // e.g. class
         styles: Object,
         properties: Object

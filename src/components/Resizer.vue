@@ -55,7 +55,7 @@
 export default {
     name: "Resizer",
     props: {
-        id: String
+        id: Number
     },
     data() {
         return {

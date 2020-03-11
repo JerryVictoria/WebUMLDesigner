@@ -33,12 +33,6 @@ import CommonComponent from "../CommonComponent.vue";
 export default {
     name: "Character",
     extends: CommonComponent,
-    props: {
-        id: String,
-        type: String, // e.g. class
-        styles: Object,
-        properties: Object
-    },
     data() {
         return {
             name: ""

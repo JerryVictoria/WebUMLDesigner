@@ -13,13 +13,13 @@ export default new Vuex.Store({
         editing: false, //是否正在处于编辑状态（禁用其他功能）
         editingId: "", //当前编辑组件（显示功能）
         lineEditing: false,
-        drawLine:false,
-        lineType:"",
-        lineStyle:"",
-        lineColor:"",
-        lineSize:"",
-        lineSA:"",
-        lineEA:"",
+        drawLine: false,
+        lineType: "",
+        lineStyle: "",
+        lineColor: "",
+        lineSize: "",
+        lineSA: "",
+        lineEA: "",
         lineEditId: "",
         autoId: 100, // max of all TODO init
         UML: {
@@ -102,42 +102,45 @@ export default new Vuex.Store({
                       }
                        */
             ],
-            lines: [
-                {
-                    Id:"1",
-                    svgId: "svg1",
-                    lineId: "line1",
-                    relationType: "xbrokrn",
-                    from: "29",
-                    to: "30",
-                    text: "",
-                    markerstart:'url(#arrow2)',
-                    markerend:'url(#arrow1)',
-                    lineList:[[10,200],[20,200],[20,100],[300,100]],
-                    startPosition: {
-                        left: 10,
-                        top: 200,
-                        direction: "",
-                    },
-                    endPosition: {
-                        left: 300,
-                        top: 100,
-                        direction: ""
-                    },
-                    lineStyle: {
-                        stroke: "#409EFF",
-                        strokeDasharray: "20,10,5,10", //虚线之类的
-                        strokeWidth: "3px" //固定几种
-                    },
-                    lineSvgStyle:{
-                        position:'absolute',
-                        width:"311px",
-                        height:"311px",
-                        left:"317px",
-                        top:"191px",
-                    }
+            lines: [{
+                Id: "1",
+                svgId: "svg1",
+                lineId: "line1",
+                relationType: "xbrokrn",
+                from: "29",
+                to: "30",
+                text: "",
+                markerstart: 'url(#arrow2)',
+                markerend: 'url(#arrow1)',
+                lineList: [
+                    [10, 200],
+                    [20, 200],
+                    [20, 100],
+                    [300, 100]
+                ],
+                startPosition: {
+                    left: 10,
+                    top: 200,
+                    direction: "",
+                },
+                endPosition: {
+                    left: 300,
+                    top: 100,
+                    direction: ""
+                },
+                lineStyle: {
+                    stroke: "#409EFF",
+                    strokeDasharray: "20,10,5,10", //虚线之类的
+                    strokeWidth: "3px" //固定几种
+                },
+                lineSvgStyle: {
+                    position: 'absolute',
+                    width: "311px",
+                    height: "311px",
+                    left: "317px",
+                    top: "191px",
                 }
-            ],
+            }],
 
         },
         histories: [] //循环队列实现
@@ -356,7 +359,7 @@ export default new Vuex.Store({
             //TODO如果修改数值和上一次一样，记录为未修改
             var modifiedFlag = false;
             for (var i = 0, l = state.UML.lines.length; i < l; i++) {
-                console.log("for:"+state.UML.lines[i][param.lineKey]);
+                console.log("for:" + state.UML.lines[i][param.lineKey]);
                 console.log(state.UML.lines[i].line);
                 console.log(param.id);
                 if (state.UML.lines[i].Id == param.id) {
@@ -367,7 +370,7 @@ export default new Vuex.Store({
                         }
                         break;
                     } else {
-                        alert("lineKey:"+state.UML.lines[i][param.lineKey][param.key]);
+                        alert("lineKey:" + state.UML.lines[i][param.lineKey][param.key]);
                         alert(param.value);
                         if (state.UML.lines[i][param.lineKey][param.key] != (param.value + "")) {
                             console.log(state.UML.lines[i]);
@@ -422,15 +425,24 @@ export default new Vuex.Store({
         modifyNode({
             commit
         }, params) {
-            var keys = params.key instanceof Array ? params.key : [].push(params.key);
-            var values = params.value instanceof Array ? params.value : [].push(params.value);
-            axios.get("/updateNode", {
-                    params: {
-                        nid: params.id,
-                        nodeKey: params.nodeKey,
-                        key: keys,
-                        value: values
-                    }
+            var keys = [];
+            var values = [];
+            if (params.key instanceof Array) {
+                keys = params.key;
+            } else {
+                keys.push(params.key);
+            }
+            if (params.value instanceof Array) {
+                values = params.value;
+            } else {
+                values.push(params.value);
+            }
+            console.log(keys, values);
+            axios.post("/updateNode", {
+                    nid: params.id,
+                    nodeKey: params.nodeKey,
+                    key: keys,
+                    value: values
                 })
                 .then(function (response) {
                     commit("modifyNode", params);
@@ -455,57 +467,57 @@ export default new Vuex.Store({
                 })
         },
         addLine({
-                    commit,
-                    state
-                }, params) {
+            commit,
+            state
+        }, params) {
             axios.post("/addLine", {
-                uid: state.UML.userId,
-                gid: state.UML.groupId ? state.UML.groupId : -1,
-                fid: state.UML.UMLId,
-                lineId:parseInt(params.Id),
-                relationType:params.relationType,
-                fromId:params.from,
-                toId:params.to,
-                text:params.text,
-                markerStart:"url(#arrow2)",
-                markerEnd:"url(#arrow1)",
-                lineList:params.lineList,
-                startPosition:params.startPosition,
-                endPosition:params.endPosition,
-                lineStyle:params.lineStyle,
-                lineSvgStyle:params.lineSvgStyle,
-            })
+                    uid: state.UML.userId,
+                    gid: state.UML.groupId ? state.UML.groupId : -1,
+                    fid: state.UML.UMLId,
+                    lineId: parseInt(params.Id),
+                    relationType: params.relationType,
+                    fromId: params.from,
+                    toId: params.to,
+                    text: params.text,
+                    markerStart: "url(#arrow2)",
+                    markerEnd: "url(#arrow1)",
+                    lineList: params.lineList,
+                    startPosition: params.startPosition,
+                    endPosition: params.endPosition,
+                    lineStyle: params.lineStyle,
+                    lineSvgStyle: params.lineSvgStyle,
+                })
                 .then(function (response) {
                     commit("addLine", params);
                 }).catch(function (error) {
-                console.log("error:" + error);
-            })
+                    console.log("error:" + error);
+                })
         },
         modifyLine({
-                       commit
-                   }, params) {
+            commit
+        }, params) {
             axios.get("/updateLine", {
-                params: {
-                    //@TODO
-                    lineId:parseInt(params.Id),
-                    relationType:params.relationType,
-                    fromId:params.from,
-                    toId:params.to,
-                    text:params.text,
-                    markerStart:"url(#arrow2)",
-                    markerEnd:"url(#arrow1)",
-                    lineList:params.lineList,
-                    startPosition:params.startPosition,
-                    endPosition:params.endPosition,
-                    lineStyle:params.lineStyle,
-                    lineSvgStyle:params.lineSvgStyle,
-                }
-            })
+                    params: {
+                        //@TODO
+                        lineId: parseInt(params.Id),
+                        relationType: params.relationType,
+                        fromId: params.from,
+                        toId: params.to,
+                        text: params.text,
+                        markerStart: "url(#arrow2)",
+                        markerEnd: "url(#arrow1)",
+                        lineList: params.lineList,
+                        startPosition: params.startPosition,
+                        endPosition: params.endPosition,
+                        lineStyle: params.lineStyle,
+                        lineSvgStyle: params.lineSvgStyle,
+                    }
+                })
                 .then(function (response) {
                     commit("modifyNode", params);
                 }).catch(function (error) {
-                console.log("error:" + error);
-            })
+                    console.log("error:" + error);
+                })
         },
     }
 });

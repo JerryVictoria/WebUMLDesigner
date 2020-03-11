@@ -83,12 +83,6 @@ export default {
     components: {
         ClassContentEditor
     },
-    props: {
-        id: String,
-        type: String, // e.g. class
-        styles: Object,
-        properties: Object
-    },
     data() {
         return {
             classTypeOptions: classTypeOptions,
