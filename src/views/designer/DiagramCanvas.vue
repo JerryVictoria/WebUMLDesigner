@@ -35,7 +35,8 @@
                         version="1.1"
                         v-for="line in $store.state.UML.lines"
                         :key="line.lineId"
-                        :style="line.svgStyle"
+                        :style="line.lineSvgStyle"
+                        :id="line.svgId"
                         >
 
                     <defs>
@@ -51,15 +52,18 @@
                             :y1="line.startPosition.top"
                             :x2="line.endPosition.left"
                             :y2="line.endPosition.top"
-                            :style="line.styles"
+                            :style="line.lineStyle"
                             :id="line.lineId"
-                            :marker-end="line.markerEnd"
-                            :marker-start="line.markerStart"
-                            v-clickoutside="editline(line.lineId)"
+                            :marker-end="line.markerend"
+                            :marker-start="line.markerstart"
                     />
+                    <!--
+                            @click.stop="editline(line.lineId)"
+                            v-clickoutside="clic()"
+                            -->
                     </svg>
              </div>
-        <ContextMenu v-show="showMenu" id="menu" @hide-menu="clickOutSide"></ContextMenu>
+        <ContextMenu v-show="showMenu" style="zIndex:4" id="menu" @hide-menu="clickOutSide"></ContextMenu>
     </div>
 </template>
 
@@ -157,10 +161,10 @@ export default {
             lineEndX:0,
             lineEndY:0,
             linenumber:0,
-            lineType:'',
+            lineType:'straight',
             lineText:'',
-            From:'',
-            To:'',
+            From:'29',
+            To:'30',
             lineStartA:'',
             lineStartD:'',
             lineEndA:'',
@@ -172,16 +176,22 @@ export default {
         };
     },
     mounted(){
+        //@TODO: 进入页面时加载已有节点和线条等信息
     },
     methods: {
         showContextMenu(id, event) {
-            console.log("showContextMenu");
-            this.showMenu = true;
             var menu = $("#menu");
+            this.showMenu = true;
             menu.css("left", event.clientX);
             menu.css("top", event.clientY);
             menu.css("position", "fixed");
-            this.$store.commit("setEditId", { id: id });
+            if(id.toString().contains("line")){
+                console.log("lineshowContextMenu");
+            }else{
+                console.log("showContextMenu");
+                this.showMenu = true;
+                this.$store.commit("setEditId", { id: id });
+            }
         },
         clickOutSide() {
             console.log("clickOutSide");
@@ -309,6 +319,7 @@ export default {
             console.log($(event.target));
             if(this.$store.state.drawLine&&this.mousedown&&this.$store.state.editingId==""){
                 console.log("lineUp:"+this.$store.state.drawLine+":"+this.$store.state.editingId);
+                document.getElementById("visualEditor").removeChild(document.getElementById("svg"+this.linenumber));
                 this.mousedown=false;
                 this.$store.commit("setDrawLine",{drawLine:false});
                 //console.log("mouseUp");
@@ -322,27 +333,37 @@ export default {
                     from:this.From,
                     to:this.To,
                     text:this.lineText,
-                    markerEnd:'url(#endarrow'+this.linenumber+')',
-                    markerStart:'url(#startarrow'+this.linenumber+')',
+                    markerend:'url(#arrow1)',
+                    markerstart:'url(#arrow2)',
                     //@TODO 添加linelist
+                    lineList:[
+                        {left:this.lineStartX,
+                        top:this.lineStartY,
+                        //arrow:this.lineStartA,
+                        direction:this.lineStartD},
+                        {left:this.lineEndX,
+                            top:this.lineEndY,
+                            //arrow:this.lineEndA,
+                            direction:this.lineEndD}
+                            ],
                     startPosition:{
                         left:this.lineStartX,
                         top:this.lineStartY,
-                        arrow:this.lineStartA,
+                        //arrow:this.lineStartA,
                         direction:this.lineStartD
                     },
                     endPosition:{
                         left:this.lineEndX,
                         top:this.lineEndY,
-                        arrow:this.lineEndA,
+                        //arrow:this.lineEndA,
                         direction:this.lineEndD
                     },
-                    styles: {
+                    lineStyle: {
                         stroke:this.$store.state.lineColor,
                         strokeDasharray:this.$store.state.lineStyle,
                         strokeWidth:this.$store.state.lineSize
                     },
-                    svgStyle:{
+                    lineSvgStyle:{
                         position:'absolute',
                         width:this.svgWid,
                         height:this.svgHei,
@@ -350,9 +371,10 @@ export default {
                         top:this.svgTop
                     }
                 };
-                console.log(newline);
+                //console.log(newline);
+                //this.$store.commit("addLine",newline);
                 this.$store.dispatch("addLine",newline);
-                console.log(this.$store.state.UML.newlines);
+                //console.log(this.$store.state.UML.newlines);
                 this.lineStartX=0;
                 this.lineStartY=0;
                 document.body.removeEventListener(
@@ -384,7 +406,7 @@ export default {
                 };
                 this.EStartX=e.x;
                 this.EStartY=e.y;
-                this.linenumber=this.$store.state.UML.lines.length+1+this.$store.state.UML.newlines.length
+                this.linenumber=this.$store.state.UML.lines.length+1
                 console.log("Estartx:"+this.EStartX);
                 console.log("Estarty:"+this.EStartY);
                 var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -460,10 +482,10 @@ export default {
                     newline.setAttribute('y1',this.EStartY-e.y+11);
                     newline.setAttribute('x2','11');
                     newline.setAttribute('y2','11');
-                    this.lineStartX=newsvg.style.width;
-                    this.lineStartY=newsvg.style.height;
-                    this.lineEndX=0;
-                    this.lineEndY=0;
+                    this.lineStartX=this.EStartX-e.x+11;
+                    this.lineStartY=this.EStartY-e.y+11;
+                    this.lineEndX=11;
+                    this.lineEndY=11;
                     this.svgLeft=newsvg.style.left;
                     this.svgTop=newsvg.style.top;
                 }
@@ -485,10 +507,10 @@ export default {
                     newline.setAttribute('y1','11');
                     newline.setAttribute('x2','11');
                     newline.setAttribute('y2',e.y-this.EStartY+11);
-                    this.lineStartX=newsvg.style.width;
-                    this.lineStartY=0;
-                    this.lineEndX=0;
-                    this.lineEndY=newsvg.style.height;
+                    this.lineStartX=this.EStartX-e.x+11;
+                    this.lineStartY=11;
+                    this.lineEndX=11;
+                    this.lineEndY=e.y-this.EStartY+11;
                     this.svgLeft=newsvg.style.left;
                     this.svgTop=newsvg.style.top;
                 }
@@ -510,10 +532,10 @@ export default {
                     newline.setAttribute('y1',this.EStartY-e.y+11);
                     newline.setAttribute('x2',e.x-this.EStartX+11);
                     newline.setAttribute('y2','11');
-                    this.lineStartX=0;
-                    this.lineStartY=newsvg.style.height;
-                    this.lineEndX=newsvg.style.width;
-                    this.lineEndY=0;
+                    this.lineStartX=11;
+                    this.lineStartY=this.EStartY-e.y+11;
+                    this.lineEndX=e.x-this.EStartX+11;
+                    this.lineEndY=11;
                     this.svgLeft=newsvg.style.left;
                     this.svgTop=newsvg.style.top;
                 }
@@ -535,10 +557,10 @@ export default {
                     newline.setAttribute('y1',11);
                     newline.setAttribute('x2',e.x-this.EStartX+11);
                     newline.setAttribute('y2',e.y-this.EStartY+11);
-                    this.lineStartX=0;
-                    this.lineStartY=0;
-                    this.lineEndX=newsvg.style.width;
-                    this.lineEndY=newsvg.style.height;
+                    this.lineStartX=11;
+                    this.lineStartY=11;
+                    this.lineEndX=e.x-this.EStartX+11;
+                    this.lineEndY=e.y-this.EStartY+11;
                     this.svgLeft=newsvg.style.left;
                     this.svgTop=newsvg.style.top;
                 }
@@ -546,6 +568,9 @@ export default {
                 this.svgHei=newsvg.style.height
                 console.log(newsvg);
             }
+        },
+        clic(){
+            console.log("ddddddddd");
         }
     },
 };

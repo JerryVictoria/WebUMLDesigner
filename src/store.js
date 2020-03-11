@@ -102,17 +102,17 @@ export default new Vuex.Store({
                       }
             ],
             lines: [
-
+                /*
                 {
                     Id:"1",
-                    svgId: "line1",
+                    svgId: "svg1",
                     lineId: "line1",
                     relationType: "xbrokrn",
                     from: "29",
                     to: "30",
                     text: "",
-                    markerStart:'url(#arrow2)',
-                    markerEnd:'url(#arrow1)',
+                    markerstart:'url(#arrow2)',
+                    markerend:'url(#arrow1)',
                     lineList:[[10,200],[20,200],[20,100],[300,100]],
                     startPosition: {
                         left: 10,
@@ -124,12 +124,12 @@ export default new Vuex.Store({
                         top: 100,
                         direction: ""
                     },
-                    styles: {
+                    lineStyle: {
                         stroke: "#409EFF",
                         strokeDasharray: "20,10,5,10", //虚线之类的
                         strokeWidth: "3px" //固定几种
                     },
-                    svgStyle:{
+                    lineSvgStyle:{
                         position:'absolute',
                         width:"311px",
                         height:"311px",
@@ -137,11 +137,9 @@ export default new Vuex.Store({
                         top:"191px",
                     }
                 }
-
+                */
             ],
-            newlines:[
 
-            ],
         },
         histories: [] //循环队列实现
     },
@@ -221,7 +219,8 @@ export default new Vuex.Store({
         },
         //增加线条数据
         addLine(state, params) {
-            state.UML.newlines.push(params);
+            console.log(params);
+            state.UML.lines.push(params);
         },
         //删除节点数据
         removeNode(state, params) {
@@ -393,6 +392,7 @@ export default new Vuex.Store({
             commit,
             state
         }, params) {
+            //alert(state.UML.userId);
             axios.post("/addNode", {
                     uid: state.UML.userId,
                     gid: state.UML.groupId ? state.UML.groupId : -1,
@@ -456,13 +456,13 @@ export default new Vuex.Store({
                 uid: state.UML.userId,
                 gid: state.UML.groupId ? state.UML.groupId : -1,
                 fid: state.UML.UMLId,
-                lineId:params.Id,
+                lineId:parseInt(params.Id),
                 relationType:params.relationType,
                 fromId:params.from,
                 toId:params.to,
                 text:params.text,
-                marketStart:params.marketStart,
-                marketEnd:params.marketEnd,
+                markerStart:"url(#arrow2)",
+                markerEnd:"url(#arrow1)",
                 lineList:params.lineList,
                 startPosition:params.startPosition,
                 endPosition:params.endPosition,
