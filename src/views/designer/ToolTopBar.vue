@@ -204,14 +204,24 @@
                 this.create=true;
             },
             linecolor(){
-                if(this.$store.state.lineEditingId!=""){
+                if(this.$store.state.lineEditId!=""){
                     console.log('linecolor'+this.lcolor);
-                    console.log('lineid'+this.$store.state.lineEditingId);
-                    this.$store.commit("modifyLine", {
-                        lineKey: "styles",
+                    console.log('lineid'+this.$store.state.lineEditId);
+                    console.log(this.$store.state.UML.lines);
+                    for(var i=0;i<this.$store.state.UML.lines.length;i++){
+                        if(this.$store.state.UML.lines[i].Id==this.$store.state.lineEditId){
+                            var line=this.$store.state.UML.lines[i];
+                            console.log(line);
+                        }
+                    }
+                    line.lineStyle.stroke=this.lcolor;
+                    console.log(line);
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "lineStyle",
                         key: "stroke",
                         value: this.lcolor,
-                        id: this.$store.state.lineEditId
+                        id: this.$store.state.lineEditId,
+                        Line:line
                     });
                 }
                 this.$store.commit("setLineColor", {
@@ -234,14 +244,14 @@
                         style='20,10,5,10';
                         break;
                 }
-                if(this.$store.state.lineEditingId!=""){
+                if(this.$store.state.lineEditId!=""){
                     console.log('linestyle'+this.style);
-                    console.log('lineid'+this.$store.state.lineEditingId);
+                    console.log('lineid'+this.$store.state.lineEditId);
                     this.$store.commit("modifyLine", {
-                        lineKey: "styles",
+                        lineKey: "lineStyle",
                         key: "strokeDasharray",
                         value: style,
-                        id: this.$store.state.lineEditId
+                        Id: this.$store.state.lineEditId
                     });
                 }
                 this.$store.commit("setLineStyle", {
@@ -249,11 +259,11 @@
                 })
             },
             linesize(size){
-                if(this.$store.state.lineEditingId!=""){
+                if(this.$store.state.lineEditId!=""){
                     console.log('linesize:'+this.lineSize);
-                    console.log('lineid'+this.$store.state.lineEditingId);
+                    console.log('lineid'+this.$store.state.lineEditId);
                     this.$store.commit("modifyLine", {
-                        lineKey: "styles",
+                        lineKey: "lineStyle",
                         key: "strokeWidth",
                         value: size,
                         id: this.$store.state.lineEditId

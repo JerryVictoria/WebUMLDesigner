@@ -85,7 +85,7 @@ export default new Vuex.Store({
                               name: "comment"
                           }
                       },
-                      */
+
                       {
                           id: "33",
                           type: "Composition",
@@ -100,9 +100,9 @@ export default new Vuex.Store({
                               condition: "condition"
                           }
                       }
+                       */
             ],
             lines: [
-                /*
                 {
                     Id:"1",
                     svgId: "svg1",
@@ -137,7 +137,6 @@ export default new Vuex.Store({
                         top:"191px",
                     }
                 }
-                */
             ],
 
         },
@@ -232,7 +231,14 @@ export default new Vuex.Store({
             }
         },
         //删除线条数据
-        removeLine(state, params) {},
+        removeLine(state, params) {
+            for (var i = 0; i < state.UML.lines.length; i++) {
+                if (state.UML.lines[i].Id == params.id) {
+                    state.UML.lines.splice(i, 1);
+                    break;
+                }
+            }
+        },
         //专门用于移动结点[移动的过程]
         moveNode(state, params) {
             for (var i = 0, l = state.UML.nodes.length; i < l; i++) {
@@ -350,11 +356,10 @@ export default new Vuex.Store({
             //TODO如果修改数值和上一次一样，记录为未修改
             var modifiedFlag = false;
             for (var i = 0, l = state.UML.lines.length; i < l; i++) {
-                //console.log("for:"+state.UML.lines[i][param.lineKey]);
-                //console.log(state.UML.lines[i].line);
-                //console.log(param.id);
-                if (state.UML.lines[i].line == param.id) {
-                    //console.log("lineKey:"+state.UML.lines[i])
+                console.log("for:"+state.UML.lines[i][param.lineKey]);
+                console.log(state.UML.lines[i].line);
+                console.log(param.id);
+                if (state.UML.lines[i].Id == param.id) {
                     if (param.key === '') {
                         if (state.UML.lines[i][param.lineKey] != param.value) {
                             modifiedFlag = true;
@@ -362,9 +367,10 @@ export default new Vuex.Store({
                         }
                         break;
                     } else {
-                        //console.log("key")
+                        alert("lineKey:"+state.UML.lines[i][param.lineKey][param.key]);
+                        alert(param.value);
                         if (state.UML.lines[i][param.lineKey][param.key] != (param.value + "")) {
-                            //console.log(state.UML.lines[i]);
+                            console.log(state.UML.lines[i]);
                             state.UML.lines[i][param.lineKey][param.key] = (param.value + "");
                             modifiedFlag = true;
                         }
@@ -471,6 +477,32 @@ export default new Vuex.Store({
             })
                 .then(function (response) {
                     commit("addLine", params);
+                }).catch(function (error) {
+                console.log("error:" + error);
+            })
+        },
+        modifyLine({
+                       commit
+                   }, params) {
+            axios.get("/updateLine", {
+                params: {
+                    //@TODO
+                    lineId:parseInt(params.Id),
+                    relationType:params.relationType,
+                    fromId:params.from,
+                    toId:params.to,
+                    text:params.text,
+                    markerStart:"url(#arrow2)",
+                    markerEnd:"url(#arrow1)",
+                    lineList:params.lineList,
+                    startPosition:params.startPosition,
+                    endPosition:params.endPosition,
+                    lineStyle:params.lineStyle,
+                    lineSvgStyle:params.lineSvgStyle,
+                }
+            })
+                .then(function (response) {
+                    commit("modifyNode", params);
                 }).catch(function (error) {
                 console.log("error:" + error);
             })

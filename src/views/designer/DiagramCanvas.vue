@@ -56,6 +56,9 @@
                             :id="line.lineId"
                             :marker-end="line.markerend"
                             :marker-start="line.markerstart"
+                            v-clickoutside="clic(line.lineId)"
+                            @click.stop="editline(line.Id)"
+                            @contextmenu.prevent="showContextMenu(line.lineId, $event)"
                     />
                     <!--
                             @click.stop="editline(line.lineId)"
@@ -180,16 +183,19 @@ export default {
     },
     methods: {
         showContextMenu(id, event) {
+            console.log(id);
             var menu = $("#menu");
             this.showMenu = true;
             menu.css("left", event.clientX);
             menu.css("top", event.clientY);
             menu.css("position", "fixed");
-            if(id.toString().contains("line")){
-                console.log("lineshowContextMenu");
+            console.log("showContextMenu");
+            this.showMenu = true;
+            if(id.indexOf("line") != -1){
+                console.log("line:"+id);
+                this.$store.commit("setLineEditId", { id: id });
             }else{
-                console.log("showContextMenu");
-                this.showMenu = true;
+                console.log("node:"+id);
                 this.$store.commit("setEditId", { id: id });
             }
         },
@@ -197,6 +203,8 @@ export default {
             console.log("clickOutSide");
             this.$store.commit("setEditState", { editing: false });
             this.$store.commit("setEditId", { id: "" });
+            this.$store.commit("setLineEditState", { lineEditing: false });
+            this.$store.commit("setLineEditId", { id: "" });
             this.showMenu = false;
         },
         handleDragStart(event) {
@@ -287,15 +295,14 @@ export default {
                 });
             }
         },
-        //@TODO 删除栏showMenu变为false`
+        //@TODO 删除栏showMenu变为false
         changeshowMenu(){
             console.log("changeshowMenu");
             this.showMenu=false;
             console.log(this.showMenu);
         },
         editline(item) {
-            //@TODO 不触发checkoutside，线条的
-            console.log("editline");
+            console.log("editline"+item);
             this.$store.commit("setLineEditState", { lineEditing: true });
             this.$store.commit("setLineEditId", { id: item });
             console.log(this.$store.state.lineEditId);
@@ -372,8 +379,8 @@ export default {
                     }
                 };
                 //console.log(newline);
-                //this.$store.commit("addLine",newline);
-                this.$store.dispatch("addLine",newline);
+                this.$store.commit("addLine",newline);
+                //this.$store.dispatch("addLine",newline);
                 //console.log(this.$store.state.UML.newlines);
                 this.lineStartX=0;
                 this.lineStartY=0;
@@ -569,8 +576,8 @@ export default {
                 console.log(newsvg);
             }
         },
-        clic(){
-            console.log("ddddddddd");
+        clic(item){
+            console.log(item);
         }
     },
 };

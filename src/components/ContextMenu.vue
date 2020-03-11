@@ -14,8 +14,15 @@ export default {
     methods: {
         deleteNode() {
             if (this.$store.state.editingId) {
+                console.log(this.$store.state.editingId);
                 this.$store.dispatch("removeNode", {
                     id: this.$store.state.editingId
+                });
+            }
+            if (this.$store.state.lineEditId) {
+                console.log(this.$store.state.lineEditId);
+                this.$store.commit("removeLine", {
+                    id: this.$store.state.lineEditId
                 });
             }
             this.$emit("hide-menu");
