@@ -334,6 +334,7 @@ export default {
                 document.getElementById("visualEditor").style.cursor="default";
                 var newline = {
                     Id: this.linenumber+"",
+                    lid:0,
                     svgId:"svg"+this.linenumber,
                     lineId: "line"+this.linenumber,
                     relationType: this.lineType,
@@ -379,9 +380,9 @@ export default {
                     }
                 };
                 //console.log(newline);
-                this.$store.commit("addLine",newline);
-                //this.$store.dispatch("addLine",newline);
-                //console.log(this.$store.state.UML.newlines);
+                //this.$store.commit("addLine",newline);
+                this.$store.dispatch("addLine",newline);
+                console.log(this.$store.state.UML.lines);
                 this.lineStartX=0;
                 this.lineStartY=0;
                 document.body.removeEventListener(

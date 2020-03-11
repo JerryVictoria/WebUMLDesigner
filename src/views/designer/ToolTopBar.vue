@@ -214,16 +214,24 @@
                             console.log(line);
                         }
                     }
-                    line.lineStyle.stroke=this.lcolor;
-                    console.log(line);
+                    var style={
+                        stroke: this.lcolor,
+                        strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
+                        strokeWidth: line.lineStyle.strokeWidth //固定几种
+                    }
+                    console.log(this.$store.state.lineEditId);
+                    console.log(this.lcolor)
                     this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
                         key: "stroke",
                         value: this.lcolor,
                         id: this.$store.state.lineEditId,
-                        Line:line
+                        Line:line,
+                        lineStyle:style
                     });
+                    console.log(this.$store.state.UML.lines);
                 }
+
                 this.$store.commit("setLineColor", {
                     lineColor:this.lcolor
                 })
@@ -247,11 +255,24 @@
                 if(this.$store.state.lineEditId!=""){
                     console.log('linestyle'+this.style);
                     console.log('lineid'+this.$store.state.lineEditId);
-                    this.$store.commit("modifyLine", {
+                    for(var i=0;i<this.$store.state.UML.lines.length;i++){
+                        if(this.$store.state.UML.lines[i].Id==this.$store.state.lineEditId){
+                            var line=this.$store.state.UML.lines[i];
+                            console.log(line);
+                        }
+                    }
+                    var style1={
+                        stroke: this.lcolor,
+                        strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
+                        strokeWidth: line.lineStyle.strokeWidth //固定几种
+                    }
+                    this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
                         key: "strokeDasharray",
                         value: style,
-                        Id: this.$store.state.lineEditId
+                        id: this.$store.state.lineEditId,
+                        Line:line,
+                        lineStyle:style1
                     });
                 }
                 this.$store.commit("setLineStyle", {
@@ -262,11 +283,24 @@
                 if(this.$store.state.lineEditId!=""){
                     console.log('linesize:'+this.lineSize);
                     console.log('lineid'+this.$store.state.lineEditId);
-                    this.$store.commit("modifyLine", {
+                    for(var i=0;i<this.$store.state.UML.lines.length;i++){
+                        if(this.$store.state.UML.lines[i].Id==this.$store.state.lineEditId){
+                            var line=this.$store.state.UML.lines[i];
+                            console.log(line);
+                        }
+                    }
+                    var style={
+                        stroke: this.lcolor,
+                        strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
+                        strokeWidth: line.lineStyle.strokeWidth //固定几种
+                    }
+                    this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
                         key: "strokeWidth",
                         value: size,
-                        id: this.$store.state.lineEditId
+                        id: this.$store.state.lineEditId,
+                        Line:line,
+                        lineStyle:style
                     });
                 }
                 this.$store.commit("setLineSize", {

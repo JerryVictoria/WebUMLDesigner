@@ -102,8 +102,11 @@ export default new Vuex.Store({
                       }
                        */
             ],
-            lines: [{
+            lines: [
+                /*
+                {
                 Id: "1",
+                lid:0,
                 svgId: "svg1",
                 lineId: "line1",
                 relationType: "xbrokrn",
@@ -140,7 +143,9 @@ export default new Vuex.Store({
                     left: "317px",
                     top: "191px",
                 }
-            }],
+            }
+            */
+                ],
 
         },
         histories: [] //循环队列实现
@@ -221,8 +226,8 @@ export default new Vuex.Store({
         },
         //增加线条数据
         addLine(state, params) {
-            console.log(params);
             state.UML.lines.push(params);
+            console.log("lineslength"+state.UML.lines.length);
         },
         //删除节点数据
         removeNode(state, params) {
@@ -355,23 +360,25 @@ export default new Vuex.Store({
         },
         //修改线条数据
         modifyLine(state, param) {
+            //alert("modifyLine:"+state.UML.lines.length);
             //console.log("modifyline", param);
             //TODO如果修改数值和上一次一样，记录为未修改
             var modifiedFlag = false;
             for (var i = 0, l = state.UML.lines.length; i < l; i++) {
-                console.log("for:" + state.UML.lines[i][param.lineKey]);
-                console.log(state.UML.lines[i].line);
-                console.log(param.id);
+                //console.log("for:" + state.UML.lines[i][param.lineKey]);
+                //console.log(state.UML.lines[i].line);
+                //alert(param.id+":"+state.UML.lines[i].Id);
                 if (state.UML.lines[i].Id == param.id) {
                     if (param.key === '') {
+                        //alert(param.key);
                         if (state.UML.lines[i][param.lineKey] != param.value) {
                             modifiedFlag = true;
                             state.UML.lines[i][param.lineKey] = param.value;
                         }
                         break;
                     } else {
-                        alert("lineKey:" + state.UML.lines[i][param.lineKey][param.key]);
-                        alert(param.value);
+                        //alert("lineKey:" + state.UML.lines[i][param.lineKey][param.key]);
+                        //alert(param.value);
                         if (state.UML.lines[i][param.lineKey][param.key] != (param.value + "")) {
                             console.log(state.UML.lines[i]);
                             state.UML.lines[i][param.lineKey][param.key] = (param.value + "");
@@ -381,7 +388,7 @@ export default new Vuex.Store({
                     }
                 }
                 //console.log("for");
-                break;
+                //break;
             }
             //TODO历史记录
             if (!modifiedFlag) {
@@ -488,6 +495,8 @@ export default new Vuex.Store({
                     lineSvgStyle: params.lineSvgStyle,
                 })
                 .then(function (response) {
+                    //alert(response);
+                    params.lid=response.data
                     commit("addLine", params);
                 }).catch(function (error) {
                     console.log("error:" + error);
@@ -496,28 +505,34 @@ export default new Vuex.Store({
         modifyLine({
             commit
         }, params) {
-            axios.get("/updateLine", {
-                    params: {
-                        //@TODO
-                        lineId: parseInt(params.Id),
-                        relationType: params.relationType,
-                        fromId: params.from,
-                        toId: params.to,
-                        text: params.text,
-                        markerStart: "url(#arrow2)",
-                        markerEnd: "url(#arrow1)",
-                        lineList: params.lineList,
-                        startPosition: params.startPosition,
-                        endPosition: params.endPosition,
-                        lineStyle: params.lineStyle,
-                        lineSvgStyle: params.lineSvgStyle,
-                    }
-                })
+            //params.lineStyle.key=params.Line.value;
+            //alert(params.Line.lid);
+            axios.post("/updateLine", {
+                    lineId:parseInt(params.Line.Id),
+                    lid:params.Line.lid,
+                    relationType:params.Line.relationType,
+                    fromId:params.Line.from,
+                    toId:params.Line.to,
+                    text:params.Line.text,
+                    markerStart:"url(#arrow2)",
+                    markerEnd:"url(#arrow1)",
+                    lineList:params.Line.lineList,
+                    startPosition:params.Line.startPosition,
+                    endPosition:params.Line.endPosition,
+                    lineStyle:params.lineStyle,
+                    lineSvgStyle:params.Line.lineSvgStyle,
+            })
                 .then(function (response) {
-                    commit("modifyNode", params);
+                    var change={
+                        lineKey: params.lineKey,
+                        key: params.key,
+                        value: params.value,
+                        id: params.id
+                    }
+                    commit("modifyLine", change);
                 }).catch(function (error) {
-                    console.log("error:" + error);
-                })
+                console.log("error:" + error);
+            })
         },
     }
 });
