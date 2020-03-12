@@ -822,3 +822,36 @@ data
                 }
 ```
 
+## node-line
+
+1、增加每个组件提供线的端点位置
+
+```js
+getLineLeftPosition(){
+    //calculate 中点
+    return [{x1,y1}];
+}
+getLineRightPosition(){
+    //calculate 中点
+    return [{x1,y1}];
+}
+getLineTopPosition(){
+    //calculate 中点
+    return [{x1,y1}];
+}
+getLineBottomPosition(){
+    //calculate 中点
+    return [{x1,y1}];
+}
+
+//在DiagramCanvas里取值this.$ref['refname'].方法名字()
+```
+
+2、在DiagramCanvas增加判断取何种位置的方法
+
+```js
+judgeAndGetPosition(id1, id2){
+    return [{x1,y1},{x2,y2}]
+}
+```
+
