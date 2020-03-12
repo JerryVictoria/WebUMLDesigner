@@ -43,6 +43,7 @@
                     :key="item.fid"
                     :fileName="item.fileName"
                     :fid="item.fid"
+                    :fileType="item.fileType"
                 ></SingleFile>
             </div>
         </div>

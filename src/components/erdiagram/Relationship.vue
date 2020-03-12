@@ -7,7 +7,7 @@
         }"
         v-clickoutside="hideInputAndSave"
     >
-        <div style="position: relative">
+        <div>
             <img
                 v-if="isWeak"
                 draggable="false"
@@ -20,13 +20,7 @@
                 :style="{maxWidth: this.width*0.9 + 'px', maxHeight: this.height*0.9 + 'px', display: 'block'}"
                 src="../../assets/strongRelationship.png"
             />
-            <div
-                class="insideContent"
-                :style="{
-                    paddingTop: this.height * 0.4 + 'px',
-                    paddingLeft: this.width * 0.4 + 'px'
-                }"
-            >
+            <div class="insideContent">
                 <div v-if="showInput && id == $store.state.editingId">
                     <el-checkbox v-model="isWeak">弱</el-checkbox>
                     <el-input class="contentSpan" v-model="name" size="mini" :autofocus="true"></el-input>
@@ -95,11 +89,5 @@ export default {
 </script>
 <style scoped>
 .insideContent {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    margin: auto;
 }
 </style>

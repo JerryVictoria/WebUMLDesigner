@@ -1,7 +1,10 @@
 <template>
     <el-card class="fileBlock">
         <div @click="handleClick">
-            <span class="contentSpan omitted">{{fileName}}</span>
+            <span class="contentSpan omitted">
+                {{fileName}}
+                <el-tag size="mini" type="primary">{{types[fileType]}}</el-tag>
+            </span>
             <el-image :src="src" class="fileImg"></el-image>
         </div>
     </el-card>
@@ -22,7 +25,24 @@ export default {
         fid: {
             type: Number,
             default: -1
+        },
+        fileType: {
+            type: String,
+            default: "UML"
         }
+    },
+    data() {
+        return {
+            types: {
+                CLASS_DIAGRAM: "类图",
+                SEQUENCE_DIAGRAM: "顺序图",
+                COMPONENT_DIAGRAM: "组件图",
+                STATE_DIAGRAM: "状态图",
+                USECASE_DIAGRAM: "用例图",
+                DEPLOYMENT_DIAGRAM: "部署图",
+                ER_DIAGRAM: "实体关系图"
+            }
+        };
     },
     methods: {
         handleClick() {
