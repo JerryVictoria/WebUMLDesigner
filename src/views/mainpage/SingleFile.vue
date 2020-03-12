@@ -1,7 +1,9 @@
 <template>
     <el-card class="fileBlock">
-        <span class="contentSpan omitted">{{fileName}}</span>
-        <el-image :src="src" class="fileImg"></el-image>
+        <div @click="handleClick">
+            <span class="contentSpan omitted">{{fileName}}</span>
+            <el-image :src="src" class="fileImg"></el-image>
+        </div>
     </el-card>
 </template>
 <script>
@@ -21,6 +23,33 @@ export default {
             type: Number,
             default: -1
         }
+    },
+    methods: {
+        handleClick() {
+            var self = this;
+            this.$axios
+                .get("/getAllNodeByFid", { params: { fid: self.fid } })
+                .then(function(response) {
+                    console.log(response.data);
+                    self.$store.commit("setUMLNodes", {
+                        nodeList: response.data
+                    });
+                    self.$router.push({ name: "Designer" });
+                })
+                .catch(function(error) {
+                    console.log("error:", error);
+                });
+            this.$axios
+                .get("/getAllLineByFid", { params: { fid: self.fid } })
+                .then(function(response) {
+                    console.log(response.data);
+                    //TODO
+                    //self.$store.commit("setUMLLines", response.data);
+                })
+                .catch(function(error) {
+                    console.log("error:", error);
+                });
+        }
     }
 };
 </script>
@@ -30,6 +59,10 @@ export default {
     height: 220px;
     width: 300px;
     margin: 10px;
+    cursor: pointer;
+}
+.fileBlock:hover {
+    box-shadow: 0 2px 12px 0 rgba(254, 255, 203, 0.212);
 }
 .fileImg {
     border: 1px dashed grey;

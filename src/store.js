@@ -145,7 +145,7 @@ export default new Vuex.Store({
                 }
             }
             */
-                ],
+            ],
 
         },
         histories: [] //循环队列实现
@@ -169,6 +169,23 @@ export default new Vuex.Store({
         },
         //初始化图数据/多人协作同步图数据
         setUML(state, params) {},
+        setUMLNodes(state, params) {
+            state.UML.nodes = [];
+            var nodes = params.nodeList;
+            for (var i = 0; i < nodes.length; i++) {
+                state.UML.nodes.push({
+                    id: nodes[i].nid,
+                    type: nodes[i].nodeType,
+                    styles: {
+                        left: nodes[i].nodeStyle.styleLeft,
+                        top: nodes[i].nodeStyle.styleTop,
+                        width: nodes[i].nodeStyle.styleWidth,
+                        height: nodes[i].nodeStyle.styleHeight
+                    },
+                    properties: nodes[i].properties
+                });
+            }
+        },
         setDrawLine(state, params) {
             //console.log("setEditState");
             state.drawLine = params.drawLine;
@@ -227,7 +244,7 @@ export default new Vuex.Store({
         //增加线条数据
         addLine(state, params) {
             state.UML.lines.push(params);
-            console.log("lineslength"+state.UML.lines.length);
+            console.log("lineslength" + state.UML.lines.length);
         },
         //删除节点数据
         removeNode(state, params) {
@@ -496,7 +513,7 @@ export default new Vuex.Store({
                 })
                 .then(function (response) {
                     //alert(response);
-                    params.lid=response.data
+                    params.lid = response.data
                     commit("addLine", params);
                 }).catch(function (error) {
                     console.log("error:" + error);
@@ -508,22 +525,22 @@ export default new Vuex.Store({
             //params.lineStyle.key=params.Line.value;
             //alert(params.Line.lid);
             axios.post("/updateLine", {
-                    lineId:parseInt(params.Line.Id),
-                    lid:params.Line.lid,
-                    relationType:params.Line.relationType,
-                    fromId:params.Line.from,
-                    toId:params.Line.to,
-                    text:params.Line.text,
-                    markerStart:"url(#arrow2)",
-                    markerEnd:"url(#arrow1)",
-                    lineList:params.Line.lineList,
-                    startPosition:params.Line.startPosition,
-                    endPosition:params.Line.endPosition,
-                    lineStyle:params.lineStyle,
-                    lineSvgStyle:params.Line.lineSvgStyle,
-            })
+                    lineId: parseInt(params.Line.Id),
+                    lid: params.Line.lid,
+                    relationType: params.Line.relationType,
+                    fromId: params.Line.from,
+                    toId: params.Line.to,
+                    text: params.Line.text,
+                    markerStart: "url(#arrow2)",
+                    markerEnd: "url(#arrow1)",
+                    lineList: params.Line.lineList,
+                    startPosition: params.Line.startPosition,
+                    endPosition: params.Line.endPosition,
+                    lineStyle: params.lineStyle,
+                    lineSvgStyle: params.Line.lineSvgStyle,
+                })
                 .then(function (response) {
-                    var change={
+                    var change = {
                         lineKey: params.lineKey,
                         key: params.key,
                         value: params.value,
@@ -531,8 +548,8 @@ export default new Vuex.Store({
                     }
                     commit("modifyLine", change);
                 }).catch(function (error) {
-                console.log("error:" + error);
-            })
+                    console.log("error:" + error);
+                })
         },
     }
 });
