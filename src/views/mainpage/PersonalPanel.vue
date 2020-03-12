@@ -6,15 +6,15 @@
                     <i class="el-icon-document"></i>
                     <span slot="title">新建文件</span>
                 </el-menu-item>
-                <el-menu-item index="2" onclick="getfile()">
+                <el-menu-item index="2">
                     <i class="el-icon-menu"></i>
                     <span slot="title">个人文件</span>
                 </el-menu-item>
             </el-menu>
             <div
-                    class="detailContent"
-                    v-if="activeIndex == '1'"
-                    style="width: 300px; margin: 10px auto"
+                class="detailContent"
+                v-if="activeIndex == '1'"
+                style="width: 300px; margin: 10px auto"
             >
                 <el-form ref="form" :model="form" label-width="80px" style="width: 300px;">
                     <el-form-item label="文件名称">
@@ -37,86 +37,116 @@
                     </el-form-item>
                 </el-form>
             </div>
-            <div v-else >
-                <!--
-                个人文件
-                -->
+            <div class="centerDiv" v-else>
+                <SingleFile
+                    v-for="item in fileList"
+                    :key="item.fid"
+                    :fileName="item.fileName"
+                    :fid="item.fid"
+                ></SingleFile>
             </div>
-
         </div>
-        <div style="border-top: 1px solid #E4E7ED; height: 200px">
-            <br />
-            <span>联系我们……</span>
-        </div>
+        <PageFooter></PageFooter>
     </div>
 </template>
 <script>
-    export default {
-        name: "PersonalPanel",
-        data() {
-            return {
-                activeIndex: "1",
-                form: {
-                    UMLName: "",
-                    UMLType: "",
-                },
-            };
+import SingleFile from "./SingleFile.vue";
+import PageFooter from "../PageFooter.vue";
+export default {
+    name: "PersonalPanel",
+    components: { SingleFile, PageFooter },
+    data() {
+        return {
+            activeIndex: "1",
+            form: {
+                UMLName: "",
+                UMLType: ""
+            },
+            fileList: []
+        };
+    },
+    mounted() {
+        this.getFileList();
+    },
+    methods: {
+        handleSelect(key, keyPath) {
+            this.activeIndex = key;
         },
-        methods: {
-            handleSelect(key, keyPath) {
-                this.activeIndex = key;
-            },
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            resetForm() {
-                this.form.UMLName = "";
-                this.form.UMLType = "";
-            },
-            newfile() {
-                var self = this;
-                //console.log("personal:"+self.$store.state.UML.userId);
-                self.$axios
-                    .get("/createFile", {
-                        params: {
-                            uid: self.$store.state.UML.userId,
-                            fileName: self.form.UMLName,
-                            fileType: self.form.UMLType
-                        }
-                    })
-                    .then(function(response) {
-                        console.log("success:"+response);
-                        self.$message({
-                            message: "创建成功",
-                            type: "success"
-                        });
-                        self.$store.commit("setUMLId",{id:response.data});
-                        self.$store.commit("setUMLName",{name:self.form.UMLName});
-                        self.$store.commit("setUMLType",{type:self.form.UMLType});
-                        //console.log(self.$store.state.UML.UMLId);
-                        //console.log(self.$store.state.UML.UMLName);
-                        //console.log(self.$store.state.UML.UMLType);
-                        self.$router.push({ name: "Designer" });
-                    })
-                    .catch(function(error) {
-                        console.log("error:" + error);
+        handleOpen(key, keyPath) {
+            console.log(key, keyPath);
+        },
+        handleClose(key, keyPath) {
+            console.log(key, keyPath);
+        },
+        resetForm() {
+            this.form.UMLName = "";
+            this.form.UMLType = "";
+        },
+        newfile() {
+            var self = this;
+            //console.log("personal:"+self.$store.state.UML.userId);
+            self.$axios
+                .get("/createFile", {
+                    params: {
+                        uid: self.$store.state.UML.userId,
+                        fileName: self.form.UMLName,
+                        fileType: self.form.UMLType
+                    }
+                })
+                .then(function(response) {
+                    console.log("success:" + response);
+                    self.$message({
+                        message: "创建成功",
+                        type: "success"
                     });
-            },
-            getfile() {
-                console.log("getfile");
-            }
+                    self.$store.commit("setUMLId", { id: response.data });
+                    self.$store.commit("setUMLName", {
+                        name: self.form.UMLName
+                    });
+                    self.$store.commit("setUMLType", {
+                        type: self.form.UMLType
+                    });
+                    //console.log(self.$store.state.UML.UMLId);
+                    //console.log(self.$store.state.UML.UMLName);
+                    //console.log(self.$store.state.UML.UMLType);
+                    self.$router.push({ name: "Designer" });
+                })
+                .catch(function(error) {
+                    console.log("error:" + error);
+                });
+        },
+        getFileList() {
+            console.log("getfile");
+            var self = this;
+            this.$axios
+                .get("/getAllFilePicByUid", {
+                    params: {
+                        uid: self.$store.state.UML.userId
+                    }
+                })
+                .then(function(response) {
+                    console.log(response.data);
+                    self.fileList = response.data;
+                })
+                .catch(function(error) {
+                    console.log("error", error);
+                });
         }
-    };
+    }
+};
 </script>
 <style scoped>
-    .personmenu {
-        height: 400px;
-        width: 150px;
-    }
-    .detailContent {
-        padding-top: 50px;
-    }
+.personmenu {
+    height: 400px;
+    width: 150px;
+    min-width: 150px;
+}
+.detailContent {
+    padding-top: 50px;
+}
+.centerDiv {
+    height: 390px;
+    overflow-y: auto;
+    padding-top: 10px;
+}
 </style>

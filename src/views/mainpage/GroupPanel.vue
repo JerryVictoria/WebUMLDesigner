@@ -90,7 +90,12 @@
                 <!--TODO v-for-->
                 <div v-if="detailList" class="fileListPane">
                     <el-page-header @back="goBack" content="文件列表"></el-page-header>
-                    <SingleFile></SingleFile>
+                    <SingleFile
+                        v-for="item in fileList"
+                        :key="item.fid"
+                        :fileName="item.fileName"
+                        :fid="item.fid"
+                    ></SingleFile>
                 </div>
                 <div v-else>
                     <el-button
@@ -204,9 +209,8 @@ export default {
             var self = this;
             //console.log("personal:"+self.$store.state.UML.userId);
             self.$axios
-                .get("/createFile", {
+                .get("/createFileByGroup", {
                     params: {
-                        uid: self.$store.state.UML.userId,
                         gid: self.form.group,
                         fileName: self.form.name,
                         fileType: self.form.type
@@ -241,6 +245,7 @@ export default {
         },
         selectGroupFile(gid) {
             console.log("gid:", gid);
+            var self = this;
             this.$axios
                 .get("/getAllFileByGid", {
                     params: {
@@ -250,6 +255,7 @@ export default {
                 .then(function(response) {
                     console.log(response.data);
                     self.fileList = response.data;
+                    console.log("fileList:", self.fileList);
                 })
                 .catch(function(error) {
                     console.log("error:" + error);
