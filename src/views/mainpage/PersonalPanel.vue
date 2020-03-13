@@ -107,6 +107,11 @@ export default {
                     self.$store.commit("setUMLType", {
                         type: self.form.UMLType
                     });
+                    //清空Nodes
+                    self.$store.commit("setUMLNodes", {
+                        nodeList: []
+                    });
+                    //TODO清空lines
                     //console.log(self.$store.state.UML.UMLId);
                     //console.log(self.$store.state.UML.UMLName);
                     //console.log(self.$store.state.UML.UMLType);

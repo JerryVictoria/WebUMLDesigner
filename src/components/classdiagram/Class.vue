@@ -23,7 +23,13 @@
                             :value="item.value"
                         ></el-option>
                     </el-select>
-                    <el-input class="classSpan" v-model="className" :autofocus="true"></el-input>
+                    <el-input
+                        class="classSpan"
+                        v-model="className"
+                        :autofocus="true"
+                        @focus="saveOriginValue"
+                        @blur="submitChange"
+                    ></el-input>
                 </div>
                 <span
                     @click="handleClick"
@@ -99,7 +105,8 @@ export default {
                 name: "",
                 params: ""
             },
-            hoverItem: null
+            hoverItem: null,
+            originValue: "" //origin className
         };
     },
     watch: {
@@ -111,14 +118,6 @@ export default {
                 this.variables = prop.variables;
                 this.functions = prop.functions;
             }
-        },
-        className(cn) {
-            this.$store.dispatch("modifyNode", {
-                nodeKey: "properties",
-                key: "className",
-                value: cn,
-                id: this.id
-            });
         },
         classType(ct) {
             this.$store.dispatch("modifyNode", {
@@ -165,6 +164,21 @@ export default {
             this.hoverItem = null;
             this.showClassInput = false;
             this.showContentInput = false;
+        },
+        saveOriginValue() {
+            this.originValue = this.className;
+        },
+        submitChange() {
+            if (this.originValue == this.className) {
+                return;
+            }
+            this.$store.dispatch("modifyNode", {
+                nodeKey: "properties",
+                key: "className",
+                value: this.className,
+                originValue: this.originValue,
+                id: this.id
+            });
         }
     }
 };

@@ -98,7 +98,7 @@ export default {
             type: Object
         },
         id: {
-            type: String || Number
+            type: Number
         }
     },
     data() {
