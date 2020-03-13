@@ -35,6 +35,8 @@
                         size="mini"
                         :autofocus="true"
                         style="width: 65%"
+                        @focus="saveOriginValue"
+                        @blur="submitChange"
                     ></el-input>
                 </div>
                 <span
@@ -63,7 +65,8 @@ export default {
                 { label: "派生", value: "children" },
                 { label: "键值", value: "key" },
                 { label: "多选", value: "multivalue" }
-            ]
+            ],
+            originValue: ""
         };
     },
     mounted() {
@@ -79,15 +82,10 @@ export default {
                 this.propType = prop.propType;
             }
         },
-        name(newName) {
-            this.$store.dispatch("modifyNode", {
-                nodeKey: "properties",
-                key: "name",
-                value: newName,
-                id: this.id
-            });
-        },
         propType(newPropType) {
+            if (newPropType == undefined) {
+                return;
+            }
             this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "propType",
@@ -100,6 +98,21 @@ export default {
         hideInputAndSave() {
             this.showInput = false;
             this.setEditStateFalse();
+        },
+        saveOriginValue() {
+            this.originValue = this.name;
+        },
+        submitChange() {
+            if (this.originValue == this.name) {
+                return;
+            }
+            this.$store.dispatch("modifyNode", {
+                nodeKey: "properties",
+                key: "name",
+                value: this.name,
+                originValue: this.originValue,
+                id: this.id
+            });
         }
     }
 };

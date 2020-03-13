@@ -32,7 +32,14 @@
             >
                 <div v-if="showInput && id == $store.state.editingId">
                     <el-checkbox v-model="isWeak">弱</el-checkbox>
-                    <el-input class="contentSpan" v-model="name" size="mini" :autofocus="true"></el-input>
+                    <el-input
+                        class="contentSpan"
+                        v-model="name"
+                        size="mini"
+                        :autofocus="true"
+                        @focus="saveOriginValue"
+                        @blur="submitChange"
+                    ></el-input>
                 </div>
                 <span
                     :style="{
@@ -55,7 +62,8 @@ export default {
     data() {
         return {
             name: "",
-            isWeak: true
+            isWeak: true,
+            originValue: ""
         };
     },
     mounted() {
@@ -71,15 +79,10 @@ export default {
                 this.isWeak = prop.isWeak;
             }
         },
-        name(newName) {
-            this.$store.dispatch("modifyNode", {
-                nodeKey: "properties",
-                key: "name",
-                value: newName,
-                id: this.id
-            });
-        },
         isWeak(newBool) {
+            if (newBool == undefined) {
+                return;
+            }
             this.$store.dispatch("modifyNode", {
                 nodeKey: "properties",
                 key: "isWeak",
@@ -92,6 +95,21 @@ export default {
         hideInputAndSave() {
             this.showInput = false;
             this.setEditStateFalse();
+        },
+        saveOriginValue() {
+            this.originValue = this.name;
+        },
+        submitChange() {
+            if (this.originValue == this.name) {
+                return;
+            }
+            this.$store.dispatch("modifyNode", {
+                nodeKey: "properties",
+                key: "name",
+                value: this.name,
+                originValue: this.originValue,
+                id: this.id
+            });
         }
     }
 };
