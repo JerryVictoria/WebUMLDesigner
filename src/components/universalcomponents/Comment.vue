@@ -37,6 +37,8 @@
                 size="mini"
                 :autofocus="true"
                 :style="{marginTop: this.height*0.2 + 'px'}"
+                @focus="saveOriginValue"
+                @blur="submitChange"
             ></el-input>
             <span
                 :style="{width: this.width*0.6+'px', marginTop: this.height*0.2 + 'px'}"
@@ -54,7 +56,8 @@ export default {
     extends: CommonComponent,
     data() {
         return {
-            name: ""
+            name: "",
+            originValue: ""
         };
     },
     watch: {
@@ -63,20 +66,27 @@ export default {
             handler(prop) {
                 this.name = prop.name;
             }
-        },
-        name(newName) {
-            this.$store.dispatch("modifyNode", {
-                nodeKey: "properties",
-                key: "name",
-                value: newName,
-                id: this.id
-            });
         }
     },
     methods: {
         hideInputAndSave() {
             this.showInput = false;
             this.setEditStateFalse();
+        },
+        saveOriginValue() {
+            this.originValue = this.name;
+        },
+        submitChange() {
+            if (this.originValue == this.name) {
+                return;
+            }
+            this.$store.dispatch("modifyNode", {
+                nodeKey: "properties",
+                key: "name",
+                value: this.name,
+                originValue: this.originValue,
+                id: this.id
+            });
         }
     }
 };

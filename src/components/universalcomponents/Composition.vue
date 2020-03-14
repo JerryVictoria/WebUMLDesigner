@@ -37,18 +37,20 @@
             </div>
             <el-input
                 class="contentSpan"
-                v-model="condition"
+                v-model="name"
                 v-if="showInput && id == $store.state.editingId"
                 size="mini"
                 :autofocus="true"
                 :style="{marginTop: this.height*0.1 + 'px'}"
+                @focus="saveOriginValue"
+                @blur="submitChange"
             ></el-input>
             <span
                 :style="{width: this.width*0.6+'px', marginTop: this.height*0.1 + 'px'}"
                 v-else
                 class="contentSpan"
                 @click="handleNameClick"
-            >{{condition}}</span>
+            >{{name}}</span>
         </div>
     </div>
 </template>
@@ -59,18 +61,19 @@ export default {
     extends: CommonComponent,
     data() {
         return {
-            condition: "",
+            name: "",
             compositionType: "",
             options: [
                 { label: "Opt", value: "Opt" },
                 { label: "Alt", value: "Alt" },
                 { label: "Loop", value: "Loop" }
-            ]
+            ],
+            originValue: ""
         };
     },
     mounted() {
-        if (this.properties && this.properties.condition) {
-            this.condition = this.properties.condition;
+        if (this.properties && this.properties.name) {
+            this.name = this.properties.name;
         }
         if (this.properties && this.properties.compositionType) {
             this.compositionType = this.properties.compositionType;
@@ -80,17 +83,9 @@ export default {
         properties: {
             deep: true,
             handler(prop) {
-                this.condition = prop.condition;
+                this.name = prop.name;
                 this.compositionType = prop.compositionType;
             }
-        },
-        condition(newCondition) {
-            this.$store.dispatch("modifyNode", {
-                nodeKey: "properties",
-                key: "name",
-                value: newCondition,
-                id: this.id
-            });
         },
         compositionType(newCompositionType) {
             this.$store.dispatch("modifyNode", {
@@ -105,6 +100,21 @@ export default {
         hideInputAndSave() {
             this.showInput = false;
             this.setEditStateFalse();
+        },
+        saveOriginValue() {
+            this.originValue = this.name;
+        },
+        submitChange() {
+            if (this.originValue == this.name) {
+                return;
+            }
+            this.$store.dispatch("modifyNode", {
+                nodeKey: "properties",
+                key: "name",
+                value: this.name,
+                originValue: this.originValue,
+                id: this.id
+            });
         }
     }
 };

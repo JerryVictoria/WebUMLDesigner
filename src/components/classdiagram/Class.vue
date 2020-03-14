@@ -60,7 +60,10 @@
                     <br />
                 </span>
             </template>
-            <div class="horizontalSplitLine" v-show="variables.length > 0 && functions.length > 0"></div>
+            <div
+                class="horizontalSplitLine"
+                v-show="variables!=null && variables.length > 0 && functions!=null && functions.length > 0"
+            ></div>
             <template v-for="(item, index) in functions">
                 <span
                     :class="{'contentSpan alignLeft': true, hoverSpan: hoverItem === item && id == $store.state.editingId}"
@@ -71,7 +74,10 @@
                     <br />
                 </span>
             </template>
-            <div class="horizontalSplitLine" v-show="variables.length > 0 || functions.length > 0"></div>
+            <div
+                class="horizontalSplitLine"
+                v-show="(variables!=null && variables.length > 0) || (functions!=null && functions.length > 0)"
+            ></div>
             <el-button
                 class="contentSpan hoverSpan"
                 @click="handleContentClick({addFlag: true}, '', $event)"
@@ -130,6 +136,7 @@ export default {
     },
     mounted() {
         if (this.properties) {
+            console.log("class prop:", this.properties);
             this.className = this.properties.className;
             this.classType = this.properties.classType;
             this.variables = this.properties.variables;
