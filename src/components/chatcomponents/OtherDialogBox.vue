@@ -4,7 +4,7 @@
             draggable="false"
             class="horizontal-middle avatarImg"
             style="float: left; margin-right: 15px;"
-            src="../../assets/character.png"
+            src="../../assets/other.png"
         />
         <div
             class="otherDialogDiv"

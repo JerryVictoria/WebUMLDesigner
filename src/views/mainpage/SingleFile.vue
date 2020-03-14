@@ -29,6 +29,10 @@ export default {
         fileType: {
             type: String,
             default: "UML"
+        },
+        gid: {
+            type: Number,
+            default: -1
         }
     },
     data() {
@@ -54,6 +58,7 @@ export default {
                     self.$store.commit("setUMLNodes", {
                         nodeList: response.data
                     });
+                    self.$store.commit("setGroupId", { groupId: self.gid });
                     self.$router.push({ name: "Designer" });
                 })
                 .catch(function(error) {

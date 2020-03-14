@@ -11,7 +11,7 @@
                 ></el-button>
             </el-input>
         </div>
-        <div id="sidemenu">
+        <div id="sidemenu" :style="{height: height+'px'}">
             <el-collapse v-model="activeNames" @change="handleChange">
                 <el-collapse-item title="搜索结果" name="1" v-show="searchresult">
                     <div
@@ -69,6 +69,11 @@
 <script>
 export default {
     name: "components-store-side-bar",
+    props: {
+        height: {
+            type: Number
+        }
+    },
     mounted() {
         this.UMLType = this.$store.state.UML.UMLType;
         //console.log(this.UMLType);
@@ -695,7 +700,7 @@ export default {
 
 <style scoped>
 #top {
-    margin-top: 15px;
+    margin-top: 20px;
     margin-bottom: 15px;
     margin-left: 2%;
     margin-right: 2%;
@@ -708,9 +713,9 @@ export default {
 
 #sidemenu {
     margin-left: 5%;
-    overflow: auto;
+    overflow-y: auto;
     margin-bottom: 5%;
-    height: 600px;
+    height: 150px;
 }
 
 #searchbutton {

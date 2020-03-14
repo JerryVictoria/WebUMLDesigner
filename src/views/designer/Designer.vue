@@ -4,16 +4,21 @@
             <el-header id="tool">
                 <tool-top-bar></tool-top-bar>
             </el-header>
-            <el-container>
-                <el-aside id="side" style="width:20%;">
-                    <components-store-side-bar></components-store-side-bar>
+            <el-container class="mainBody">
+                <el-aside
+                    id="side"
+                    :style="{width: 300 + ($store.state.UML.groupId != '' || $store.state.UML.groupId > 0)*100 + 'px'}"
+                >
+                    <components-store-side-bar
+                        :height="($store.state.UML.groupId != '' || $store.state.UML.groupId > 0) ? 150: 400"
+                    ></components-store-side-bar>
+                    <ChatPanel
+                        v-if="($store.state.UML.groupId != '' || $store.state.UML.groupId > 0)"
+                        class="chatPanel"
+                    ></ChatPanel>
                 </el-aside>
                 <el-main id="canvas" style="display: flex">
-                    <DiagramCanvas
-                        id="Diagram"
-                        style="display: inline-block; width: 2000px;"
-                    ></DiagramCanvas>
-                    <!-- <ChatPanel style="display: inline-block"></ChatPanel> -->
+                    <DiagramCanvas id="Diagram" style="display: inline-block; width: 2000px;"></DiagramCanvas>
                 </el-main>
             </el-container>
         </el-container>
@@ -23,20 +28,19 @@
 import ToolTopBar from "../designer/ToolTopBar.vue";
 import DiagramCanvas from "../designer/DiagramCanvas.vue";
 import ComponentsStoreSideBar from "../designer/ComponentsStoreSideBar.vue";
-/* import ChatPanel from "./ChatPanel.vue"; */
+import ChatPanel from "./ChatPanel.vue";
 
 export default {
     name: "Designer",
     data() {
-        return {
-        };
+        return {};
     },
 
     components: {
         ToolTopBar,
         DiagramCanvas,
-        ComponentsStoreSideBar /* ,
-        ChatPanel */
+        ComponentsStoreSideBar,
+        ChatPanel
     }
 };
 </script>
@@ -65,7 +69,6 @@ export default {
 
 #side {
     left: 0;
-    height: 700px;
     display: inline;
     z-index: 1;
 }
@@ -73,8 +76,13 @@ export default {
 #canvas {
     display: inline;
     left: 20%;
-    width: 80%;
-    height: 800px;
     overflow: auto;
+}
+.chatPanel {
+    display: inline-block;
+    margin-left: 2px;
+}
+.mainBody {
+    margin-top: -25px;
 }
 </style>

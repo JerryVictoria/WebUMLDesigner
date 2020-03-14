@@ -96,6 +96,7 @@
                         :fileName="item.fileName"
                         :fid="item.fid"
                         :fileType="item.fileType"
+                        :gid="selectGid"
                     ></SingleFile>
                 </div>
                 <div v-else>
@@ -145,7 +146,8 @@ export default {
             detailList: false,
             groupList: [],
             invitationList: [],
-            fileList: []
+            fileList: [],
+            selectGid: -1
             /*
                 gid: 2
                 groupId: null
@@ -246,6 +248,7 @@ export default {
         },
         selectGroupFile(gid) {
             console.log("gid:", gid);
+            this.selectGid = gid;
             var self = this;
             this.$axios
                 .get("/getAllFileByGid", {
@@ -265,6 +268,7 @@ export default {
         },
         goBack() {
             this.detailList = false;
+            this.selectGid = -1;
         },
         createGroup() {
             if (this.groupform.name == "") {
