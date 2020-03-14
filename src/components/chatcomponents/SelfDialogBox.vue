@@ -6,10 +6,13 @@
             style="float: right"
             src="../../assets/self.png"
         />
-        <div
-            class="selfDialogDiv"
-            style="display: inline-block; max-width: 100px; min-height: 20px; float: right ; margin-right: 15px;word-wrap: break-word;"
-        >{{text}}</div>
+        <div class="bubble">
+            <div class="triDiv" style="display: inline-block; float: right; margin-right: 5px;"></div>
+            <div
+                class="selfDialogDiv"
+                style="display: inline-block; max-width: 100px; min-height: 20px; float: right ;word-wrap: break-word;"
+            >{{text}}</div>
+        </div>
     </div>
 </template>
 <script>
@@ -22,8 +25,20 @@ export default {
 </script>
 <style scoped>
 .selfDialogDiv {
-    border: 1px solid grey;
+    border: 1px solid #c0c4cc;
     padding: 5px;
-    border-radius: 3%;
+    border-top-left-radius: 1em;
+    /* border-top-right-radius:2em; */
+    border-bottom-right-radius: 1em;
+    border-bottom-left-radius: 1em;
+}
+.triDiv {
+    border-left: 5px solid #c0c4cc;
+    border-right: 5px solid transparent;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+}
+.bubble {
+    margin-top: 15px;
 }
 </style>
