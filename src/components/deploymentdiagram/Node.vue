@@ -27,6 +27,8 @@
                         v-model="name"
                         size="mini"
                         :autofocus="true"
+                        @focus="saveOriginValue"
+                        @blur="submitChange"
                     ></el-input>
                 </div>
                 <span
@@ -51,7 +53,8 @@ export default {
     data() {
         return {
             name: "",
-            isInstance: false
+            isInstance: false,
+            originValue: ""
         };
     },
     watch: {
@@ -61,14 +64,6 @@ export default {
                 this.name = prop.name;
                 this.isInstance = prop.isInstance;
             }
-        },
-        name(newName) {
-            this.$store.dispatch("modifyNode", {
-                nodeKey: "properties",
-                key: "name",
-                value: newName,
-                id: this.id
-            });
         },
         isInstance(isInstance) {
             this.$store.dispatch("modifyNode", {
@@ -88,6 +83,21 @@ export default {
         hideInputAndSave() {
             this.showInput = false;
             this.setEditStateFalse();
+        },
+        saveOriginValue() {
+            this.originValue = this.name;
+        },
+        submitChange() {
+            if (this.originValue == this.name) {
+                return;
+            }
+            this.$store.dispatch("modifyNode", {
+                nodeKey: "properties",
+                key: "name",
+                value: this.name,
+                originValue: this.originValue,
+                id: this.id
+            });
         }
     }
 };
