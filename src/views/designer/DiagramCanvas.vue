@@ -11,6 +11,7 @@
             @mouseleave.stop="mouseLeave"
             @mousedown.stop="mouseDown"
         >
+            <div id="canvas">
             <div
                 v-for="item in $store.state.UML.nodes"
                 :key="item.id"
@@ -83,6 +84,7 @@
                             v-clickoutside="clic()"
                     -->
                 </svg>
+            </div>
             </div>
         </div>
         <ContextMenu v-show="showMenu" style="zIndex:2" id="menu" @hide-menu="clickOutSide"></ContextMenu>

@@ -89,6 +89,7 @@
                     </el-option>
                 </el-select>
             </el-tooltip>
+            <el-button id="uploadFile" @click="uploadFile()" style="display:inline-flex;left:73%;position:absolute;width:8%;margin: -1% 1% 0 1%">上传至云端</el-button>
         </div>
     </div>
 </template>
@@ -188,7 +189,13 @@ export default {
             lineSize: "1px",
             lineStyle: "solid",
             style: "",
-            type: ""
+            type: "",
+            imageUrl: '',
+            token: {},
+            // 七牛云的上传地址，根据自己所在地区选择，我这里是华南区
+            domain: 'https://upload-z1.qiniup.com',
+            // 这是七牛云空间的外链默认域名
+            qiniuaddr: 'q76chphm1.bkt.clouddn.com'
         };
     },
     mounted() {
@@ -224,10 +231,10 @@ export default {
         createline() {
             var diagram = Diagram;
             console.log("createline");
-            this.$store.commit("setDrawLine", { drawLine: true });
-            this.$store.commit("setLineEditId", { id: "" });
-            this.$store.commit("setEditState", { editing: false });
-            this.$store.commit("setEditId", { id: "" });
+            this.$store.commit("setDrawLine", {drawLine: true});
+            this.$store.commit("setLineEditId", {id: ""});
+            this.$store.commit("setEditState", {editing: false});
+            this.$store.commit("setEditId", {id: ""});
             diagram.methods.changeshowMenu();
             //this.create=false;
         },
@@ -350,12 +357,14 @@ export default {
                 lineSize: size
             });
         },
-        linetype() {},
-        saveFile(){
+        linetype() {
+        },
+        saveFile() {
             // 最外层的容器
-            const treeContainnerElem = document.getElementById('Diagram')
+            const treeContainnerElem = document.getElementById('visualEditor')
             // 要导出div
-            const treeElem = document.getElementById("visualEditor")
+            const treeElem = document.getElementById("canvas")
+            //console.log(treeElem);
             // 从要导出的div克隆的临时div
             const tempElem = treeElem.cloneNode(true)
             tempElem.id = 'temp-tree'
@@ -363,11 +372,13 @@ export default {
             tempElem.style.width = treeElem.clientWidth + 'px'
             tempElem.style.height = treeElem.clientHeight + 'px'
             treeContainnerElem.appendChild(tempElem)
-
+            //console.log(tempElem);
             // 在临时div上将svg都转换成canvas，并删除原有的svg节点
             const svgElem = tempElem.querySelectorAll("svg");
+            console.log(svgElem)
             svgElem.forEach((node) => {
                 var parentNode = node.parentNode;
+                console.log(parentNode)
                 var svg = node.outerHTML.trim();
                 var canvas = document.createElement("canvas");
                 canvg(canvas, svg);
@@ -377,27 +388,32 @@ export default {
                     canvas.style.left += node.style.left;
                     canvas.style.top += node.style.top;
                 }
-                parentNode.removeChild(node);
                 parentNode.appendChild(canvas);
+                parentNode.removeChild(node);
             });
 
-
+            console.log(tempElem);
             html2canvas(treeContainnerElem, {
                 useCORS: true // 允许CORS跨域
             }).then(canvas => {
                 // 图片触发下载
+                canvas.style.height=tempElem.style.height+'px'
+                console.log(canvas.style)
+                let dom = document.body.appendChild(canvas);
+                let a = document.createElement('a');
+                dom.style.display = "none";
+                a.style.display = "none";
+                document.body.removeChild(dom);
+                let blob = this.dataURLToBlob(dom.toDataURL("image/png"));
+                a.setAttribute("href", URL.createObjectURL(blob));
+                a.setAttribute("download", this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLI + ".png")
+                document.body.appendChild(a);
+                a.click();
+                URL.revokeObjectURL(blob);
+                document.body.removeChild(a);
                 /*
-                const img = canvas.toDataURL("image/jpeg").replace("data:image/jpeg;base64,", "");
-                const finalImageSrc = "data:image/jpeg;base64," + img;
-                const aElem = document.createElement('a')
-                document.body.appendChild(aElem)
-                aElem.href = finalImageSrc
-                // 设置下载标题
-                aElem.download = "chart.jpg"
-                aElem.click()
-                */
                 this.imgmap = canvas.toDataURL()
-                console.log(999, this.imgmap)
+                console.log(999, canvas)
                 if (window.navigator.msSaveOrOpenBlob) {
                     var bstr = atob(this.imgmap.split(',')[1])
                     var n = bstr.length
@@ -406,19 +422,68 @@ export default {
                         u8arr[n] = bstr.charCodeAt(n)
                     }
                     var blob = new Blob([u8arr])
-                    window.navigator.msSaveOrOpenBlob(blob, 'chart-download' + '.' + 'png')
+                    window.navigator.msSaveOrOpenBlob(blob, this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLId + '.' + 'png')
                 } else {
                     // 这里就按照chrome等新版浏览器来处理
                     const a = document.createElement('a')
                     document.body.appendChild(a)
                     a.href = this.imgmap
-                    a.setAttribute('download', this.$store.state.UML.UMLType+"_"+this.$store.state.UML.UMLId)
+                    //alert(this.imgmap)
+                    a.setAttribute('download', this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLId)
                     a.click()
                     document.body.removeChild(a)
                 }
+                */
                 treeContainnerElem.removeChild(tempElem)
             })
         },
+        dataURLToBlob(dataurl) {//ie 图片转格式
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], {type: mime})
+        },
+        uploadFile(req) {
+            console.log(req)
+            const config = {
+                headers: {'Content-Type': 'multipart/form-data'}
+            }
+            let filetype = ''
+            if (req.file.type === 'image/png') {
+                filetype = 'png'
+            } else {
+                filetype = 'jpg'
+            }
+            // 重命名要上传的文件
+            const keyname = 'lytton' + new Date() + Math.floor(Math.random() * 100) + '.' + filetype
+            // 从后端获取上传凭证token
+            this.axios.get('/up/token').then(res => {
+                console.log(res)
+                const formdata = new FormData()
+                formdata.append('file', req.file)
+                formdata.append('token', res.data)
+                formdata.append('key', keyname)
+                // 获取到凭证之后再将文件上传到七牛云空间
+                this.axios.post(this.domain, formdata, config).then(res => {
+                    this.imageUrl = 'http://' + this.qiniuaddr + '/' + res.data.key
+                    // console.log(this.imageUrl)
+                })
+            })
+        },
+        // 验证文件合法性
+        beforeUpload(file) {
+            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+            const isLt2M = file.size / 1024 / 1024 < 2
+            if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG 格式!')
+            }
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 2MB!')
+            }
+            return isJPG && isLt2M
+        }
     },
     state: {
         editor: {
