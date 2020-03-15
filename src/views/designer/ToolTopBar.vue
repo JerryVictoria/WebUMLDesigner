@@ -7,6 +7,7 @@
             >
                 <el-breadcrumb-item>返回个人页面</el-breadcrumb-item>
                 <el-breadcrumb-item>删除</el-breadcrumb-item>
+                <i class="el-icon-download" @click="saveFile"></i>
                 <el-breadcrumb-item>下载</el-breadcrumb-item>
             </el-breadcrumb>
             <el-color-picker
@@ -94,6 +95,8 @@
 
 <script>
 import Diagram from "@/views/designer/DiagramCanvas";
+import html2canvas from "html2canvas";
+import canvg from "canvg";
 export default {
     name: "tool-top-bar",
     data() {
@@ -347,7 +350,75 @@ export default {
                 lineSize: size
             });
         },
-        linetype() {}
+        linetype() {},
+        saveFile(){
+            // 最外层的容器
+            const treeContainnerElem = document.getElementById('Diagram')
+            // 要导出div
+            const treeElem = document.getElementById("visualEditor")
+            // 从要导出的div克隆的临时div
+            const tempElem = treeElem.cloneNode(true)
+            tempElem.id = 'temp-tree'
+            tempElem.className = 'fff'
+            tempElem.style.width = treeElem.clientWidth + 'px'
+            tempElem.style.height = treeElem.clientHeight + 'px'
+            treeContainnerElem.appendChild(tempElem)
+
+            // 在临时div上将svg都转换成canvas，并删除原有的svg节点
+            const svgElem = tempElem.querySelectorAll("svg");
+            svgElem.forEach((node) => {
+                var parentNode = node.parentNode;
+                var svg = node.outerHTML.trim();
+                var canvas = document.createElement("canvas");
+                canvg(canvas, svg);
+                canvas.style.zIndex = 9
+                if (node.style.position) {
+                    canvas.style.position += node.style.position;
+                    canvas.style.left += node.style.left;
+                    canvas.style.top += node.style.top;
+                }
+                parentNode.removeChild(node);
+                parentNode.appendChild(canvas);
+            });
+
+
+            html2canvas(treeContainnerElem, {
+                useCORS: true // 允许CORS跨域
+            }).then(canvas => {
+                // 图片触发下载
+                /*
+                const img = canvas.toDataURL("image/jpeg").replace("data:image/jpeg;base64,", "");
+                const finalImageSrc = "data:image/jpeg;base64," + img;
+                const aElem = document.createElement('a')
+                document.body.appendChild(aElem)
+                aElem.href = finalImageSrc
+                // 设置下载标题
+                aElem.download = "chart.jpg"
+                aElem.click()
+                */
+                this.imgmap = canvas.toDataURL()
+                console.log(999, this.imgmap)
+                if (window.navigator.msSaveOrOpenBlob) {
+                    var bstr = atob(this.imgmap.split(',')[1])
+                    var n = bstr.length
+                    var u8arr = new Uint8Array(n)
+                    while (n--) {
+                        u8arr[n] = bstr.charCodeAt(n)
+                    }
+                    var blob = new Blob([u8arr])
+                    window.navigator.msSaveOrOpenBlob(blob, 'chart-download' + '.' + 'png')
+                } else {
+                    // 这里就按照chrome等新版浏览器来处理
+                    const a = document.createElement('a')
+                    document.body.appendChild(a)
+                    a.href = this.imgmap
+                    a.setAttribute('download', this.$store.state.UML.UMLType+"_"+this.$store.state.UML.UMLId)
+                    a.click()
+                    document.body.removeChild(a)
+                }
+                treeContainnerElem.removeChild(tempElem)
+            })
+        },
     },
     state: {
         editor: {
