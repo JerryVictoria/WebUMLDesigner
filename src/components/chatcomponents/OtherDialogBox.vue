@@ -1,5 +1,6 @@
 <template>
     <div style="width: 100%; min-height: 30px; margin-bottom: 5px; float: left">
+        <span class="timeSpan">{{time}}</span>
         <img
             draggable="false"
             class="horizontal-middle avatarImg"
@@ -19,7 +20,11 @@
 export default {
     name: "OtherDialogBox",
     props: {
-        text: String
+        text: String,
+        time: {
+            type: String,
+            default: ""
+        }
     }
 };
 </script>
@@ -28,16 +33,16 @@ export default {
     border: 1px solid #f2f6fc;
     background: #f2f6fc;
     padding: 5px;
-    border-radius: 3%;
     /* border-top-left-radius: 1em; */
     border-top-right-radius: 1em;
     border-bottom-right-radius: 1em;
     border-bottom-left-radius: 1em;
+    font-size: 14px;
 }
 .triDiv {
     border-left: 5px solid transparent;
     border-right: 5px solid #f2f6fc;
-    border-top: 5px solid transparent;
+    border-top: 5px solid #f2f6fc;
     border-bottom: 5px solid transparent;
 }
 .bubble {

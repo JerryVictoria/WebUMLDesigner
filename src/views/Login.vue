@@ -47,44 +47,41 @@ export default {
                 alert("邮箱名或用户名为空！");
             } else {
                 var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
-                if (!reg.test(this.Mailbox)) {
+                /* if (!reg.test(this.Mailbox)) {
                     alert("请输入正确的邮箱");
-                } else {
-                    console.log("邮箱和密码都输入正确");
-                    //前后端传数据
-                    var self = this;
-                    self.$axios
-                        .post("/login", {
-                            userEmail: self.Mailbox,
-                            userPassword: self.Password
-                        })
-                        .then(function(response) {
-                            console.log(
-                                "success: response.data--",
-                                response.data
-                            );
-                            if (response.data != -1) {
-                                self.$message({
-                                    message: "登录成功",
-                                    type: "success"
-                                });
-                                self.$store.commit("setuserId", {
-                                    id: response.data
-                                });
-                                //console.log("login:"+self.$store.state.UML.userId);
-                                self.$router.push({ name: "PersonalPage" });
-                            } else {
-                                //@TODO response.data == Failed to login
-                                self.$message({
-                                    message: "用户名或密码错误",
-                                    type: "error"
-                                });
-                            }
-                        })
-                        .catch(function(error) {
-                            console.log("error:" + error);
-                        });
-                }
+                } else { */
+                console.log("邮箱和密码都输入正确");
+                //前后端传数据
+                var self = this;
+                self.$axios
+                    .post("/login", {
+                        userEmail: self.Mailbox,
+                        userPassword: self.Password
+                    })
+                    .then(function(response) {
+                        console.log("success: response.data--", response.data);
+                        if (response.data != -1) {
+                            self.$message({
+                                message: "登录成功",
+                                type: "success"
+                            });
+                            self.$store.commit("setuserId", {
+                                id: response.data
+                            });
+                            //console.log("login:"+self.$store.state.UML.userId);
+                            self.$router.push({ name: "PersonalPage" });
+                        } else {
+                            //@TODO response.data == Failed to login
+                            self.$message({
+                                message: "用户名或密码错误",
+                                type: "error"
+                            });
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log("error:" + error);
+                    });
+                /* } */
             }
         },
         forgetPW() {

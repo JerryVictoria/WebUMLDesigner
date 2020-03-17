@@ -59,6 +59,7 @@ export default {
                         nodeList: response.data
                     });
                     self.$store.commit("setGroupId", { groupId: self.gid });
+                    self.$store.commit("setUMLId", { id: self.fid });
                     self.$router.push({ name: "Designer" });
                 })
                 .catch(function(error) {

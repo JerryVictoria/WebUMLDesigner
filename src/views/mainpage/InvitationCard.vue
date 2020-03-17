@@ -41,7 +41,7 @@ export default {
                 })
                 .then(function(response) {
                     self.$message({
-                        message: "已拒绝！",
+                        message: "已接受！",
                         type: "success"
                     });
                     self.$emit("refresh");

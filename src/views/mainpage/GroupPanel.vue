@@ -176,7 +176,11 @@ export default {
                     }
                 })
                 .then(function(response) {
-                    console.log(response.data);
+                    console.log(
+                        "getAllGroupByUid:",
+                        self.$store.state.UML.userId,
+                        response.data
+                    );
                     self.groupList = response.data;
                 })
                 .catch(function(error) {

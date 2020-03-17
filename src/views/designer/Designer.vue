@@ -10,7 +10,7 @@
                     :style="{width: 300 + ($store.state.UML.groupId != '' || $store.state.UML.groupId > 0)*100 + 'px'}"
                 >
                     <components-store-side-bar
-                        :height="($store.state.UML.groupId != '' || $store.state.UML.groupId > 0) ? 150: 400"
+                        :height="($store.state.UML.groupId != '' || $store.state.UML.groupId > 0) ? 110: 400"
                     ></components-store-side-bar>
                     <ChatPanel
                         v-if="($store.state.UML.groupId != '' || $store.state.UML.groupId > 0)"
