@@ -21,6 +21,7 @@ export default new Vuex.Store({
         lineSA: "",
         lineEA: "",
         lineEditId: "",
+        Token:"",
         autoId: 100, // max of all TODO init
         UML: {
             //mock data
@@ -30,7 +31,6 @@ export default new Vuex.Store({
             userId: "",
             groupId: "",
             nodes: [
-                /*
               {
                 id: "29",
                 type: "Attribute",
@@ -100,10 +100,8 @@ export default new Vuex.Store({
                               condition: "condition"
                           }
                       }
-                       */
             ],
             lines: [
-                /*
                 {
                 Id: "1",
                 lid:0,
@@ -143,8 +141,47 @@ export default new Vuex.Store({
                     left: "317px",
                     top: "191px",
                 }
-            }
-            */
+            },
+                {
+                    Id: "2",
+                    lid:1,
+                    svgId: "svg2",
+                    lineId: "line2",
+                    relationType: "xbrokrn",
+                    from: "29",
+                    to: "30",
+                    text: "",
+                    markerstart: 'url(#arrow2)',
+                    markerend: 'url(#arrow1)',
+                    lineList: [
+                        [10, 200],
+                        [20, 200],
+                        [20, 100],
+                        [300, 100]
+                    ],
+                    startPosition: {
+                        left: 10,
+                        top: 200,
+                        direction: "",
+                    },
+                    endPosition: {
+                        left: 300,
+                        top: 100,
+                        direction: ""
+                    },
+                    lineStyle: {
+                        stroke: "#409EFF",
+                        strokeDasharray: "20,10,5,10", //虚线之类的
+                        strokeWidth: "3px" //固定几种
+                    },
+                    lineSvgStyle: {
+                        position: 'absolute',
+                        width: "311px",
+                        height: "311px",
+                        left: "417px",
+                        top: "391px",
+                    }
+                }
             ],
 
         },
@@ -235,6 +272,10 @@ export default new Vuex.Store({
         setLineEA(state, params) {
             console.log("setLineEA", params);
             state.lineEA = params.lineEA;
+        },
+        setToken(state, params) {
+            state.Token = params.Token;
+            //alert("setToken"+state.Token);
         },
         //增加节点数据
         addNode(state, params) {
@@ -550,6 +591,18 @@ export default new Vuex.Store({
                 }).catch(function (error) {
                     console.log("error:" + error);
                 })
+        },
+        getToken({commit
+                   }) {
+            axios.post("/getToken",{}).then(function(response){
+                var token = {
+                    Token:response.data
+            }
+                //alert(token);
+                commit("setToken", token);
+            }).catch(function (error) {
+                console.log("error:" + error);
+            })
         },
     }
 });
