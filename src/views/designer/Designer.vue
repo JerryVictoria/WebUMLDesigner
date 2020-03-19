@@ -7,18 +7,23 @@
             <el-container class="mainBody">
                 <el-aside
                     id="side"
-                    :style="{width: 300 + ($store.state.UML.groupId != '' || $store.state.UML.groupId > 0)*100 + 'px'}"
+                    :style="{
+                        width: 300 + ($store.state.UML.groupId > 0) * 100 + 'px'
+                    }"
                 >
                     <components-store-side-bar
-                        :height="($store.state.UML.groupId != '' || $store.state.UML.groupId > 0) ? 110: 400"
+                        :height="$store.state.UML.groupId > 0 ? 110 : 400"
                     ></components-store-side-bar>
                     <ChatPanel
-                        v-if="($store.state.UML.groupId != '' || $store.state.UML.groupId > 0)"
+                        v-if="$store.state.UML.groupId > 0"
                         class="chatPanel"
                     ></ChatPanel>
                 </el-aside>
                 <el-main id="canvas" style="display: flex">
-                    <DiagramCanvas id="Diagram" style="display: inline-block; width: 2000px;"></DiagramCanvas>
+                    <DiagramCanvas
+                        id="Diagram"
+                        style="display: inline-block; width: 2000px;"
+                    ></DiagramCanvas>
                 </el-main>
             </el-container>
         </el-container>
@@ -35,7 +40,9 @@ export default {
     data() {
         return {};
     },
-
+    mounted() {
+        console.log("group?--", this.$store.state.UML.groupId > 0);
+    },
     components: {
         ToolTopBar,
         DiagramCanvas,
