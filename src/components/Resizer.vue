@@ -1,5 +1,8 @@
 <template>
-    <div class="wrapbox" :draggable="$store.state.editingId == id && !$store.state.editing">
+    <div
+        class="wrapbox"
+        :draggable="$store.state.editingId == id && !$store.state.editing"
+    >
         <div
             v-show="$store.state.editingId == id && !$store.state.editing"
             class="line line-t"
@@ -132,19 +135,19 @@ export default {
                 var values = [];
                 if (this.widthChangeFlag) {
                     keys.push("width");
-                    values.push(this.$el.style.width);
+                    values.push(this.deletePx(this.$el.style.width));
                 }
                 if (this.heightChangeFlag) {
                     keys.push("height");
-                    values.push(this.$el.style.height);
+                    values.push(this.deletePx(this.$el.style.height));
                 }
                 if (this.topChangeFlag) {
                     keys.push("top");
-                    values.push(this.$el.style.top);
+                    values.push(this.deletePx(this.$el.style.top));
                 }
                 if (this.leftChangeFlag) {
                     keys.push("left");
-                    values.push(this.$el.style.left);
+                    values.push(this.deletePx(this.$el.style.left));
                 }
                 if (
                     this.widthChangeFlag ||
@@ -290,6 +293,11 @@ export default {
         br({ event, width, height }) {
             this.b({ event, height });
             this.r({ event, width });
+        },
+        deletePx(num) {
+            if (num.includes("px")) {
+                return num.substring(0, num.length - 2);
+            }
         }
     }
 };
