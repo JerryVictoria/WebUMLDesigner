@@ -8,13 +8,15 @@
                 id="contentDiv"
                 style="padding:2px 10px; height: 230px; width: 100%; margin-top: 10px; overflow-y: auto;"
             >
-                <SelfDialogBox :text="'self text text......y...a.....f..........'"></SelfDialogBox>
+                <SelfDialogBox
+                    :text="'self text text......y...a.....f..........'"
+                ></SelfDialogBox>
                 <OtherDialogBox :text="'other text'"></OtherDialogBox>
                 <SelfDialogBox :text="'self text'"></SelfDialogBox>
                 <OtherDialogBox
                     :text="
-                    'other text text...sdfdsfdsf..sdfsfd....g.....gfdf..sfgfgfg.....df....dfgdfgdfg....'
-                "
+                        'other text text...sdfdsfdsf..sdfsfd....g.....gfdf..sfgfgfg.....df....dfgdfgdfg....'
+                    "
                 ></OtherDialogBox>
                 <SelfDialogBox :text="'self text'"></SelfDialogBox>
                 <OtherDialogBox :text="'other text'"></OtherDialogBox>
@@ -29,7 +31,11 @@
                 <component
                     v-for="(item, index) in content"
                     :key="index"
-                    :is="$store.state.UML.userId==item.uid?'SelfDialogBox':'OtherDialogBox'"
+                    :is="
+                        $store.state.UML.userId == item.uid
+                            ? 'SelfDialogBox'
+                            : 'OtherDialogBox'
+                    "
                     :text="item.chatContent"
                     :time="item.chatTime"
                 ></component>
@@ -37,7 +43,11 @@
             <div
                 style="margin-top: 10px; display: flex; border-top: 1px solid #E4E7ED; padding-top:6px;"
             >
-                <el-input placeholder="请输入……" v-model="message" @keyup.enter.native="sendMessage"></el-input>
+                <el-input
+                    placeholder="请输入……"
+                    v-model="message"
+                    @keyup.enter.native="sendMessage"
+                ></el-input>
                 <el-button
                     style="margin-left: 5px;"
                     icon="el-icon-s-promotion"
@@ -113,8 +123,8 @@ export default {
                 uid: this.$store.state.UML.userId,
                 fid: this.$store.state.UML.UMLId
             });
-            console.log(wsUrl + msg);
-            this.websock = new WebSocket(wsUrl + msg);
+            console.log(this.wsUrl + msg);
+            this.websock = new WebSocket(this.wsUrl + msg);
             this.websock.onopen = this.websocketonopen;
             this.websock.onerror = this.websocketonerror;
             this.websock.onmessage = this.websocketonmessage;
