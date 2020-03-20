@@ -439,9 +439,8 @@
             uploadFile() {
                 var key = this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLId;
                 this.$store.dispatch("getToken",{key:key});
-                //this.$store.dispatch("getRefreshTime");
-                //var url= "http://q76chphm1.bkt.clouddn.com/"+key+"?v="+this.$store.state.refreshTime;
-                var url= "http://q76chphm1.bkt.clouddn.com/"+key
+                this.$store.dispatch("getRefreshTime",{});
+                //var url= "http://q76chphm1.bkt.clouddn.com/"+key
                 // 最外层的容器
                 const treeContainnerElem = document.getElementById('visualEditor');
                 // 要导出div
@@ -485,6 +484,8 @@
                     a.style.display = "none";
                     document.body.removeChild(dom);
                     let blob = this.dataURLToBlob(dom.toDataURL("image/png"));
+                    var url= "http://q76chphm1.bkt.clouddn.com/"+key+"?v="+this.$store.state.refreshTime;
+                    alert(url);
                     var Token = this.$store.state.Token;
                     let config = {
                         useCdnDomain: true,

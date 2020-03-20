@@ -449,10 +449,14 @@ export default new Vuex.Store({
                 })
         },
         getRefreshTime({commit,state
-                   }) {
+                   },params) {
             //alert("getRefreshTime"+parseInt(state.UML.UMLId));
             var id=parseInt(state.UML.UMLId)
-            axios.get("/getRefreshTime",{fid:id})
+            axios.get("/getRefreshTime",{
+                params: {
+                    fid: 1,
+                }
+            })
                 .then(function(response){
                     var RefreshTime = {
                         refreshTime:response.data
