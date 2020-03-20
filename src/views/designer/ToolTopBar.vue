@@ -229,6 +229,7 @@
             this.$store.commit("setLineStyle", {
                 lineStyle: style
             });
+            this.uploadFile()
         },
         created() {
             console.log("created")

@@ -157,7 +157,10 @@ export default {
                     self.$store.commit("setUMLNodes", {
                         nodeList: []
                     });
-                    //TODO清空lines
+                    //清空lines
+                    self.$store.commit("setUMLLines", {
+                        lineList: []
+                    });
                     //console.log(self.$store.state.UML.UMLId);
                     //console.log(self.$store.state.UML.UMLName);
                     //console.log(self.$store.state.UML.UMLType);

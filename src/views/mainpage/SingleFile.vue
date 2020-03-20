@@ -54,30 +54,33 @@ export default {
         handleClick() {
             var self = this;
             this.$axios
-                .get("/getAllNodeByFid", { params: { fid: self.fid } })
-                .then(function(response) {
+                .get("/getAllLineByFid", {params: {fid: self.fid}})
+                .then(function (response) {
+                    console.log("getAllLineByFid");
+                    console.log(response.data);
+                    self.$store.commit("setUMLLines", {
+                        lineList: response.data}
+                        );
+                    console.log(self.$store.state.UML.lines)
+                })
+                .catch(function (error) {
+                    console.log("error:", error);
+                });
+            this.$axios
+                .get("/getAllNodeByFid", {params: {fid: self.fid}})
+                .then(function (response) {
                     console.log(response.data);
                     self.$store.commit("setUMLNodes", {
                         nodeList: response.data
                     });
-                    self.$store.commit("setGroupId", { groupId: self.gid });
-                    self.$store.commit("setUMLId", { id: self.fid });
+                    self.$store.commit("setGroupId", {groupId: self.gid});
+                    self.$store.commit("setUMLId", {id: self.fid});
                     self.$store.commit("setUMLType", {
                         type: self.fileType
                     });
-                    self.$router.push({ name: "Designer" });
+                    self.$router.push({name: "Designer"});
                 })
-                .catch(function(error) {
-                    console.log("error:", error);
-                });
-            this.$axios
-                .get("/getAllLineByFid", { params: { fid: self.fid } })
-                .then(function(response) {
-                    console.log(response.data);
-                    //TODO
-                    //self.$store.commit("setUMLLines", response.data);
-                })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log("error:", error);
                 });
         }

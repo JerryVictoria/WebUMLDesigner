@@ -75,6 +75,47 @@ export default new Vuex.Store({
                 });
             }
         },
+        setUMLLines(state, params) {
+            state.UML.lines = [];
+            var lines = params.lineList;
+            for (var i = 0; i < lines.length; i++) {
+                state.UML.lines.push({
+                    Id: lines[i].lineId,
+                    lid:lines[i].lid,
+                    svgId: "svg"+lines[i].lineId,
+                    lineId: "line"+lines[i].lineId,
+                    relationType: lines[i].relationType,
+                    from: lines[i].fromId+"",
+                    to: lines[i].toId+"",
+                    text:  lines[i].text,
+                    markerstart: 'url(#arrow2)',
+                    markerend: 'url(#arrow1)',
+                    lineList: lines[i].lineList,
+                    startPosition: {
+                        left: parseInt(lines[i].startPosition.lpLeft),
+                        top:parseInt(lines[i].startPosition.lpTop),
+                        direction: "",
+                },
+                    endPosition: {
+                        left: parseInt(lines[i].endPosition.lpLeft),
+                        top:parseInt(lines[i].endPosition.lpTop),
+                        direction: ""
+                    },
+                    lineStyle: {
+                        stroke: lines[i].lineStyle.stroke,
+                        strokeDasharray: lines[i].lineStyle.strokeDasharray, //虚线之类的
+                        strokeWidth: lines[i].lineStyle.strokeWidth //固定几种
+                    },
+                    lineSvgStyle: {
+                        position: lines[i].lineSvgStyle.svgPosition,
+                            width: lines[i].lineSvgStyle.svgWidth,
+                            height: lines[i].lineSvgStyle.svgHeight,
+                            left: lines[i].lineSvgStyle.svgLeft,
+                            top: lines[i].lineSvgStyle.svgTop,
+                    },
+                });
+            }
+        },
         setDrawLine(state, params) {
             //console.log("setEditState");
             state.drawLine = params.drawLine;

@@ -239,6 +239,14 @@ export default {
                     self.$store.commit("setGroupId", {
                         groupId: self.form.group
                     });
+                    //清空Nodes
+                    self.$store.commit("setUMLNodes", {
+                        nodeList: []
+                    });
+                    //清空lines
+                    self.$store.commit("setUMLLines", {
+                        lineList: []
+                    });
                     self.$router.push({ name: "Designer" });
                 })
                 .catch(function(error) {
