@@ -679,8 +679,8 @@ export default {
                     }
                 };
                 console.log(newline);
-                this.$store.commit("addLine", newline);
-                // this.$store.dispatch("addLine",newline);
+                //this.$store.commit("addLine", newline);
+                this.$store.dispatch("addLine",newline);
                 //console.log(this.$store.state.UML.lines);
                 this.lineStartX = 0;
                 this.lineStartY = 0;
@@ -831,12 +831,15 @@ export default {
         },
         drawLine(event) {
             //画线
+            console.log( this.$store.state.drawLine )
+            console.log( this.mousedown )
+            console.log( this.$store.state.editingId== "" )
             if (
                 this.$store.state.drawLine &&
                 this.mousedown &&
                 this.$store.state.editingId == ""
             ) {
-                //console.log("linemove");
+                console.log("linemove");
                 document.body.addEventListener("mouseup", this.mouseUp);
                 var cav1 = document.getElementById("visualEditor");
                 var c = {
@@ -864,13 +867,13 @@ export default {
                         ";zIndex:3"
                 );
                 //左上
-                newsvg.style.border = "solid 1px red";
+                //newsvg.style.border = "solid 1px red";
                 if (e.x < this.EStartX && e.y < this.EStartY) {
                     newsvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
                     newsvg.setAttribute("version", "1.1");
                     newsvg.style.width = this.EStartX - e.x + 22;
                     newsvg.style.height = this.EStartY - e.y + 22;
-                    newsvg.style.border = "solid 1px red";
+                    //newsvg.style.border = "solid 1px red";
                     newsvg.style.position = "absolute";
                     newsvg.style.left = e.x - 11 + "";
                     newsvg.style.top =

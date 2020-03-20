@@ -1,5 +1,7 @@
 <template>
-    <div style="margin-bottom:1%;display: block;position:absolute;width:100%">
+    <div
+            style="margin-bottom:1%;display: block;position:absolute;width:100%"
+    >
         <div style="margin-top:1%">
             <el-breadcrumb
                     separator="/"
@@ -190,7 +192,7 @@
                     }
                 ],
                 lineType: "直线",
-                lineSize: "1px",
+                lineSize: "3px",
                 lineStyle: "solid",
                 style: "",
                 type: "",
@@ -227,6 +229,13 @@
             this.$store.commit("setLineStyle", {
                 lineStyle: style
             });
+        },
+        created() {
+            console.log("created")
+            window.addEventListener('beforeunload',this.beforeunloadHandler())
+        },
+        destroyed() {
+            window.removeEventListener('beforeunload', this.beforeunloadHandler())
         },
         methods: {
             goBack() {
@@ -365,28 +374,28 @@
             },
             saveFile() {
                 // 最外层的容器
-                const treeContainnerElem = document.getElementById('visualEditor')
+                const treeContainnerElem = document.getElementById('visualEditor');
                 // 要导出div
-                const treeElem = document.getElementById("canvas")
+                const treeElem = document.getElementById("canvas");
                 //console.log(treeElem);
                 // 从要导出的div克隆的临时div
-                const tempElem = treeElem.cloneNode(true)
-                tempElem.id = 'temp-tree'
-                tempElem.className = 'fff'
-                tempElem.style.width = treeElem.clientWidth + 'px'
-                tempElem.style.height = treeElem.clientHeight + 'px'
-                treeContainnerElem.appendChild(tempElem)
+                const tempElem = treeElem.cloneNode(true);
+                tempElem.id = 'temp-tree';
+                tempElem.className = 'fff';
+                tempElem.style.width = treeElem.clientWidth + 'px';
+                tempElem.style.height = treeElem.clientHeight + 'px';
+                treeContainnerElem.appendChild(tempElem);
                 //console.log(tempElem);
                 // 在临时div上将svg都转换成canvas，并删除原有的svg节点
                 const svgElem = tempElem.querySelectorAll("svg");
-                console.log(svgElem)
+                console.log(svgElem);
                 svgElem.forEach((node) => {
                     var parentNode = node.parentNode;
-                    console.log(parentNode)
+                    console.log(parentNode);
                     var svg = node.outerHTML.trim();
                     var canvas = document.createElement("canvas");
                     canvg(canvas, svg);
-                    canvas.style.zIndex = 9
+                    canvas.style.zIndex = 9;
                     if (node.style.position) {
                         canvas.style.position += node.style.position;
                         canvas.style.left += node.style.left;
@@ -402,8 +411,8 @@
                     useCORS: true // 允许CORS跨域
                 }).then(canvas => {
                     // 图片触发下载
-                    canvas.style.height = tempElem.style.height + 'px'
-                    console.log(canvas.style)
+                    canvas.style.height = tempElem.style.height + 'px';
+                    console.log(canvas.style);
                     let dom = document.body.appendChild(canvas);
                     let a = document.createElement('a');
                     dom.style.display = "none";
@@ -411,7 +420,7 @@
                     document.body.removeChild(dom);
                     let blob = this.dataURLToBlob(dom.toDataURL("image/png"));
                     a.setAttribute("href", URL.createObjectURL(blob));
-                    a.setAttribute("download", this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLI + ".png")
+                    a.setAttribute("download", this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLI + ".png");
                     document.body.appendChild(a);
                     a.click();
                     URL.revokeObjectURL(blob);
@@ -428,30 +437,34 @@
                 return new Blob([u8arr], {type: mime})
             },
             uploadFile() {
-                this.$store.dispatch("getToken");
+                var key = this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLId;
+                this.$store.dispatch("getToken",{key:key});
+                //this.$store.dispatch("getRefreshTime");
+                //var url= "http://q76chphm1.bkt.clouddn.com/"+key+"?v="+this.$store.state.refreshTime;
+                var url= "http://q76chphm1.bkt.clouddn.com/"+key
                 // 最外层的容器
-                const treeContainnerElem = document.getElementById('visualEditor')
+                const treeContainnerElem = document.getElementById('visualEditor');
                 // 要导出div
-                const treeElem = document.getElementById("canvas")
+                const treeElem = document.getElementById("canvas");
                 //console.log(treeElem);
                 // 从要导出的div克隆的临时div
-                const tempElem = treeElem.cloneNode(true)
-                tempElem.id = 'temp-tree'
-                tempElem.className = 'fff'
-                tempElem.style.width = treeElem.clientWidth + 'px'
-                tempElem.style.height = treeElem.clientHeight + 'px'
-                treeContainnerElem.appendChild(tempElem)
+                const tempElem = treeElem.cloneNode(true);
+                tempElem.id = 'temp-tree';
+                tempElem.className = 'fff';
+                tempElem.style.width = treeElem.clientWidth + 'px';
+                tempElem.style.height = treeElem.clientHeight + 'px';
+                treeContainnerElem.appendChild(tempElem);
                 //console.log(tempElem);
                 // 在临时div上将svg都转换成canvas，并删除原有的svg节点
                 const svgElem = tempElem.querySelectorAll("svg");
-                console.log(svgElem)
+                console.log(svgElem);
                 svgElem.forEach((node) => {
                     var parentNode = node.parentNode;
-                    console.log(parentNode)
+                    console.log(parentNode);
                     var svg = node.outerHTML.trim();
                     var canvas = document.createElement("canvas");
                     canvg(canvas, svg);
-                    canvas.style.zIndex = 9
+                    canvas.style.zIndex = 9;
                     if (node.style.position) {
                         canvas.style.position += node.style.position;
                         canvas.style.left += node.style.left;
@@ -465,26 +478,25 @@
                 html2canvas(treeContainnerElem, {
                     useCORS: true // 允许CORS跨域
                 }).then(canvas => {
-                    canvas.style.height = tempElem.style.height + 'px'
+                    canvas.style.height = tempElem.style.height + 'px';
                     let dom = document.body.appendChild(canvas);
                     let a = document.createElement('a');
                     dom.style.display = "none";
                     a.style.display = "none";
                     document.body.removeChild(dom);
                     let blob = this.dataURLToBlob(dom.toDataURL("image/png"));
-                    document.body.appendChild(a);
-                    document.body.removeChild(a);
-                    treeContainnerElem.removeChild(tempElem)
                     var Token = this.$store.state.Token;
-                    var key = this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLId;
                     let config = {
                         useCdnDomain: true,
                         region: qiniu.region.z0
-                    }
+                    };
                     let putExtra = {
                         fname: key,
                         params: {},
                         mimeType: ["image/png", "image/jpeg"]
+                    };
+                    let options = {
+                        scope: "uml:"+key
                     };
                     let observable = qiniu.upload(blob, key, Token, putExtra, config);
                     observable.subscribe({
@@ -500,6 +512,14 @@
                         complete: (res) => {
                             // 接收成功后返回的信息
                             alert("上传成功");
+                            console.log(res)
+                            a.setAttribute("href", URL.createObjectURL(blob));
+                            a.setAttribute("download", this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLI + ".png");
+                            document.body.appendChild(a);
+                            //a.click();
+                            document.body.removeChild(a);
+                            treeContainnerElem.removeChild(tempElem);
+                            this.$store.dispatch("refreshPic",{url:url});
                         }
                         /*
                     var basestr = dom.toDataURL("image/png").substr(22);
@@ -532,6 +552,10 @@
                     */
                     })
                 })
+            },
+            beforeunloadHandler(){
+                //alert("shangchuankaishi")
+                //this.uploadFile()
             },
         },
         state: {
