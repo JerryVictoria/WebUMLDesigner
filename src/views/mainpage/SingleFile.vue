@@ -2,8 +2,10 @@
     <el-card class="fileBlock">
         <div @click="handleClick">
             <span class="contentSpan omitted">
-                {{fileName}}
-                <el-tag size="mini" type="primary">{{types[fileType]}}</el-tag>
+                {{ fileName }}
+                <el-tag size="mini" type="primary">{{
+                    types[fileType]
+                }}</el-tag>
             </span>
             <el-image :src="src" class="fileImg"></el-image>
         </div>
@@ -28,7 +30,7 @@ export default {
         },
         fileType: {
             type: String,
-            default: "UML"
+            default: "CLASS_DIAGRAM"
         },
         gid: {
             type: Number,
@@ -60,6 +62,9 @@ export default {
                     });
                     self.$store.commit("setGroupId", { groupId: self.gid });
                     self.$store.commit("setUMLId", { id: self.fid });
+                    self.$store.commit("setUMLType", {
+                        type: self.fileType
+                    });
                     self.$router.push({ name: "Designer" });
                 })
                 .catch(function(error) {

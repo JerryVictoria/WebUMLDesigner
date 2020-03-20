@@ -2,12 +2,19 @@
     <div
         class="objectDiv"
         @click.stop="setEditingId"
-        :style="{minWidth: this.width*0.95 + 'px', minHeight: this.height*0.95 + 'px', display: 'flex'}"
+        :style="{
+            minWidth: this.width * 0.95 + 'px',
+            minHeight: this.height * 0.95 + 'px',
+            display: 'flex'
+        }"
         v-clickoutside="hideInputAndSave"
     >
         <div
             class="laneTitle"
-            :style="{width: this.width*0.2 + 'px', height: this.height*0.95 + 'px'}"
+            :style="{
+                width: this.width * 0.2 + 'px',
+                height: this.height * 0.95 + 'px'
+            }"
         >
             <el-input
                 class="contentSpan rotate90"
@@ -15,18 +22,32 @@
                 v-if="showInput && id == $store.state.editingId"
                 size="mini"
                 :autofocus="true"
-                :style="{width: this.height*0.8 + 'px', marginTop: this.height*0.4 + 'px', marginLeft: -this.height*0.3 + 'px'}"
+                @focus="saveOriginValue"
+                @blur="submitChange"
+                :style="{
+                    width: this.height * 0.8 + 'px',
+                    marginTop: this.height * 0.4 + 'px',
+                    marginLeft: -this.height * 0.3 + 'px'
+                }"
             ></el-input>
             <span
                 class="contentSpan omitted rotate90"
-                :style="{width: this.height*0.9 + 'px', marginTop: this.height*0.4 + 'px', marginLeft: -this.height*0.35 + 'px'}"
+                :style="{
+                    width: this.height * 0.9 + 'px',
+                    marginTop: this.height * 0.4 + 'px',
+                    marginLeft: -this.height * 0.35 + 'px'
+                }"
                 v-else
                 @click="handleNameClick"
-            >{{name}}</span>
+                >{{ name }}</span
+            >
         </div>
         <div
             class="laneBody"
-            :style="{width: this.width*0.78 + 'px', height: this.height*0.95 + 'px'}"
+            :style="{
+                width: this.width * 0.78 + 'px',
+                height: this.height * 0.95 + 'px'
+            }"
         ></div>
     </div>
 </template>
@@ -37,7 +58,8 @@ export default {
     extends: CommonComponent,
     data() {
         return {
-            name: ""
+            name: "",
+            originValue: ""
         };
     },
     watch: {
@@ -46,20 +68,27 @@ export default {
             handler(prop) {
                 this.name = prop.name;
             }
-        },
-        name(newName) {
-            this.$store.dispatch("modifyNode", {
-                nodeKey: "properties",
-                key: "name",
-                value: newName,
-                id: this.id
-            });
         }
     },
     methods: {
         hideInputAndSave() {
             this.showInput = false;
             this.setEditStateFalse();
+        },
+        saveOriginValue() {
+            this.originValue = this.name;
+        },
+        submitChange() {
+            if (this.originValue == this.name) {
+                return;
+            }
+            this.$store.dispatch("modifyNode", {
+                nodeKey: "properties",
+                key: "name",
+                value: this.name,
+                originValue: this.originValue,
+                id: this.id
+            });
         }
     }
 };

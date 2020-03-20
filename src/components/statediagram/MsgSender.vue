@@ -1,12 +1,19 @@
 <template>
     <div
         @click.stop="setEditingId"
-        :style="{width: this.width*0.98 + 'px', height: this.height*0.98 + 'px', display: 'flex'}"
+        :style="{
+            width: this.width * 0.98 + 'px',
+            height: this.height * 0.98 + 'px',
+            display: 'flex'
+        }"
         v-clickoutside="hideInputAndSave"
     >
         <div
             class="rectDiv"
-            :style="{width: this.width*0.9 + 'px', height: this.height*0.9 + 'px'}"
+            :style="{
+                width: this.width * 0.9 + 'px',
+                height: this.height * 0.9 + 'px'
+            }"
         >
             <el-input
                 class="contentSpan"
@@ -14,19 +21,36 @@
                 v-if="showInput && id == $store.state.editingId"
                 size="mini"
                 :autofocus="true"
-                :style="{width: this.width*0.6+'px',marginTop: this.height*0.2 + 'px'}"
+                @focus="saveOriginValue"
+                @blur="submitChange"
+                :style="{
+                    width: this.width * 0.6 + 'px',
+                    marginTop: this.height * 0.2 + 'px'
+                }"
             ></el-input>
             <span
-                :style="{width: this.width*0.6+'px', minHeight: this.height*0.6 + 'px', marginTop: this.height*0.2 + 'px'}"
+                :style="{
+                    width: this.width * 0.6 + 'px',
+                    minHeight: this.height * 0.6 + 'px',
+                    marginTop: this.height * 0.2 + 'px'
+                }"
                 v-else
                 class="contentSpan"
                 @click="handleNameClick"
-            >{{name}}</span>
+                >{{ name }}</span
+            >
         </div>
-        <div class="triDiv" :style="{borderWidth: this.height*0.45+2 + 'px'}">
+        <div
+            class="triDiv"
+            :style="{ borderWidth: this.height * 0.45 + 2 + 'px' }"
+        >
             <div
                 class="triWhiteDiv"
-                :style="{borderWidth: this.height*0.45 + 'px', marginLeft: -this.height*0.45-2 + 'px', marginTop: -this.height*0.45 + 'px'}"
+                :style="{
+                    borderWidth: this.height * 0.45 + 'px',
+                    marginLeft: -this.height * 0.45 - 2 + 'px',
+                    marginTop: -this.height * 0.45 + 'px'
+                }"
             ></div>
         </div>
     </div>
@@ -38,7 +62,8 @@ export default {
     extends: CommonComponent,
     data() {
         return {
-            name: ""
+            name: "",
+            originValue: ""
         };
     },
     watch: {
@@ -47,20 +72,27 @@ export default {
             handler(prop) {
                 this.name = prop.name;
             }
-        },
-        name(newName) {
-            this.$store.dispatch("modifyNode", {
-                nodeKey: "properties",
-                key: "name",
-                value: newName,
-                id: this.id
-            });
         }
     },
     methods: {
         hideInputAndSave() {
             this.showInput = false;
             this.setEditStateFalse();
+        },
+        saveOriginValue() {
+            this.originValue = this.name;
+        },
+        submitChange() {
+            if (this.originValue == this.name) {
+                return;
+            }
+            this.$store.dispatch("modifyNode", {
+                nodeKey: "properties",
+                key: "name",
+                value: this.name,
+                originValue: this.originValue,
+                id: this.id
+            });
         }
     }
 };
