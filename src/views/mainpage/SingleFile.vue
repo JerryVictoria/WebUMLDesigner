@@ -22,7 +22,7 @@ export default {
         src: {
             type: String,
             default:
-                "https://assets.processon.com/chart_image/thumb/5ddf6d17e4b0b2fab73984e3.png"
+                "undefine"
         },
         fid: {
             type: Number,
@@ -47,7 +47,7 @@ export default {
                 USECASE_DIAGRAM: "用例图",
                 DEPLOYMENT_DIAGRAM: "部署图",
                 ER_DIAGRAM: "实体关系图"
-            }
+            },
         };
     },
     methods: {

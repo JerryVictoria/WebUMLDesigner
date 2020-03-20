@@ -485,7 +485,7 @@
                     document.body.removeChild(dom);
                     let blob = this.dataURLToBlob(dom.toDataURL("image/png"));
                     var url= "http://q76chphm1.bkt.clouddn.com/"+key+"?v="+this.$store.state.refreshTime;
-                    alert(url);
+                    //alert(url);
                     var Token = this.$store.state.Token;
                     let config = {
                         useCdnDomain: true,
@@ -512,7 +512,7 @@
                         },
                         complete: (res) => {
                             // 接收成功后返回的信息
-                            alert("上传成功");
+                            //alert("上传成功");
                             console.log(res)
                             a.setAttribute("href", URL.createObjectURL(blob));
                             a.setAttribute("download", this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLI + ".png");

@@ -454,14 +454,14 @@ export default new Vuex.Store({
             var id=parseInt(state.UML.UMLId)
             axios.get("/getRefreshTime",{
                 params: {
-                    fid: 1,
+                    fid: id,
                 }
             })
                 .then(function(response){
                     var RefreshTime = {
                         refreshTime:response.data
                     }
-                    alert(response.data);
+                    //alert(response.data);
                     commit("setRefreshTime", RefreshTime);
                 }).catch(function (error) {
                 console.log("error:" + error);
@@ -484,7 +484,7 @@ export default new Vuex.Store({
         },
         refreshPic({commit
                  }, params) {
-            alert(params.url);
+            //alert(params.url);
             axios.post("/refreshPic",{
                 url:params.url})
                 .then(function(response){

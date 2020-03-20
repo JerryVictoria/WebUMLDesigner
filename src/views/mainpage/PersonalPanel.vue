@@ -86,6 +86,7 @@
                     :fileName="item.fileName"
                     :fid="item.fid"
                     :fileType="item.fileType"
+                    :src="item.refreshTime"
                     :gid="-1"
                 ></SingleFile>
             </div>
@@ -106,7 +107,8 @@ export default {
                 UMLName: "",
                 UMLType: ""
             },
-            fileList: []
+            fileList: [],
+            imgsrc:"http://q76chphm1.bkt.clouddn.com/",
         };
     },
     mounted() {
@@ -177,6 +179,11 @@ export default {
                 .then(function(response) {
                     console.log(response.data);
                     self.fileList = response.data;
+                    for(var i=0;i<self.fileList.length;i++){
+                        var imgsrc="http://q76chphm1.bkt.clouddn.com/"+self.fileList[i].fileType+"_"+self.fileList[i].fid+"?v="+self.fileList[i].refreshTime;
+                        self.fileList[i].refreshTime=imgsrc;
+                    }
+                    console.log(response.data)
                 })
                 .catch(function(error) {
                     console.log("error", error);
