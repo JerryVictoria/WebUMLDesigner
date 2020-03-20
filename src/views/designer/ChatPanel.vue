@@ -62,7 +62,8 @@ export default {
     data() {
         return {
             content: [],
-            message: ""
+            message: "",
+            wsUrl: "ws://172.19.241.250:8084/websocket/"
         };
     },
     created() {
@@ -112,10 +113,8 @@ export default {
                 uid: this.$store.state.UML.userId,
                 fid: this.$store.state.UML.UMLId
             });
-            console.log("ws://localhost:8082/websocket/" + msg);
-            this.websock = new WebSocket(
-                "ws://localhost:8082/websocket/" + msg
-            );
+            console.log(wsUrl + msg);
+            this.websock = new WebSocket(wsUrl + msg);
             this.websock.onopen = this.websocketonopen;
             this.websock.onerror = this.websocketonerror;
             this.websock.onmessage = this.websocketonmessage;

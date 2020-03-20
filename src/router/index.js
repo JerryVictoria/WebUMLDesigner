@@ -63,15 +63,15 @@ const routes = [{
     name: "Test",
     component: Test
   },
-    {
-        path: "/tooltop",
-        name: "ToolTopBar",
-        component: ToolTopBar
-    },
+  {
+    path: "/tooltop",
+    name: "ToolTopBar",
+    component: ToolTopBar
+  },
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  //mode: "history",
   routes
 });
 
