@@ -65,6 +65,16 @@
                         >
                             <path d="M2,6 L10,2 L6,6 L10,10 L2,6" style="fill:#000000" />
                         </marker>
+                        <filter id="drop-shadow">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="2.2"/>
+                            <feOffset dx="1" dy="12" result="offsetblur"/>
+                            <feFlood flood-color="rgba(0,0,0,0.5)"/>
+                            <feComposite in2="offsetblur" operator="in"/>
+                            <feMerge>
+                                <feMergeNode/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
                     </defs>
                     <line
                         :x1="line.startPosition.left"
@@ -240,6 +250,13 @@ export default {
             this.$store.commit("setLineEditState", { lineEditing: false });
             this.$store.commit("setLineEditId", { id: "" });
             this.showMenu = false;
+            const treeElem = document.getElementById("canvas");
+            const svgElem = treeElem.querySelectorAll("svg");
+            console.log(svgElem);
+            svgElem.forEach((node) => {
+                console.log(node.childNodes[1].id);
+                    node.childNodes[1].style.filter="";
+            });
         },
         handleDragStart(event) {
             console.log("handleDragStart");
@@ -356,6 +373,19 @@ export default {
             this.$store.commit("setLineEditState", { lineEditing: true });
             this.$store.commit("setLineEditId", { id: item });
             console.log(this.$store.state.lineEditId);
+            var line=document.getElementById("line"+item);
+            const treeElem = document.getElementById("canvas");
+            const svgElem = treeElem.querySelectorAll("svg");
+            console.log(svgElem);
+            svgElem.forEach((node) => {
+                console.log(node.childNodes[1].id);
+
+                if(node.childNodes[1].id=="line"+item){
+                    node.childNodes[1].style.filter="url(#drop-shadow)";
+                }else{
+                    node.childNodes[1].style.filter="";
+                }
+            });
         },
         mouseEnter() {
             if (this.$store.state.drawLine) {
@@ -692,7 +722,6 @@ export default {
                 document.body.removeEventListener("mouseup", this.mouseUp);
             }
             this.clickOutSide();
-            this.uploadFile()
         },
         mouseDown(event) {
             if (
