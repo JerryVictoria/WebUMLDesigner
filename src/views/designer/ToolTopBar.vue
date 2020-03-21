@@ -92,9 +92,6 @@
                     </el-option>
                 </el-select>
             </el-tooltip>
-            <el-button id="uploadFile" @click="uploadFile()"
-                       style="display:inline-flex;left:73%;position:absolute;width:8%;margin: -1% 1% 0 1%">上传至云端
-            </el-button>
         </div>
     </div>
 </template>
@@ -229,14 +226,6 @@
             this.$store.commit("setLineStyle", {
                 lineStyle: style
             });
-            this.uploadFile()
-        },
-        created() {
-            console.log("created")
-            window.addEventListener('beforeunload',this.beforeunloadHandler())
-        },
-        destroyed() {
-            window.removeEventListener('beforeunload', this.beforeunloadHandler())
         },
         methods: {
             goBack() {
@@ -279,6 +268,7 @@
                     };
                     console.log(this.$store.state.lineEditId);
                     console.log(this.lcolor);
+                    this.uploadFile();
                     this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
                         key: "stroke",
@@ -289,7 +279,6 @@
                     });
                     console.log(this.$store.state.UML.lines);
                 }
-
                 this.$store.commit("setLineColor", {
                     lineColor: this.lcolor
                 });
@@ -323,10 +312,11 @@
                         }
                     }
                     var style1 = {
-                        stroke: this.lcolor,
-                        strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
+                        stroke: line.lineStyle.stroke,
+                        strokeDasharray: style, //虚线之类的
                         strokeWidth: line.lineStyle.strokeWidth //固定几种
                     };
+                    this.uploadFile();
                     this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
                         key: "strokeDasharray",
@@ -354,10 +344,11 @@
                         }
                     }
                     var style = {
-                        stroke: this.lcolor,
+                        stroke:line.lineStyle.stroke,
                         strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
-                        strokeWidth: line.lineStyle.strokeWidth //固定几种
+                        strokeWidth: this.lineSize //固定几种
                     };
+                    this.uploadFile();
                     this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
                         key: "strokeWidth",
@@ -515,49 +506,15 @@
                             // 接收成功后返回的信息
                             //alert("上传成功");
                             console.log(res)
-                            a.setAttribute("href", URL.createObjectURL(blob));
-                            a.setAttribute("download", this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLI + ".png");
-                            document.body.appendChild(a);
-                            //a.click();
-                            document.body.removeChild(a);
+                            this.$message({
+                                message: "修改保存成功",
+                                type: "success"
+                            });
                             treeContainnerElem.removeChild(tempElem);
                             this.$store.dispatch("refreshPic",{url:url});
                         }
-                        /*
-                    var basestr = dom.toDataURL("image/png").substr(22);
-                    //console.log(basestr)
-                    var equalIndex = basestr.indexOf('=');
-                    while (basestr.indexOf('=') > 0) {
-                        basestr = basestr.substr(0, equalIndex);
-                    }
-                    //console.log(basestr)
-                    var strLength = basestr.length;
-                    //console.log(strLength)
-                    var fileLength = parseInt(strLength - (strLength / 8) * 2);
-                    console.log(fileLength)
-                    var Token = this.$store.state.Token;
-                    var url = "http://upload.qiniup.com/putb64/" + fileLength;
-                    console.log(url);
-                    var xhr = new XMLHttpRequest();
-                    //alert(Token)
-                    var picUrl;
-                    xhr.onreadystatechange=function(){
-                        if (xhr.readyState==4){
-                            console.log(xhr.responseText);
-                        }
-                    }
-                    xhr.open("POST", url, true);
-                    xhr.setRequestHeader("Content-Type", "application/octet-stream");
-                    xhr.setRequestHeader("Authorization", "UpToken "+Token);
-                    console.log(xhr.Authorization);
-                    xhr.send(basestr);
-                    */
                     })
                 })
-            },
-            beforeunloadHandler(){
-                //alert("shangchuankaishi")
-                //this.uploadFile()
             },
         },
         state: {

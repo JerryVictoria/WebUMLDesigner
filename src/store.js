@@ -461,7 +461,6 @@ export default new Vuex.Store({
             commit
         }, params) {
             //params.lineStyle.key=params.Line.value;
-            //alert(params.Line.lid);
             axios.post("/updateLine", {
                     lineId: parseInt(params.Line.Id),
                     lid: params.Line.lid,
