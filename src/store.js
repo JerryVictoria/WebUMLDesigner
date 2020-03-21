@@ -1,7 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from './httpConfig/url_config'
-
+import html2canvas from "html2canvas";
+import canvg from "canvg";
+import * as qiniu from 'qiniu-js'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -196,8 +198,9 @@ export default new Vuex.Store({
         //删除线条数据
         removeLine(state, params) {
             for (var i = 0; i < state.UML.lines.length; i++) {
-                if (state.UML.lines[i].Id == params.id) {
+                if (state.UML.lines[i].lid == params.id) {
                     state.UML.lines.splice(i, 1);
+                    //alert("down")
                     break;
                 }
             }
@@ -428,6 +431,25 @@ export default new Vuex.Store({
                     console.log("error:" + error);
                 })
         },
+        removeLine({
+                       commit,
+                       state
+                   }, params) {
+            var fid=parseInt(state.UML.UMLId)
+            var lid=parseInt(params.id)
+            //alert("dispatch "+fid+":"+lid)
+            axios.get("/delLine", {
+                params: {
+                    fid: fid,
+                    lid: lid
+                }
+            })
+                .then(function (response) {
+                    commit("removeLine", params);
+                }).catch(function (error) {
+                console.log("error:" + error);
+            })
+        },
         addLine({
             commit,
             state
@@ -533,5 +555,5 @@ export default new Vuex.Store({
                 console.log("error:" + error);
             })
         },
-    }
+    },
 });

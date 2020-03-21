@@ -379,7 +379,6 @@ export default {
             console.log(svgElem);
             svgElem.forEach((node) => {
                 console.log(node.childNodes[1].id);
-
                 if(node.childNodes[1].id=="line"+item){
                     node.childNodes[1].style.filter="url(#drop-shadow)";
                 }else{
@@ -389,8 +388,8 @@ export default {
         },
         mouseEnter() {
             if (this.$store.state.drawLine) {
-                console.log("mouseenter,箭头变为十字");
-                var cav1 = document.getElementById("visualEditor");
+                //alert("mouseenter,箭头变为十字");
+                var cav1 = document.getElementById("canvas");
                 cav1.style.cursor = "crosshair";
             }
         },
@@ -722,6 +721,7 @@ export default {
                 document.body.removeEventListener("mouseup", this.mouseUp);
             }
             this.clickOutSide();
+            this.uploadFile()
         },
         mouseDown(event) {
             if (
@@ -1090,10 +1090,12 @@ export default {
                         // 接收成功后返回的信息
                         //alert("上传成功");
                         console.log(res)
+                        /*
                         this.$message({
                             message: "修改保存成功",
                             type: "success"
                         });
+                        */
                         treeContainnerElem.removeChild(tempElem);
                         this.$store.dispatch("refreshPic",{url:url});
                     }

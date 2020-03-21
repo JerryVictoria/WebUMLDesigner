@@ -188,10 +188,12 @@ export default {
                         // 接收成功后返回的信息
                         //alert("上传成功");
                         console.log(res)
+                        /*
                         this.$message({
                             message: "修改保存成功",
                             type: "success"
                         });
+                        */
                         treeContainnerElem.removeChild(tempElem);
                         this.$store.dispatch("refreshPic",{url:url});
                     }
