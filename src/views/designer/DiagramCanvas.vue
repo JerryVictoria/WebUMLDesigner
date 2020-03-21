@@ -320,6 +320,7 @@ export default {
                     this.ghost = null;
                 } */
                 this.clickOutSide()
+                this.uploadFile()
             }
         },
         handleDragEnter(event) {
@@ -358,7 +359,6 @@ export default {
         },
         mouseEnter() {
             if (this.$store.state.drawLine) {
-                //@TODO 鼠标箭头改为十字
                 console.log("mouseenter,箭头变为十字");
                 var cav1 = document.getElementById("visualEditor");
                 cav1.style.cursor = "crosshair";
@@ -366,7 +366,6 @@ export default {
         },
         mouseLeave() {
             if (this.$store.state.drawLine) {
-                //@TODO 鼠标箭头还原
                 console.log("鼠标箭头还原");
                 document.getElementById("visualEditor").style.cursor =
                     "default";
@@ -693,6 +692,7 @@ export default {
                 document.body.removeEventListener("mouseup", this.mouseUp);
             }
             this.clickOutSide();
+            this.uploadFile()
         },
         mouseDown(event) {
             if (
