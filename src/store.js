@@ -23,8 +23,8 @@ export default new Vuex.Store({
         lineSA: "",
         lineEA: "",
         lineEditId: "",
-        Token:"",
-        refreshTime:0,
+        Token: "",
+        refreshTime: 0,
         autoId: 100, // max of all TODO init
         UML: {
             //mock data
@@ -33,10 +33,8 @@ export default new Vuex.Store({
             UMLName: "",
             userId: "",
             groupId: "",
-            nodes: [
-            ],
-            lines: [
-            ],
+            nodes: [],
+            lines: [],
 
         },
         histories: [] //循环队列实现
@@ -83,24 +81,24 @@ export default new Vuex.Store({
             for (var i = 0; i < lines.length; i++) {
                 state.UML.lines.push({
                     Id: lines[i].lineId,
-                    lid:lines[i].lid,
-                    svgId: "svg"+lines[i].lineId,
-                    lineId: "line"+lines[i].lineId,
+                    lid: lines[i].lid,
+                    svgId: "svg" + lines[i].lineId,
+                    lineId: "line" + lines[i].lineId,
                     relationType: lines[i].relationType,
-                    from: lines[i].fromId+"",
-                    to: lines[i].toId+"",
-                    text:  lines[i].text,
+                    from: lines[i].fromId + "",
+                    to: lines[i].toId + "",
+                    text: lines[i].text,
                     markerstart: 'url(#arrow2)',
                     markerend: 'url(#arrow1)',
                     lineList: lines[i].lineList,
                     startPosition: {
                         left: parseInt(lines[i].startPosition.lpLeft),
-                        top:parseInt(lines[i].startPosition.lpTop),
+                        top: parseInt(lines[i].startPosition.lpTop),
                         direction: "",
-                },
+                    },
                     endPosition: {
                         left: parseInt(lines[i].endPosition.lpLeft),
-                        top:parseInt(lines[i].endPosition.lpTop),
+                        top: parseInt(lines[i].endPosition.lpTop),
                         direction: ""
                     },
                     lineStyle: {
@@ -110,10 +108,10 @@ export default new Vuex.Store({
                     },
                     lineSvgStyle: {
                         position: lines[i].lineSvgStyle.svgPosition,
-                            width: lines[i].lineSvgStyle.svgWidth,
-                            height: lines[i].lineSvgStyle.svgHeight,
-                            left: lines[i].lineSvgStyle.svgLeft,
-                            top: lines[i].lineSvgStyle.svgTop,
+                        width: lines[i].lineSvgStyle.svgWidth,
+                        height: lines[i].lineSvgStyle.svgHeight,
+                        left: lines[i].lineSvgStyle.svgLeft,
+                        top: lines[i].lineSvgStyle.svgTop,
                     },
                 });
             }
@@ -245,13 +243,42 @@ export default new Vuex.Store({
                 return;
             }
         },
+        //增加类节点属性
+        addClassNodeProp(state, params) {
+            console.log("addClassNodeProp");
+            var addProps = i => {
+                if (params.contentType == "functions") {
+                    state.UML.nodes[i]["properties"][params.contentType].push({
+                        modifier: params.modifier,
+                        dataType: params.dataType,
+                        name: params.name,
+                        params: params.params ? params.params : "",
+                        vid: params.vid
+                    });
+                } else {
+                    state.UML.nodes[i]["properties"][params.contentType].push({
+                        modifier: params.modifier,
+                        dataType: params.dataType,
+                        name: params.name,
+                        vid: params.vid
+                    });
+                }
+            };
+            for (var i = 0, l = state.UML.nodes.length; i < l; i++) {
+                if (state.UML.nodes[i].id == params.id) {
+                    addProps(i);
+                    return;
+                }
+            }
+        },
         //删除类节点属性
         deleteClassNodeProp(state, params) {
+            console.log("deleteClassNodeProp");
             for (var i = 0, l = state.UML.nodes.length; i < l; i++) {
                 if (state.UML.nodes[i].id == params.id) {
                     var arr = state.UML.nodes[i]["properties"][params.contentType];
                     for (var j = 0; j < arr.length; j++) {
-                        if (arr[j].propId == params.propId) {
+                        if (arr[j].vid == params.vid) {
                             arr.splice(j, 1);
                             return;
                         }
@@ -261,6 +288,7 @@ export default new Vuex.Store({
         },
         //修改类节点属性
         changeClassNodeProp(state, params) {
+            console.log("changeClassNodeProp");
             var addProps = i => {
                 if (params.contentType == "functions") {
                     state.UML.nodes[i]["properties"][params.contentType].push({
@@ -268,30 +296,24 @@ export default new Vuex.Store({
                         dataType: params.dataType,
                         name: params.name,
                         params: params.params ? params.params : "",
-                        propId: state.autoId
+                        vid: params.vid
                     });
                 } else {
                     state.UML.nodes[i]["properties"][params.contentType].push({
                         modifier: params.modifier,
                         dataType: params.dataType,
                         name: params.name,
-                        propId: state.autoId
+                        vid: params.vid
                     });
                 }
-                state.autoId++;
             };
             for (var i = 0, l = state.UML.nodes.length; i < l; i++) {
                 if (state.UML.nodes[i].id == params.id) {
-                    if (params.addFlag) {
-                        //新增属性
-                        addProps(i);
-                        return;
-                    }
                     if (params.originContentType == params.contentType) {
                         //相同则直接修改属性
                         var arr = state.UML.nodes[i]["properties"][params.contentType];
                         for (var j = 0; j < arr.length; j++) {
-                            if (arr[j].propId == params.propId) {
+                            if (arr[j].vid == params.vid) {
                                 arr[j].modifier = params.modifier;
                                 arr[j].dataType = params.dataType;
                                 arr[j].name = params.name;
@@ -306,7 +328,7 @@ export default new Vuex.Store({
                             state.UML.nodes[i]["properties"][params.originContentType];
                         //删除
                         for (j = 0; j < arrOrigin.length; j++) {
-                            if (arrOrigin[j].propId == params.propId) {
+                            if (arrOrigin[j].vid == params.vid) {
                                 arrOrigin.splice(j, 1);
                             }
                         }
@@ -431,24 +453,73 @@ export default new Vuex.Store({
                     console.log("error:" + error);
                 })
         },
+        addClassNodeProp({
+            commit
+        }, params) {
+            axios.post("/addVarAndFunc", {
+                nid: params.id,
+                modifier: params.modifier,
+                dataType: params.dataType,
+                name: params.name,
+                params: params.params,
+                flag: (params.contentType == 'functions') ? 1 : 0
+            }).then(function (response) {
+                params.vid = response.data;
+                console.log(params);
+                commit("addClassNodeProp", params);
+            }).catch(function (error) {
+                console.log("error:" + error);
+            })
+        },
+        changeClassNodeProp({
+            commit
+        }, params) {
+            axios.post("/upDateVarAndFunc", {
+                nid: params.id,
+                vid: params.vid,
+                modifier: params.modifier,
+                dataType: params.dataType,
+                name: params.name,
+                params: params.params,
+                flag: (params.contentType == 'functions') ? 1 : 0
+            }).then(function (response) {
+                commit("changeClassNodeProp", params);
+            }).catch(function (error) {
+                console.log("error:" + error);
+            })
+        },
+        deleteClassNodeProp({
+            commit
+        }, params) {
+            axios.get("/delVarAndFUnc", {
+                params: {
+                    nid: params.id,
+                    vid: params.vid,
+                }
+            }).then(function (response) {
+                commit("deleteClassNodeProp", params);
+            }).catch(function (error) {
+                console.log("error:" + error);
+            })
+        },
         removeLine({
-                       commit,
-                       state
-                   }, params) {
-            var fid=parseInt(state.UML.UMLId)
-            var lid=parseInt(params.id)
+            commit,
+            state
+        }, params) {
+            var fid = parseInt(state.UML.UMLId)
+            var lid = parseInt(params.id)
             //alert("dispatch "+fid+":"+lid)
             axios.get("/delLine", {
-                params: {
-                    fid: fid,
-                    lid: lid
-                }
-            })
+                    params: {
+                        fid: fid,
+                        lid: lid
+                    }
+                })
                 .then(function (response) {
                     commit("removeLine", params);
                 }).catch(function (error) {
-                console.log("error:" + error);
-            })
+                    console.log("error:" + error);
+                })
         },
         addLine({
             commit,
@@ -510,50 +581,56 @@ export default new Vuex.Store({
                     console.log("error:" + error);
                 })
         },
-        getRefreshTime({commit,state
-                   },params) {
+        getRefreshTime({
+            commit,
+            state
+        }, params) {
             //alert("getRefreshTime"+parseInt(state.UML.UMLId));
-            var id=parseInt(state.UML.UMLId)
-            axios.get("/getRefreshTime",{
-                params: {
-                    fid: id,
-                }
-            })
-                .then(function(response){
+            var id = parseInt(state.UML.UMLId)
+            axios.get("/getRefreshTime", {
+                    params: {
+                        fid: id,
+                    }
+                })
+                .then(function (response) {
                     var RefreshTime = {
-                        refreshTime:response.data
+                        refreshTime: response.data
                     }
                     //alert(response.data);
                     commit("setRefreshTime", RefreshTime);
                 }).catch(function (error) {
-                console.log("error:" + error);
-            })
+                    console.log("error:" + error);
+                })
         },
-        getToken({commit
-                   }, params) {
+        getToken({
+            commit
+        }, params) {
             //alert(params.key);
-            axios.post("/getToken",{
-                key:params.key})
-                .then(function(response){
-                var token = {
-                    Token:response.data
-            }
-                //alert(token);
-                commit("setToken", token);
-            }).catch(function (error) {
-                console.log("error:" + error);
-            })
+            axios.post("/getToken", {
+                    key: params.key
+                })
+                .then(function (response) {
+                    var token = {
+                        Token: response.data
+                    }
+                    //alert(token);
+                    commit("setToken", token);
+                }).catch(function (error) {
+                    console.log("error:" + error);
+                })
         },
-        refreshPic({commit
-                 }, params) {
+        refreshPic({
+            commit
+        }, params) {
             //alert(params.url);
-            axios.post("/refreshPic",{
-                url:params.url})
-                .then(function(response){
+            axios.post("/refreshPic", {
+                    url: params.url
+                })
+                .then(function (response) {
 
                 }).catch(function (error) {
-                console.log("error:" + error);
-            })
+                    console.log("error:" + error);
+                })
         },
     },
 });

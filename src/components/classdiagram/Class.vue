@@ -50,11 +50,11 @@
                 :initData="initData"
                 @change="hideInputAndSave"
             ></ClassContentEditor>
-            <template v-for="(item, index) in variables">
+            <template v-for="(item) in variables">
                 <span
                     :class="{'contentSpan alignLeft': true, hoverSpan: hoverItem === item && id == $store.state.editingId}"
                     @click="handleContentClick(item, 'variable', $event)"
-                    :key="index + item.name"
+                    :key="item.vid"
                 >
                     {{item.modifier + " " + item.dataType + " " + item.name + ";"}}
                     <br />
@@ -64,11 +64,11 @@
                 class="horizontalSplitLine"
                 v-show="variables!=null && variables.length > 0 && functions!=null && functions.length > 0"
             ></div>
-            <template v-for="(item, index) in functions">
+            <template v-for="(item) in functions">
                 <span
                     :class="{'contentSpan alignLeft': true, hoverSpan: hoverItem === item && id == $store.state.editingId}"
                     @click="handleContentClick(item, 'function', $event)"
-                    :key="index + item.name"
+                    :key="item.vid"
                 >
                     {{item.modifier + " " + item.dataType + " " + item.name + "(" + item.params + ");"}}
                     <br />
@@ -121,8 +121,9 @@ export default {
             handler(prop) {
                 this.className = prop.className;
                 this.classType = prop.classType;
-                this.variables = prop.variables;
-                this.functions = prop.functions;
+                this.variables = prop.variables != null ? prop.variables : [];
+                this.functions = prop.functions != null ? prop.functions : [];
+                //console.log(this.variables, this.functions);
             }
         },
         classType(ct) {
@@ -136,11 +137,18 @@ export default {
     },
     mounted() {
         if (this.properties) {
-            console.log("class prop:", this.properties);
+            //console.log("class prop:", this.properties);
             this.className = this.properties.className;
             this.classType = this.properties.classType;
-            this.variables = this.properties.variables;
-            this.functions = this.properties.functions;
+            this.variables =
+                this.properties.variables != null
+                    ? this.properties.variables
+                    : [];
+            this.functions =
+                this.properties.functions != null
+                    ? this.properties.functions
+                    : [];
+            //console.log(this.variables, this.functions);
         }
     },
     methods: {

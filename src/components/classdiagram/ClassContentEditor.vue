@@ -169,7 +169,19 @@ export default {
         saveProp() {
             this.$refs["propform"].validate(valid => {
                 if (valid) {
-                    this.$store.commit("changeClassNodeProp", {
+                    if (this.initData.addFlag) {
+                        this.$store.dispatch("addClassNodeProp", {
+                            id: this.id,
+                            contentType: this.propline.contentType + "s",
+                            modifier: this.propline.modifier,
+                            dataType: this.propline.dataType,
+                            name: this.propline.name,
+                            params: this.propline.params
+                        });
+                        this.$emit("change");
+                        return;
+                    }
+                    this.$store.dispatch("changeClassNodeProp", {
                         id: this.id,
                         contentType: this.propline.contentType + "s",
                         modifier: this.propline.modifier,
@@ -177,8 +189,7 @@ export default {
                         name: this.propline.name,
                         params: this.propline.params,
                         originContentType: this.initData.contentType + "s",
-                        propId: this.initData.propId,
-                        addFlag: this.initData.addFlag
+                        vid: this.initData.vid
                     });
                     this.$emit("change");
                 } else {
@@ -188,10 +199,11 @@ export default {
         },
         deleteProp() {
             if (!this.initData.addFlag) {
+                //console.log(this.initData.vid);
                 this.$store.commit("deleteClassNodeProp", {
                     id: this.id,
                     contentType: this.propline.contentType + "s",
-                    propId: this.initData.propId
+                    vid: this.initData.vid
                 });
             }
             this.$emit("change");
