@@ -5,22 +5,39 @@
         <div style="margin-top:1%">
             <el-breadcrumb
                     separator="/"
-                    style="display:inline-flex;left:2%;position:absolute;width:20%"
+                    style="display:inline-flex;left:-1%;position:absolute;width:30%;margin: -1% 1% 0 1%"
             >
-                <el-breadcrumb-item>返回个人页面</el-breadcrumb-item>
-                <el-breadcrumb-item>删除</el-breadcrumb-item>
-                <i class="el-icon-download" @click="saveFile"></i>
-                <el-breadcrumb-item>下载</el-breadcrumb-item>
+                <el-breadcrumb-item>
+                    <el-tooltip content="返回上一级">
+                        <el-button
+                                @click="backToPerson"
+                                round
+                        >返回上一级
+                        </el-button>
+                    </el-tooltip>
+                </el-breadcrumb-item>
+                <el-breadcrumb-item>
+                    <el-tooltip content="删除文件" placement="top">
+                        <el-button type="danger" icon="el-icon-delete" circle @click="deleteFile"
+                                   content="删除文件"></el-button>
+                    </el-tooltip>
+                </el-breadcrumb-item>
+                <el-breadcrumb-item>
+                    <el-tooltip content="下载文件" placement="top">
+                        <el-button type="download" icon="el-icon-download" circle @click="saveFile"
+                                   content="下载文件"></el-button>
+                    </el-tooltip>
+                </el-breadcrumb-item>
             </el-breadcrumb>
             <el-color-picker
                     v-model="lcolor"
                     size="mini"
-                    style="display:inline-flex;left:16%;position:absolute;width:3%;margin: -0.5% 1% 0 1%"
+                    style="display:inline-flex;left:21%;position:absolute;width:3%;margin: -0.5% 1% 0 1%"
                     @change="linecolor"
             ></el-color-picker>
             <el-tooltip :content="fileName" placement="top">
                 <el-input
-                        style="display:inline-flex;left:60%;position:absolute;width:12%;margin: -1% 1% 0 1%"
+                        style="display:inline-flex;left:65%;position:absolute;width:12%;margin: -1% 1% 0 1%"
                         v-model="fileName"
                 ></el-input>
             </el-tooltip>
@@ -29,7 +46,7 @@
                         round
                         id="createline"
                         @click="createline()"
-                        style="display:inline-flex;left:19%;position:absolute;width:8%;margin: -1% 1% 0 1%"
+                        style="display:inline-flex;left:24%;position:absolute;width:8%;margin: -1% 1% 0 1%"
                         v-show="create"
                 >创建线条
                 </el-button>
@@ -39,7 +56,7 @@
                         id="lineType"
                         v-model="lineType"
                         placeholder="线条类型"
-                        style="width: 8%;height: 40px;position:absolute;left:28%;margin: -1% 1% 0 1%"
+                        style="width: 8%;height: 40px;position:absolute;left:33%;margin: -1% 1% 0 1%"
                         @change="linetype(lineType)"
                 >
                     <el-option
@@ -50,7 +67,7 @@
                     >
                         <el-image
                                 :src="item.url"
-                                style="width: 30px; height:30px;position:absolute;left:36.36%"
+                                style="width: 30px; height:30px;position:absolute;left:41.36%"
                         ></el-image>
                     </el-option>
                 </el-select>
@@ -60,7 +77,7 @@
                         id="lineSize"
                         v-model="lineSize"
                         placeholder="线宽"
-                        style="width: 6%;height: 40px;position:absolute;left:37%;margin: -1% 1% 0 1%"
+                        style="width: 6%;height: 40px;position:absolute;left:42%;margin: -1% 1% 0 1%"
                         @change="linesize(lineSize)"
                 >
                     <el-option
@@ -76,7 +93,7 @@
                         id="lineStyle"
                         v-model="lineStyle"
                         placeholder="线条样式"
-                        style="width: 15%;height: 40px;position:absolute;left:44%;margin: -1% 1% 0 1%"
+                        style="width: 15%;height: 40px;position:absolute;left:49%;margin: -1% 1% 0 1%"
                         @change="linestyle(lineStyle)"
                 >
                     <el-option
@@ -101,6 +118,7 @@
     import html2canvas from "html2canvas";
     import canvg from "canvg";
     import * as qiniu from 'qiniu-js'
+
     export default {
         name: "tool-top-bar",
         data() {
@@ -226,8 +244,43 @@
             this.$store.commit("setLineStyle", {
                 lineStyle: style
             });
+            this.uploadFile();
         },
         methods: {
+            backToPerson() {
+                //alert("PersonalPage")
+                this.$router.push({name: "PersonalPage"});
+            },
+            deleteFile() {
+                //alert("删除文件")
+                var self = this;
+                var userId = parseInt(self.$store.state.UML.userId)
+                var fid = parseInt(self.$store.state.UML.UMLId)
+                self.$axios
+                    .get("/delFile", {
+                        params: {
+                            uid: userId,
+                            fid: fid,
+                        }
+                    })
+                    .then(function (response) {
+                        //alert(response.data)
+                        if (response.data) {
+                            self.$message({
+                                message: "文件删除成功",
+                                type: "success"
+                            });
+                            self.$router.push({name: "PersonalPage"});
+                        } else {
+                            self.$message({
+                                message: "文件删除失败",
+                                type: "failure"
+                            });
+                        }
+                    }).catch(function (error) {
+                    console.log("error:" + error);
+                })
+            },
             goBack() {
                 console.log("go back");
             },
@@ -344,7 +397,7 @@
                         }
                     }
                     var style = {
-                        stroke:line.lineStyle.stroke,
+                        stroke: line.lineStyle.stroke,
                         strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
                         strokeWidth: this.lineSize //固定几种
                     };
@@ -430,8 +483,8 @@
             },
             uploadFile() {
                 var key = this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLId;
-                this.$store.dispatch("getToken",{key:key});
-                this.$store.dispatch("getRefreshTime",{});
+                this.$store.dispatch("getToken", {key: key});
+                this.$store.dispatch("getRefreshTime", {});
                 //var url= "http://q76chphm1.bkt.clouddn.com/"+key
                 // 最外层的容器
                 const treeContainnerElem = document.getElementById('visualEditor');
@@ -476,7 +529,7 @@
                     a.style.display = "none";
                     document.body.removeChild(dom);
                     let blob = this.dataURLToBlob(dom.toDataURL("image/png"));
-                    var url= "http://q76chphm1.bkt.clouddn.com/"+key+"?v="+this.$store.state.refreshTime;
+                    var url = "http://q76chphm1.bkt.clouddn.com/" + key + "?v=" + this.$store.state.refreshTime;
                     //alert(url);
                     var Token = this.$store.state.Token;
                     let config = {
@@ -489,7 +542,7 @@
                         mimeType: ["image/png", "image/jpeg"]
                     };
                     let options = {
-                        scope: "uml:"+key
+                        scope: "uml:" + key
                     };
                     let observable = qiniu.upload(blob, key, Token, putExtra, config);
                     observable.subscribe({
@@ -513,7 +566,7 @@
                             });
                             */
                             treeContainnerElem.removeChild(tempElem);
-                            this.$store.dispatch("refreshPic",{url:url});
+                            this.$store.dispatch("refreshPic", {url: url});
                         }
                     })
                 })
