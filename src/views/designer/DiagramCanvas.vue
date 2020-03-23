@@ -149,8 +149,15 @@ import canvg from "canvg";
 import * as qiniu from "qiniu-js";
 export default {
     name: "DiagramCanvas",
-    prop: {
-        minLeft: Number
+    props: {
+        minLeft: {
+            type: Number,
+            default: 320
+        },
+        minTop: {
+            type: Number,
+            default: 70
+        }
     },
     components: {
         Class,
@@ -324,13 +331,19 @@ export default {
                 this.$store.dispatch("modifyNode", {
                     nodeKey: "styles",
                     key: "left",
-                    value: event.clientX - this.cursorToLeft,
+                    value: Math.max(
+                        event.clientX - this.cursorToLeft,
+                        this.minLeft
+                    ),
                     id: this.$store.state.editingId
                 });
                 this.$store.dispatch("modifyNode", {
                     nodeKey: "styles",
                     key: "top",
-                    value: event.clientY - this.cursorToTop,
+                    value: Math.max(
+                        event.clientY - this.cursorToTop,
+                        this.minTop
+                    ),
                     id: this.$store.state.editingId
                 });
                 this.cursorToLeft = 0;
@@ -359,8 +372,14 @@ export default {
                 event.preventDefault();
                 event.dataTransfer.dropEffect = "copy";
                 this.$store.commit("moveNode", {
-                    left: event.clientX - this.cursorToLeft,
-                    top: event.clientY - this.cursorToTop,
+                    left: Math.max(
+                        event.clientX - this.cursorToLeft,
+                        this.minLeft
+                    ),
+                    top: Math.max(
+                        event.clientY - this.cursorToTop,
+                        this.minTop
+                    ),
                     id: this.$store.state.editingId
                 });
             }

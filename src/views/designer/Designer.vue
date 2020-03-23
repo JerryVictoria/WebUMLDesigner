@@ -16,7 +16,7 @@
                 </el-aside>
                 <el-main id="canvas" style="display: flex">
                     <DiagramCanvas
-                        :minLeft="300 + ($store.state.UML.groupId > 0) * 100"
+                        :minLeft="320 + ($store.state.UML.groupId > 0) * 100"
                         id="Diagram"
                         style="display: inline-block; width: 2000px;"
                     ></DiagramCanvas>
