@@ -388,8 +388,8 @@ export default {
         },
         mouseEnter() {
             if (this.$store.state.drawLine) {
-                //alert("mouseenter,箭头变为十字");
-                var cav1 = document.getElementById("canvas");
+                console.log("mouseenter,箭头变为十字");
+                var cav1 = document.getElementById("visualEditor");
                 cav1.style.cursor = "crosshair";
             }
         },
