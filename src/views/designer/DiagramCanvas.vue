@@ -12,89 +12,89 @@
             @mousedown.stop="mouseDown"
         >
             <div id="canvas">
-            <div
-                v-for="item in $store.state.UML.nodes"
-                :key="item.id"
-                :id="item.id"
-                @contextmenu.prevent="showContextMenu(item.id, $event)"
-                style="z-index: 1"
-            >
-                <Resizer
+                <div
+                    v-for="item in $store.state.UML.nodes"
                     :key="item.id"
                     :id="item.id"
-                    :style="{
+                    @contextmenu.prevent="showContextMenu(item.id, $event)"
+                    style="z-index: 1"
+                >
+                    <Resizer
+                        :key="item.id"
+                        :id="item.id"
+                        :style="{
                         left: item.styles.left + 'px',
                         top: item.styles.top + 'px',
                         zIndex:2
                     }"
-                >
-                    <component :is="item.type" v-bind="item" :ref="item.id"></component>
-                </Resizer>
-            </div>
-            <div>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    version="1.1"
-                    v-for="line in $store.state.UML.lines"
-                    :key="line.lineId"
-                    :style="line.lineSvgStyle"
-                    :id="line.svgId"
-                >
-                    <defs>
-                        <marker
-                            id="arrow1"
-                            markerUnits="strokeWidth"
-                            markerHeight="11"
-                            markerWidth="11"
-                            viewBox="0 0 12 12"
-                            refX="6"
-                            refY="6"
-                            orient="auto"
-                        >
-                            <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style="fill:#000000" />
-                        </marker>
-                        <marker
-                            id="arrow2"
-                            markerUnits="strokeWidth"
-                            markerHeight="11"
-                            markerWidth="11"
-                            viewBox="0 0 12 12"
-                            refX="6"
-                            refY="6"
-                            orient="auto"
-                        >
-                            <path d="M2,6 L10,2 L6,6 L10,10 L2,6" style="fill:#000000" />
-                        </marker>
-                        <filter id="drop-shadow">
-                            <feGaussianBlur in="SourceAlpha" stdDeviation="2.2"/>
-                            <feOffset dx="1" dy="12" result="offsetblur"/>
-                            <feFlood flood-color="rgba(0,0,0,0.5)"/>
-                            <feComposite in2="offsetblur" operator="in"/>
-                            <feMerge>
-                                <feMergeNode/>
-                                <feMergeNode in="SourceGraphic"/>
-                            </feMerge>
-                        </filter>
-                    </defs>
-                    <line
-                        :x1="line.startPosition.left"
-                        :y1="line.startPosition.top"
-                        :x2="line.endPosition.left"
-                        :y2="line.endPosition.top"
-                        :style="line.lineStyle"
-                        :id="line.lineId"
-                        :marker-end="line.markerend"
-                        :marker-start="line.markerstart"
-                        v-clickoutside="clic(line.lineId)"
-                        @click.stop="editline(line.Id)"
-                        @contextmenu.prevent="showContextMenu(line.lineId, $event)"
-                    />
-                    <!--
+                    >
+                        <component :is="item.type" v-bind="item" :ref="item.id"></component>
+                    </Resizer>
+                </div>
+                <div>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        version="1.1"
+                        v-for="line in $store.state.UML.lines"
+                        :key="line.lineId"
+                        :style="line.lineSvgStyle"
+                        :id="line.svgId"
+                    >
+                        <defs>
+                            <marker
+                                id="arrow1"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                            >
+                                <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style="fill:#000000" />
+                            </marker>
+                            <marker
+                                id="arrow2"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                            >
+                                <path d="M2,6 L10,2 L6,6 L10,10 L2,6" style="fill:#000000" />
+                            </marker>
+                            <filter id="drop-shadow">
+                                <feGaussianBlur in="SourceAlpha" stdDeviation="2.2" />
+                                <feOffset dx="1" dy="12" result="offsetblur" />
+                                <feFlood flood-color="rgba(0,0,0,0.5)" />
+                                <feComposite in2="offsetblur" operator="in" />
+                                <feMerge>
+                                    <feMergeNode />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <line
+                            :x1="line.startPosition.left"
+                            :y1="line.startPosition.top"
+                            :x2="line.endPosition.left"
+                            :y2="line.endPosition.top"
+                            :style="line.lineStyle"
+                            :id="line.lineId"
+                            :marker-end="line.markerend"
+                            :marker-start="line.markerstart"
+                            v-clickoutside="clic(line.lineId)"
+                            @click.stop="editline(line.Id)"
+                            @contextmenu.prevent="showContextMenu(line.lineId, $event)"
+                        />
+                        <!--
                             @click.stop="editline(line.lineId)"
                             v-clickoutside="clic()"
-                    -->
-                </svg>
-            </div>
+                        -->
+                    </svg>
+                </div>
             </div>
         </div>
         <ContextMenu v-show="showMenu" style="zIndex:2" id="menu" @hide-menu="clickOutSide"></ContextMenu>
@@ -146,9 +146,12 @@ import ContextMenu from "../../components/ContextMenu.vue";
 import $ from "jquery";
 import html2canvas from "html2canvas";
 import canvg from "canvg";
-import * as qiniu from 'qiniu-js'
+import * as qiniu from "qiniu-js";
 export default {
     name: "DiagramCanvas",
+    prop: {
+        minLeft: Number
+    },
     components: {
         Class,
         Interface,
@@ -253,9 +256,9 @@ export default {
             const treeElem = document.getElementById("canvas");
             const svgElem = treeElem.querySelectorAll("svg");
             console.log(svgElem);
-            svgElem.forEach((node) => {
+            svgElem.forEach(node => {
                 console.log(node.childNodes[1].id);
-                    node.childNodes[1].style.filter="";
+                node.childNodes[1].style.filter = "";
             });
         },
         handleDragStart(event) {
@@ -336,8 +339,8 @@ export default {
                     document.getElementById("visualEditor").removeChild(this.ghost);
                     this.ghost = null;
                 } */
-                this.clickOutSide()
-                this.uploadFile()
+                this.clickOutSide();
+                this.uploadFile();
             }
         },
         handleDragEnter(event) {
@@ -373,16 +376,16 @@ export default {
             this.$store.commit("setLineEditState", { lineEditing: true });
             this.$store.commit("setLineEditId", { id: item });
             console.log(this.$store.state.lineEditId);
-            var line=document.getElementById("line"+item);
+            var line = document.getElementById("line" + item);
             const treeElem = document.getElementById("canvas");
             const svgElem = treeElem.querySelectorAll("svg");
             console.log(svgElem);
-            svgElem.forEach((node) => {
+            svgElem.forEach(node => {
                 console.log(node.childNodes[1].id);
-                if(node.childNodes[1].id=="line"+item){
-                    node.childNodes[1].style.filter="url(#drop-shadow)";
-                }else{
-                    node.childNodes[1].style.filter="";
+                if (node.childNodes[1].id == "line" + item) {
+                    node.childNodes[1].style.filter = "url(#drop-shadow)";
+                } else {
+                    node.childNodes[1].style.filter = "";
                 }
             });
         },
@@ -711,7 +714,7 @@ export default {
                 };
                 console.log(newline);
                 //this.$store.commit("addLine", newline);
-                this.$store.dispatch("addLine",newline);
+                this.$store.dispatch("addLine", newline);
                 //console.log(this.$store.state.UML.lines);
                 this.lineStartX = 0;
                 this.lineStartY = 0;
@@ -721,7 +724,7 @@ export default {
                 document.body.removeEventListener("mouseup", this.mouseUp);
             }
             this.clickOutSide();
-            this.uploadFile()
+            this.uploadFile();
         },
         mouseDown(event) {
             if (
@@ -863,9 +866,9 @@ export default {
         },
         drawLine(event) {
             //画线
-            console.log( this.$store.state.drawLine )
-            console.log( this.mousedown )
-            console.log( this.$store.state.editingId== "" )
+            console.log(this.$store.state.drawLine);
+            console.log(this.mousedown);
+            console.log(this.$store.state.editingId == "");
             if (
                 this.$store.state.drawLine &&
                 this.mousedown &&
@@ -1013,27 +1016,30 @@ export default {
             console.log(item);
         },
         uploadFile() {
-            var key = this.$store.state.UML.UMLType + "_" + this.$store.state.UML.UMLId;
-            this.$store.dispatch("getToken",{key:key});
-            this.$store.dispatch("getRefreshTime",{});
+            var key =
+                this.$store.state.UML.UMLType +
+                "_" +
+                this.$store.state.UML.UMLId;
+            this.$store.dispatch("getToken", { key: key });
+            this.$store.dispatch("getRefreshTime", {});
             //var url= "http://q76chphm1.bkt.clouddn.com/"+key
             // 最外层的容器
-            const treeContainnerElem = document.getElementById('visualEditor');
+            const treeContainnerElem = document.getElementById("visualEditor");
             // 要导出div
             const treeElem = document.getElementById("canvas");
             //console.log(treeElem);
             // 从要导出的div克隆的临时div
             const tempElem = treeElem.cloneNode(true);
-            tempElem.id = 'temp-tree';
-            tempElem.className = 'fff';
-            tempElem.style.width = treeElem.clientWidth + 'px';
-            tempElem.style.height = treeElem.clientHeight + 'px';
+            tempElem.id = "temp-tree";
+            tempElem.className = "fff";
+            tempElem.style.width = treeElem.clientWidth + "px";
+            tempElem.style.height = treeElem.clientHeight + "px";
             treeContainnerElem.appendChild(tempElem);
             //console.log(tempElem);
             // 在临时div上将svg都转换成canvas，并删除原有的svg节点
             const svgElem = tempElem.querySelectorAll("svg");
             console.log(svgElem);
-            svgElem.forEach((node) => {
+            svgElem.forEach(node => {
                 var parentNode = node.parentNode;
                 console.log(parentNode);
                 var svg = node.outerHTML.trim();
@@ -1044,7 +1050,7 @@ export default {
                     canvas.style.position += node.style.position;
                     canvas.style.left += node.style.left;
                     canvas.style.top += node.style.top;
-                    canvas.style.zIndex = 0
+                    canvas.style.zIndex = 0;
                 }
                 parentNode.appendChild(canvas);
                 parentNode.removeChild(node);
@@ -1053,14 +1059,18 @@ export default {
             html2canvas(treeContainnerElem, {
                 useCORS: true // 允许CORS跨域
             }).then(canvas => {
-                canvas.style.height = tempElem.style.height + 'px';
+                canvas.style.height = tempElem.style.height + "px";
                 let dom = document.body.appendChild(canvas);
-                let a = document.createElement('a');
+                let a = document.createElement("a");
                 dom.style.display = "none";
                 a.style.display = "none";
                 document.body.removeChild(dom);
                 let blob = this.dataURLToBlob(dom.toDataURL("image/png"));
-                var url= "http://q76chphm1.bkt.clouddn.com/"+key+"?v="+this.$store.state.refreshTime;
+                var url =
+                    "http://q76chphm1.bkt.clouddn.com/" +
+                    key +
+                    "?v=" +
+                    this.$store.state.refreshTime;
                 //alert(url);
                 var Token = this.$store.state.Token;
                 let config = {
@@ -1073,23 +1083,29 @@ export default {
                     mimeType: ["image/png", "image/jpeg"]
                 };
                 let options = {
-                    scope: "uml:"+key
+                    scope: "uml:" + key
                 };
-                let observable = qiniu.upload(blob, key, Token, putExtra, config);
+                let observable = qiniu.upload(
+                    blob,
+                    key,
+                    Token,
+                    putExtra,
+                    config
+                );
                 observable.subscribe({
-                    next: (res) => {
+                    next: res => {
                         // 主要用来展示进度
                         let total = res.total;
-                        console.log("进度：" + parseInt(total.percent) + "% ")
+                        console.log("进度：" + parseInt(total.percent) + "% ");
                     },
-                    error: (err) => {
+                    error: err => {
                         // 失败报错信息
-                        console.log(err)
+                        console.log(err);
                     },
-                    complete: (res) => {
+                    complete: res => {
                         // 接收成功后返回的信息
                         //alert("上传成功");
-                        console.log(res)
+                        console.log(res);
                         /*
                         this.$message({
                             message: "修改保存成功",
@@ -1097,19 +1113,23 @@ export default {
                         });
                         */
                         treeContainnerElem.removeChild(tempElem);
-                        this.$store.dispatch("refreshPic",{url:url});
+                        this.$store.dispatch("refreshPic", { url: url });
                     }
-                })
-            })
+                });
+            });
         },
-        dataURLToBlob(dataurl) {//ie 图片转格式
-            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        dataURLToBlob(dataurl) {
+            //ie 图片转格式
+            var arr = dataurl.split(","),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
             while (n--) {
                 u8arr[n] = bstr.charCodeAt(n);
             }
-            return new Blob([u8arr], {type: mime})
-        },
+            return new Blob([u8arr], { type: mime });
+        }
     }
 };
 </script>

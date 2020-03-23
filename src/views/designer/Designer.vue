@@ -11,16 +11,12 @@
                         width: 300 + ($store.state.UML.groupId > 0) * 100 + 'px'
                     }"
                 >
-                    <components-store-side-bar
-                        :height="$store.state.UML.groupId > 0 ? 110 : 400"
-                    ></components-store-side-bar>
-                    <ChatPanel
-                        v-if="$store.state.UML.groupId > 0"
-                        class="chatPanel"
-                    ></ChatPanel>
+                    <components-store-side-bar :height="$store.state.UML.groupId > 0 ? 110 : 400"></components-store-side-bar>
+                    <ChatPanel v-if="$store.state.UML.groupId > 0" class="chatPanel"></ChatPanel>
                 </el-aside>
                 <el-main id="canvas" style="display: flex">
                     <DiagramCanvas
+                        :minLeft="300 + ($store.state.UML.groupId > 0) * 100"
                         id="Diagram"
                         style="display: inline-block; width: 2000px;"
                     ></DiagramCanvas>
