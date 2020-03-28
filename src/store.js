@@ -581,13 +581,13 @@ export default new Vuex.Store({
                     console.log("error:" + error);
                 })
         },
-        getRefreshTime({
+        async getRefreshTime({
             commit,
             state
         }, params) {
             //alert("getRefreshTime"+parseInt(state.UML.UMLId));
             var id = parseInt(state.UML.UMLId)
-            axios.get("/getRefreshTime", {
+            await axios.get("/getRefreshTime", {
                     params: {
                         fid: id,
                     }
@@ -602,11 +602,11 @@ export default new Vuex.Store({
                     console.log("error:" + error);
                 })
         },
-        getToken({
+        async getToken({
             commit
         }, params) {
             //alert(params.key);
-            axios.post("/getToken", {
+            await axios.post("/getToken", {
                     key: params.key
                 })
                 .then(function (response) {
@@ -619,11 +619,11 @@ export default new Vuex.Store({
                     console.log("error:" + error);
                 })
         },
-        refreshPic({
+        async refreshPic({
             commit
         }, params) {
             //alert(params.url);
-            axios.post("/refreshPic", {
+            await axios.post("/refreshPic", {
                     url: params.url
                 })
                 .then(function (response) {
