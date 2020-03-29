@@ -526,10 +526,12 @@
                                 if (this.eEndX + this.eEndW < this.eStartX) {
                                     //中左
                                     console.log("中左");
+                                    this.middleLeft()
                                 } else {
-                                    if (this.eEndX < this.eStartX + this.eStartW) {
+                                    if (this.eEndX > this.eStartX + this.eStartW) {
                                         //中右
                                         console.log("中右");
+                                        this.middleRight()
                                     } else {
                                         console.log("出现重叠");
                                     }
@@ -1169,7 +1171,62 @@
                     parseInt(this.$store.state.lineSize) * 3;
             },
             //左中
+            middleLeft(){
+                console.log("左中");
+                if(this.eStartY<this.eEndY){
+                    console.log("end")
+                    this.svgLeft =
+                        this.eEndX + this.eEndW ;
+                    this.svgTop = this.eStartY;
+                    this.svgWid = this.eStartX - this.svgLeft;
+                    this.svgHei = this.eEndY +this.eEndH - this.svgTop;
+                }else{
+                    console.log("Start")
+                    this.svgLeft =
+                        this.eEndX + this.eEndW ;
+                    this.svgTop = this.eEndY;
+                    this.svgWid = this.eStartX - this.svgLeft;
+                    this.svgHei = this.eStartY +this.eStartH - this.svgTop;
+                }
+                this.lineStartX =this.eStartX-
+                    parseInt(this.$store.state.lineSize)*3-this.svgLeft;
+                this.lineStartY =
+                    this.eStartY +this.eStartH*0.5-
+                    parseInt(this.$store.state.lineSize)-this.svgTop;
+                this.lineEndX =
+                    this.eEndX+this.eEndW+
+                    parseInt(this.$store.state.lineSize)*3-this.svgLeft;
+                this.lineEndY =
+                    this.eEndY +this.eEndH*0.5+
+                    parseInt(this.$store.state.lineSize)-this.svgTop;
+            },
             //右中
+            middleRight(){
+                console.log("右中");
+                if(this.eStartY<this.eEndY){
+                    this.svgLeft =
+                        this.eStartX + this.eStartW ;
+                    this.svgTop = this.eStartY;
+                    this.svgWid = this.eEndX - this.svgLeft;
+                    this.svgHei = this.eEndY +this.eEndH - this.svgTop;
+                }else{
+                    this.svgLeft =
+                        this.eStartX + this.eStartW ;
+                    this.svgTop = this.eEndY;
+                    this.svgWid = this.eEndX - this.svgLeft;
+                    this.svgHei = this.eStartY +this.eStartH - this.svgTop;
+                }
+                this.lineStartX =
+                    parseInt(this.$store.state.lineSize) * 3
+                this.lineStartY =
+                    this.eStartY +this.eStartH*0.5-this.svgTop;
+                this.lineEndX =
+                    this.eEndX-
+                    parseInt(this.$store.state.lineSize) * 3-this.svgLeft;
+                this.lineEndY =
+                    this.eEndY +this.eEndH*0.5-
+                    parseInt(this.$store.state.lineSize) * 3-this.svgTop;
+            },
             //左下
             underLeft() {
                 console.log("左下");
@@ -1259,7 +1316,8 @@
                             parseInt(
                                 this.$store.state.lineSize
                             ) * 3;
-                    } else {
+                    }
+                    else {
                         //中中
                         console.log("中中");
                         this.svgLeft =

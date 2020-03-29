@@ -244,7 +244,6 @@
             this.$store.commit("setLineStyle", {
                 lineStyle: style
             });
-            this.uploadFile();
         },
         methods: {
             backToPerson() {
