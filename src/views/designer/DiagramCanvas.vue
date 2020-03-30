@@ -488,56 +488,7 @@
                         this.eEndW = right[0].x;
                         this.eEndH = right[0].y * 2;
                         //八种情况:上(3)、下(3)、中(2)
-                        if ((this.eEndY + this.eEndH) < this.eStartY) {
-                            //上
-                            if (this.eEndX + this.eEndW < this.eStartX) {
-                                this.topLeft()
-                            } else {
-                                if (this.eEndX > this.eStartX + this.eStartW) {
-                                    this.topRight()
-                                } else {
-                                    this.topMiddle()
-                                }
-                            }
-                        }
-                        else {
-                            console.log(this.eEndY)
-                            console.log(this.eStartY + this.eStartH)
-                            console.log(this.eEndY > (this.eStartY + this.eStartH))
-                            if (this.eEndY > (this.eStartY + this.eStartH)) {
-                                //下
-                                if (this.eEndX + this.eEndW < this.EStartX) {
-                                    //下左
-                                    console.log("下左");
-                                    this.underLeft()
-                                } else {
-                                    if (this.eEndX > this.eStartX + this.eStartY) {
-                                        //下右
-                                        console.log("下右");
-                                        this.underRight()
-                                    } else {
-                                        //下中
-                                        console.log("下中");
-                                        this.underMiddle()
-                                    }
-                                }
-                            } else {
-                                //中
-                                if (this.eEndX + this.eEndW < this.eStartX) {
-                                    //中左
-                                    console.log("中左");
-                                    this.middleLeft()
-                                } else {
-                                    if (this.eEndX > this.eStartX + this.eStartW) {
-                                        //中右
-                                        console.log("中右");
-                                        this.middleRight()
-                                    } else {
-                                        console.log("出现重叠");
-                                    }
-                                }
-                            }
-                        }
+                       this.judgeAndGetPosition();
                     }
                     document
                         .getElementById("visualEditor")
@@ -1021,6 +972,60 @@
                 return new Blob([u8arr], {type: mime});
             },
             //判断两个节点的相对位置
+            judgeAndGetPosition(){
+                if ((this.eEndY + this.eEndH) < this.eStartY) {
+                    //上
+                    if (this.eEndX + this.eEndW < this.eStartX) {
+                        this.topLeft()
+                    } else {
+                        if (this.eEndX > this.eStartX + this.eStartW) {
+                            this.topRight()
+                        } else {
+                            this.topMiddle()
+                        }
+                    }
+                }
+                else {
+                    /*
+                    console.log(this.eEndY)
+                    console.log(this.eStartY + this.eStartH)
+                    console.log(this.eEndY > (this.eStartY + this.eStartH))
+                    */
+                    if (this.eEndY > (this.eStartY + this.eStartH)) {
+                        //下
+                        if (this.eEndX + this.eEndW < this.EStartX) {
+                            //下左
+                            console.log("下左");
+                            this.underLeft()
+                        } else {
+                            if (this.eEndX > this.eStartX + this.eStartY) {
+                                //下右
+                                console.log("下右");
+                                this.underRight()
+                            } else {
+                                //下中
+                                console.log("下中");
+                                this.underMiddle()
+                            }
+                        }
+                    } else {
+                        //中
+                        if (this.eEndX + this.eEndW < this.eStartX) {
+                            //中左
+                            console.log("中左");
+                            this.middleLeft()
+                        } else {
+                            if (this.eEndX > this.eStartX + this.eStartW) {
+                                //中右
+                                console.log("中右");
+                                this.middleRight()
+                            } else {
+                                console.log("出现重叠");
+                            }
+                        }
+                    }
+                }
+            },
             //左上
             topLeft() {
                 console.log("左上");
@@ -1365,7 +1370,7 @@
                     parseInt(this.$store.state.lineSize) * 2;
 
             },
-
+            //@TODO 节点组件出现重叠时如何画线
         }
     };
 </script>
