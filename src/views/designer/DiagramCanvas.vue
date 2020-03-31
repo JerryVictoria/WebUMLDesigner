@@ -230,7 +230,8 @@
                 svgWid: 0,
                 svgHei: 0,
                 fromlist: [],
-                tolist: []
+                tolist: [],
+                lineList:[],
             };
         },
         mounted() {
@@ -306,17 +307,15 @@
                             parseInt(this.$store.state.UML.lines[i].from) ==
                             this.$store.state.editingId
                         ) {
-                            this.fromlist.push(this.$store.state.UML.lines[i].Id);
+                            this.fromlist.push(this.$store.state.UML.lines[i]);
                         }
                         if (
                             parseInt(this.$store.state.UML.lines[i].to) ==
                             this.$store.state.editingId
                         ) {
-                            this.tolist.push(this.$store.state.UML.lines[i].Id);
+                            this.tolist.push(this.$store.state.UML.lines[i]);
                         }
                     }
-                    console.log("fromlist:" + this.fromlist);
-                    console.log("tolist:" + this.tolist);
                 }
             },
             handleDragEnd(event) {
@@ -328,6 +327,8 @@
                         "  " +
                         this.cursorToTop
                     );
+                    console.log( event.clientX - this.cursorToLeft)
+                    console.log( event.clientY - this.cursorToTop)
                     //更新图数据（vue数据驱动图像变化）
                     this.$store.dispatch("modifyNode", {
                         nodeKey: "styles",
@@ -353,6 +354,9 @@
                         document.getElementById("visualEditor").removeChild(this.ghost);
                         this.ghost = null;
                     } */
+                    this.fromlist=[]
+                    this.tolist=[]
+                    this.lineList=[]
                     this.clickOutSide();
                     this.uploadFile();
                 }
@@ -383,6 +387,11 @@
                         ),
                         id: this.$store.state.editingId
                     });
+                    this.lineList=[]
+                    for(var i=0;i<this.fromlist.length;i++){
+                        console.log(this.fromlist[i])
+                        this.moveLine(this.fromlist[i].from,this.fromlist[i].to,this.fromlist[i].lineStyle.strokeWidth,this.fromlist[i].Id)
+                    }
                 }
             },
             //@TODO 删除栏showMenu变为false
@@ -619,9 +628,7 @@
                         left = this.$refs[targetId + ""][0].getLineLeftPosition();
                         right = this.$refs[targetId + ""][0].getLineRightPosition();
                         top = this.$refs[targetId + ""][0].getLineTopPosition();
-                        bottom = this.$refs[
-                        targetId + ""
-                            ][0].getLineBottomPosition();
+                        bottom = this.$refs[targetId + ""][0].getLineBottomPosition();
                         this.From = targetId + "";
                         this.eStartW = right[0].x;
                         this.eStartH = bottom[0].y;
@@ -709,13 +716,13 @@
                 //画线
                 console.log(this.$store.state.drawLine);
                 console.log(this.mousedown);
-                console.log(this.$store.state.editingId == "");
+                //console.log(this.$store.state.editingId == "");
                 if (
                     this.$store.state.drawLine &&
                     this.mousedown &&
                     this.$store.state.editingId == ""
                 ) {
-                    console.log("linemove");
+                    //console.log("linemove");
                     document.body.addEventListener("mouseup", this.mouseUp);
                     var cav1 = document.getElementById("visualEditor");
                     var c = {
@@ -857,6 +864,7 @@
                 console.log(item);
             },
             uploadFile() {
+                let blob;
                 var key =
                     this.$store.state.UML.UMLType +
                     "_" +
@@ -906,7 +914,8 @@
                     dom.style.display = "none";
                     a.style.display = "none";
                     document.body.removeChild(dom);
-                    let blob = this.dataURLToBlob(dom.toDataURL("image/png"));
+                    blob = this.dataURLToBlob(dom.toDataURL("image/png"));
+                    treeContainnerElem.removeChild(tempElem);
                     var url =
                         "http://q76chphm1.bkt.clouddn.com/" +
                         key +
@@ -953,7 +962,6 @@
                                 type: "success"
                             });
                             */
-                            treeContainnerElem.removeChild(tempElem);
                             this.$store.dispatch("refreshPic", {url: url});
                         }
                     });
@@ -998,7 +1006,7 @@
                             console.log("下左");
                             this.underLeft()
                         } else {
-                            if (this.eEndX > this.eStartX + this.eStartY) {
+                            if (this.eEndX > this.eStartX + this.eStartW) {
                                 //下右
                                 console.log("下右");
                                 this.underRight()
@@ -1371,6 +1379,143 @@
 
             },
             //@TODO 节点组件出现重叠时如何画线
+            //线条随节点移动而移动
+            moveLine(fromid,toid,lineSize,id){
+                var startLeft,startTop,startWidth,startHeight
+                var endLeft,endTop,endWidth,endHeight
+                var start,end
+                //console.log("moveline:"+fromid+":"+toid);
+                start=document.getElementById(fromid).childNodes[0]
+                end=document.getElementById(toid).childNodes[0]
+                startLeft=$(start).offset().left
+                startTop=$(start).offset().top
+                startWidth=this.$refs[fromid+''][0].getLineRightPosition()[0].x
+                startHeight=this.$refs[fromid+''][0].getLineBottomPosition()[0].y
+                endLeft=$(end).offset().left
+                endTop=$(end).offset().top
+                endWidth=this.$refs[toid+''][0].getLineRightPosition()[0].x
+                endHeight=this.$refs[toid+''][0].getLineBottomPosition()[0].y
+                if ((endTop + endHeight) < startTop) {
+                    //上
+                    if (endLeft + endWidth < startLeft) {
+                        this.moveTopLeft(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,lineSize,id)
+                    } else {
+                        if (endLeft > startLeft + startWidth) {
+                            this.moveTopRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,lineSize,id)
+                        } else {
+                            this.moveTopMiddle(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,lineSize,id)
+                        }
+                    }
+                }
+                else {
+                    if (endTop > (startTop + startHeight)) {
+                        //下
+                        if (endLeft + endWidth < startLeft) {
+                            //下左
+                            console.log("下左");
+                            this.moveUnderLeft(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,lineSize,id)
+                        } else {
+                            if (endLeft > startLeft + startWidth) {
+                                //下右
+                                console.log("下右");
+                                this.moveUnderRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,lineSize,id)
+                            } else {
+                                //下中
+                                console.log("下中");
+                                this.moveUnderMiddle(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,lineSize,id)
+                            }
+                        }
+                    } else {
+                        //中
+                        if (endLeft + endWidth < startLeft) {
+                            //中左
+                            console.log("中左");
+                            this.moveMiddleLeft(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,lineSize,id)
+                        } else {
+                            if (endLeft > startLeft + startWidth) {
+                                //中右
+                                console.log("中右");
+                                this.moveMiddleRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,lineSize,id)
+                            } else {
+                                console.log("出现重叠");
+                            }
+                        }
+                    }
+                }
+            },
+            moveTopLeft(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
+                console.log("左上");
+                var svgLeft,svgTop,svgWidth,svgHeight
+                var lineSX,lineSY,lineEX,lineEY
+                svgLeft =endLeft + endWidth;
+                svgTop = endTop+ endHeight * 0.5;
+                svgWidth =
+                    startLeft+
+                    startWidth * 0.5 -
+                    svgLeft;
+                svgHeight = startTop - svgTop;
+                lineSX =
+                    parseInt(linesize) * 3;
+                lineSY =
+                    parseInt(linesize) * 3;
+                lineEX =
+                    svgWidth -
+                    parseInt(linesize) * 3;
+                lineEY =
+                    svgHeight -
+                    parseInt(linesize) * 3;
+                var startPosition ={
+                    left:lineSX,
+                    top:lineSY
+                }
+                var endPosition ={
+                    left:lineEX,
+                    top:lineEY
+                }
+                var lineSvgStyle={
+                    position:"absolute",
+                    left:svgLeft,
+                    top:svgTop,
+                    width:svgWidth,
+                    height:svgHeight
+                }
+                var line={
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                }
+                this.lineList.push(line)
+                console.log(this.lineList)
+                console.log("moveLine:"+id)
+                this.$store.commit("moveLine",{
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                })
+            },
+            moveTopRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
+
+            },
+            moveTopMiddle(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
+
+            },
+            moveUnderLeft(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
+
+            },
+            moveUnderRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
+
+            },
+            moveUnderMiddle(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
+
+            },
+            moveMiddleLeft(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
+
+            },
+            moveMiddleRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
+
+            }
         }
     };
 </script>

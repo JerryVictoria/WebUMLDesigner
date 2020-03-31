@@ -214,6 +214,19 @@ export default new Vuex.Store({
                 }
             }
         },
+        //专门用于移动线条[移动的过程]
+        moveLine(state, params) {
+
+            for (var i = 0, l = state.UML.lines.length; i < l; i++) {
+                if (state.UML.lines[i].Id == params.id) {
+                    state.UML.lines[i].startPosition = params.startPosition;
+                    state.UML.lines[i].endPosition = params.endPosition;
+                    state.UML.lines[i].lineSvgStyle = params.lineSvgStyle;
+                    console.log("moveLine");
+                    break;
+                }
+            }
+        },
         //修改节点数据
         modifyNode(state, params) {
             console.log("modifyNode", params);

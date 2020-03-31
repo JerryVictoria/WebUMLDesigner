@@ -244,6 +244,7 @@
             this.$store.commit("setLineStyle", {
                 lineStyle: style
             });
+            this.$store.commit("setDrawLine", {drawLine: false});
         },
         methods: {
             backToPerson() {
@@ -543,6 +544,7 @@
                     let options = {
                         scope: "uml:" + key
                     };
+                    treeContainnerElem.removeChild(tempElem);
                     let observable = qiniu.upload(blob, key, Token, putExtra, config);
                     observable.subscribe({
                         next: (res) => {
@@ -564,7 +566,6 @@
                                 type: "success"
                             });
                             */
-                            treeContainnerElem.removeChild(tempElem);
                             this.$store.dispatch("refreshPic", {url: url});
                         }
                     })
