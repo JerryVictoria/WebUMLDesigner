@@ -216,7 +216,6 @@ export default new Vuex.Store({
         },
         //专门用于移动线条[移动的过程]
         moveLine(state, params) {
-
             for (var i = 0, l = state.UML.lines.length; i < l; i++) {
                 if (state.UML.lines[i].Id == params.id) {
                     state.UML.lines[i].startPosition = params.startPosition;

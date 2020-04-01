@@ -1495,26 +1495,171 @@
                     id:id
                 })
             },
-            moveTopRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
-
+            moveTopRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
+                console.log("上右");
+                var svgLeft,svgTop,svgWidth,svgHeight
+                var lineSX,lineSY,lineEX,lineEY
+                svgLeft =
+                    startLeft + startWidth * 0.5;
+                svgTop = endTop + endHeight * 0.5;
+                svgWidth = endLeft - svgLeft;
+                svgHeight = startTop - svgTop;
+                lineSX =
+                    parseInt(linesize) * 3;
+                lineSY =
+                    svgHeight -
+                    parseInt(linesize) * 2;
+                lineEX =
+                    svgWidth -
+                    parseInt(linesize) * 3;
+                lineEY =
+                    parseInt(linesize) * 3;
+                var startPosition ={
+                    left:lineSX,
+                    top:lineSY
+                }
+                var endPosition ={
+                    left:lineEX,
+                    top:lineEY
+                }
+                var lineSvgStyle={
+                    position:"absolute",
+                    left:svgLeft,
+                    top:svgTop,
+                    width:svgWidth,
+                    height:svgHeight
+                }
+                var line={
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                }
+                this.lineList.push(line)
+                console.log(this.lineList)
+                console.log("moveLine:"+id)
+                this.$store.commit("moveLine",{
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                })
             },
-            moveTopMiddle(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
-
+            moveTopMiddle(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
+                var svgLeft,svgTop,svgWidth,svgHeight
+                var lineSX,lineSY,lineEX,lineEY
+                console.log("上中");
+                if (endLeft + endWidth * 0.5 < startLeft + startWidth * 0.5) {
+                    //中左
+                    console.log("中左");
+                    svgLeft =
+                        endLeft;
+                    svgTop = endTop + endHeight;
+                    svgWidth =
+                        startLeft +
+                        startWidth -
+                        svgLeft;
+                    svgHeight = startTop - svgTop;
+                } else {
+                    if (
+                        endLeft + endWidth * 0.5 >
+                        startLeft + startWidth * 0.5
+                    ) {
+                        //中右
+                        console.log("中右");
+                        svgLeft =
+                            startLeft;
+                        svgTop = endTop + endHeight;
+                        svgWidth =
+                            endLeft +
+                            endWidth -
+                            svgLeft;
+                        svgHeight =
+                            startTop - svgTop;
+                    } else {
+                        //中中
+                        console.log("中中");
+                        svgLeft =
+                            endLeft;
+                        svgTop = endTop + endHeight;
+                        svgWidth =
+                            endWidth;
+                        svgHeight =
+                            startTop - svgTop;
+                    }
+                }
+                lineSX =
+                    startLeft+
+                    startWidth * 0.5 +
+                    parseInt(
+                        linesize
+                    ) * 3 - svgLeft;
+                lineSY =
+                    svgHeight -
+                    parseInt(
+                        linesize
+                    )*3;
+                lineEX =
+                    endLeft +
+                    endWidth * 0.5 +
+                    parseInt(
+                        linesize
+                    ) *
+                    3 - svgLeft;
+                lineEY =
+                    parseInt(
+                        linesize
+                    ) * 3;
+                var startPosition ={
+                    left:lineSX,
+                    top:lineSY
+                }
+                var endPosition ={
+                    left:lineEX,
+                    top:lineEY
+                }
+                var lineSvgStyle={
+                    position:"absolute",
+                    left:svgLeft,
+                    top:svgTop,
+                    width:svgWidth,
+                    height:svgHeight
+                }
+                var line={
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                }
+                this.lineList.push(line)
+                console.log(this.lineList)
+                console.log("moveLine:"+id)
+                this.$store.commit("moveLine",{
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                })
             },
-            moveUnderLeft(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
-
+            moveUnderLeft(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
+                var svgLeft,svgTop,svgWidth,svgHeight
+                var lineSX,lineSY,lineEX,lineEY
             },
-            moveUnderRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
-
+            moveUnderRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
+                var svgLeft,svgTop,svgWidth,svgHeight
+                var lineSX,lineSY,lineEX,lineEY
             },
-            moveUnderMiddle(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
-
+            moveUnderMiddle(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
+                var svgLeft,svgTop,svgWidth,svgHeight
+                var lineSX,lineSY,lineEX,lineEY
             },
-            moveMiddleLeft(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
-
+            moveMiddleLeft(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
+                var svgLeft,svgTop,svgWidth,svgHeight
+                var lineSX,lineSY,lineEX,lineEY
             },
-            moveMiddleRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,lid){
-
+            moveMiddleRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
+                var svgLeft,svgTop,svgWidth,svgHeight
+                var lineSX,lineSY,lineEX,lineEY
             }
         }
     };
