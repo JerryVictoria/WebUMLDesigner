@@ -348,7 +348,34 @@
                         ),
                         id: this.$store.state.editingId
                     });
-                    console.log(this.lineList)
+                    //console.log(this.lineList)
+                    for(var i=0;i<this.lineList.length;i++){
+                        console.log(this.lineList[i])
+                        this.$store.dispatch("modifyLine", {
+                            lineKey: "startPosition",
+                            key: "",
+                            value: this.lineList[i].startPosition,
+                            id: this.lineList[i].Id,
+                            Line: this.lineList[i],
+                            lineStyle: this.lineList[i].lineStyle
+                        });
+                        this.$store.dispatch("modifyLine", {
+                            lineKey: "endPosition",
+                            key: "",
+                            value: this.lineList[i].endPosition,
+                            id: this.lineList[i].Id,
+                            Line: this.lineList[i],
+                            lineStyle: this.lineList[i].lineStyle
+                        });
+                        this.$store.dispatch("modifyLine", {
+                            lineKey: "lineSvgStyle",
+                            key: "",
+                            value: this.lineList[i].lineSvgStyle,
+                            id: this.lineList[i].Id,
+                            Line: this.lineList[i],
+                            lineStyle: this.lineList[i].lineStyle
+                        });
+                    }
                     this.cursorToLeft = 0;
                     this.cursorToTop = 0;
                     /* if (this.ghost) {
@@ -1484,12 +1511,15 @@
                     width:svgWidth,
                     height:svgHeight
                 }
-                var line={
-                    startPosition:startPosition,
-                    endPosition:endPosition,
-                    lineSvgStyle:lineSvgStyle,
-                    id:id
+                var line;
+                for(var i=0;i<this.$store.state.UML.lines.length;i++){
+                    if(this.$store.state.UML.lines[i].Id==id){
+                        line=this.$store.state.UML.lines[i];
+                    }
                 }
+                line.startPosition=startPosition
+                line.endPosition=endPosition
+                line.lineSvgStyle=lineSvgStyle
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1534,12 +1564,15 @@
                     width:svgWidth,
                     height:svgHeight
                 }
-                var line={
-                    startPosition:startPosition,
-                    endPosition:endPosition,
-                    lineSvgStyle:lineSvgStyle,
-                    id:id
+                var line;
+                for(var i=0;i<this.$store.state.UML.lines.length;i++){
+                    if(this.$store.state.UML.lines[i].Id==id){
+                        line=this.$store.state.UML.lines[i];
+                    }
                 }
+                line.startPosition=startPosition
+                line.endPosition=endPosition
+                line.lineSvgStyle=lineSvgStyle
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1630,12 +1663,15 @@
                     width:svgWidth,
                     height:svgHeight
                 }
-                var line={
-                    startPosition:startPosition,
-                    endPosition:endPosition,
-                    lineSvgStyle:lineSvgStyle,
-                    id:id
+                var line;
+                for(var i=0;i<this.$store.state.UML.lines.length;i++){
+                    if(this.$store.state.UML.lines[i].Id==id){
+                        line=this.$store.state.UML.lines[i];
+                    }
                 }
+                line.startPosition=startPosition
+                line.endPosition=endPosition
+                line.lineSvgStyle=lineSvgStyle
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1681,12 +1717,15 @@
                     width:svgWidth,
                     height:svgHeight
                 }
-                var line={
-                    startPosition:startPosition,
-                    endPosition:endPosition,
-                    lineSvgStyle:lineSvgStyle,
-                    id:id
+                var line;
+                for(var i=0;i<this.$store.state.UML.lines.length;i++){
+                    if(this.$store.state.UML.lines[i].Id==id){
+                        line=this.$store.state.UML.lines[i];
+                    }
                 }
+                line.startPosition=startPosition
+                line.endPosition=endPosition
+                line.lineSvgStyle=lineSvgStyle
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1731,12 +1770,15 @@
                     width:svgWidth,
                     height:svgHeight
                 }
-                var line={
-                    startPosition:startPosition,
-                    endPosition:endPosition,
-                    lineSvgStyle:lineSvgStyle,
-                    id:id
+                var line;
+                for(var i=0;i<this.$store.state.UML.lines.length;i++){
+                    if(this.$store.state.UML.lines[i].Id==id){
+                        line=this.$store.state.UML.lines[i];
+                    }
                 }
+                line.startPosition=startPosition
+                line.endPosition=endPosition
+                line.lineSvgStyle=lineSvgStyle
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1825,12 +1867,15 @@
                     width:svgWidth,
                     height:svgHeight
                 }
-                var line={
-                    startPosition:startPosition,
-                    endPosition:endPosition,
-                    lineSvgStyle:lineSvgStyle,
-                    id:id
+                var line;
+                for(var i=0;i<this.$store.state.UML.lines.length;i++){
+                    if(this.$store.state.UML.lines[i].Id==id){
+                        line=this.$store.state.UML.lines[i];
+                    }
                 }
+                line.startPosition=startPosition
+                line.endPosition=endPosition
+                line.lineSvgStyle=lineSvgStyle
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1887,12 +1932,15 @@
                     width:svgWidth,
                     height:svgHeight
                 }
-                var line={
-                    startPosition:startPosition,
-                    endPosition:endPosition,
-                    lineSvgStyle:lineSvgStyle,
-                    id:id
+                var line;
+                for(var i=0;i<this.$store.state.UML.lines.length;i++){
+                    if(this.$store.state.UML.lines[i].Id==id){
+                        line=this.$store.state.UML.lines[i];
+                    }
                 }
+                line.startPosition=startPosition
+                line.endPosition=endPosition
+                line.lineSvgStyle=lineSvgStyle
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1944,12 +1992,15 @@
                     width:svgWidth,
                     height:svgHeight
                 }
-                var line={
-                    startPosition:startPosition,
-                    endPosition:endPosition,
-                    lineSvgStyle:lineSvgStyle,
-                    id:id
+                var line;
+                for(var i=0;i<this.$store.state.UML.lines.length;i++){
+                    if(this.$store.state.UML.lines[i].Id==id){
+                        line=this.$store.state.UML.lines[i];
+                    }
                 }
+                line.startPosition=startPosition
+                line.endPosition=endPosition
+                line.lineSvgStyle=lineSvgStyle
                 this.lineList.push(line)
                 this.$store.commit("moveLine",{
                     startPosition:startPosition,
