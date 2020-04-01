@@ -348,6 +348,7 @@
                         ),
                         id: this.$store.state.editingId
                     });
+                    console.log(this.lineList)
                     this.cursorToLeft = 0;
                     this.cursorToTop = 0;
                     /* if (this.ghost) {
@@ -391,6 +392,10 @@
                     for(var i=0;i<this.fromlist.length;i++){
                         console.log(this.fromlist[i])
                         this.moveLine(this.fromlist[i].from,this.fromlist[i].to,this.fromlist[i].lineStyle.strokeWidth,this.fromlist[i].Id)
+                    }
+                    for(var j=0;j<this.tolist.length;j++){
+                        console.log(this.tolist[j])
+                        this.moveLine(this.tolist[j].from,this.tolist[j].to,this.tolist[j].lineStyle.strokeWidth,this.tolist[j].Id)
                     }
                 }
             },
@@ -1183,63 +1188,6 @@
                 this.lineEndY =
                     parseInt(this.$store.state.lineSize) * 3;
             },
-            //左中
-            middleLeft(){
-                console.log("左中");
-                if(this.eStartY<this.eEndY){
-                    console.log("end")
-                    this.svgLeft =
-                        this.eEndX + this.eEndW ;
-                    this.svgTop = this.eStartY;
-                    this.svgWid = this.eStartX - this.svgLeft;
-                    this.svgHei = this.eEndY +this.eEndH - this.svgTop;
-                }else{
-                    console.log("Start")
-                    this.svgLeft =
-                        this.eEndX + this.eEndW ;
-                    this.svgTop = this.eEndY;
-                    this.svgWid = this.eStartX - this.svgLeft;
-                    this.svgHei = this.eStartY +this.eStartH - this.svgTop;
-                }
-                this.lineStartX =this.eStartX-
-                    parseInt(this.$store.state.lineSize)*3-this.svgLeft;
-                this.lineStartY =
-                    this.eStartY +this.eStartH*0.5-
-                    parseInt(this.$store.state.lineSize)-this.svgTop;
-                this.lineEndX =
-                    this.eEndX+this.eEndW+
-                    parseInt(this.$store.state.lineSize)*3-this.svgLeft;
-                this.lineEndY =
-                    this.eEndY +this.eEndH*0.5+
-                    parseInt(this.$store.state.lineSize)-this.svgTop;
-            },
-            //右中
-            middleRight(){
-                console.log("右中");
-                if(this.eStartY<this.eEndY){
-                    this.svgLeft =
-                        this.eStartX + this.eStartW ;
-                    this.svgTop = this.eStartY;
-                    this.svgWid = this.eEndX - this.svgLeft;
-                    this.svgHei = this.eEndY +this.eEndH - this.svgTop;
-                }else{
-                    this.svgLeft =
-                        this.eStartX + this.eStartW ;
-                    this.svgTop = this.eEndY;
-                    this.svgWid = this.eEndX - this.svgLeft;
-                    this.svgHei = this.eStartY +this.eStartH - this.svgTop;
-                }
-                this.lineStartX =
-                    parseInt(this.$store.state.lineSize) * 3
-                this.lineStartY =
-                    this.eStartY +this.eStartH*0.5-this.svgTop;
-                this.lineEndX =
-                    this.eEndX-
-                    parseInt(this.$store.state.lineSize) * 3-this.svgLeft;
-                this.lineEndY =
-                    this.eEndY +this.eEndH*0.5-
-                    parseInt(this.$store.state.lineSize) * 3-this.svgTop;
-            },
             //左下
             underLeft() {
                 console.log("左下");
@@ -1377,6 +1325,63 @@
                     this.svgHei -
                     parseInt(this.$store.state.lineSize) * 2;
 
+            },
+            //左中
+            middleLeft(){
+                console.log("左中");
+                if(this.eStartY<this.eEndY){
+                    console.log("end")
+                    this.svgLeft =
+                        this.eEndX + this.eEndW ;
+                    this.svgTop = this.eStartY;
+                    this.svgWid = this.eStartX - this.svgLeft;
+                    this.svgHei = this.eEndY +this.eEndH - this.svgTop;
+                }else{
+                    console.log("Start")
+                    this.svgLeft =
+                        this.eEndX + this.eEndW ;
+                    this.svgTop = this.eEndY;
+                    this.svgWid = this.eStartX - this.svgLeft;
+                    this.svgHei = this.eStartY +this.eStartH - this.svgTop;
+                }
+                this.lineStartX =this.eStartX-
+                    parseInt(this.$store.state.lineSize)*3-this.svgLeft;
+                this.lineStartY =
+                    this.eStartY +this.eStartH*0.5-
+                    parseInt(this.$store.state.lineSize)-this.svgTop;
+                this.lineEndX =
+                    this.eEndX+this.eEndW+
+                    parseInt(this.$store.state.lineSize)*3-this.svgLeft;
+                this.lineEndY =
+                    this.eEndY +this.eEndH*0.5+
+                    parseInt(this.$store.state.lineSize)-this.svgTop;
+            },
+            //右中
+            middleRight(){
+                console.log("右中");
+                if(this.eStartY<this.eEndY){
+                    this.svgLeft =
+                        this.eStartX + this.eStartW ;
+                    this.svgTop = this.eStartY;
+                    this.svgWid = this.eEndX - this.svgLeft;
+                    this.svgHei = this.eEndY +this.eEndH - this.svgTop;
+                }else{
+                    this.svgLeft =
+                        this.eStartX + this.eStartW ;
+                    this.svgTop = this.eEndY;
+                    this.svgWid = this.eEndX - this.svgLeft;
+                    this.svgHei = this.eStartY +this.eStartH - this.svgTop;
+                }
+                this.lineStartX =
+                    parseInt(this.$store.state.lineSize) * 3
+                this.lineStartY =
+                    this.eStartY +this.eStartH*0.5-this.svgTop;
+                this.lineEndX =
+                    this.eEndX-
+                    parseInt(this.$store.state.lineSize) * 3-this.svgLeft;
+                this.lineEndY =
+                    this.eEndY +this.eEndH*0.5-
+                    parseInt(this.$store.state.lineSize) * 3-this.svgTop;
             },
             //@TODO 节点组件出现重叠时如何画线
             //线条随节点移动而移动
@@ -1644,22 +1649,314 @@
             moveUnderLeft(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
                 var svgLeft,svgTop,svgWidth,svgHeight
                 var lineSX,lineSY,lineEX,lineEY
+                svgLeft = endLeft + endWidth;
+                svgTop = startTop + startHeight;
+                svgWidth =
+                    startLeft +
+                    startWidth * 0.5 -
+                    svgLeft;
+                svgHeight = endTop + endHeight * 0.5 - svgTop;
+                lineSX =
+                    svgWidth -
+                    parseInt(linesize) * 3;
+                lineSY =
+                    parseInt(linesize) * 2;
+                lineEX =
+                    parseInt(linesize) * 3;
+                lineEY =
+                    svgHeight -
+                    parseInt(linesize) * 2;
+                var startPosition ={
+                    left:lineSX,
+                    top:lineSY
+                }
+                var endPosition ={
+                    left:lineEX,
+                    top:lineEY
+                }
+                var lineSvgStyle={
+                    position:"absolute",
+                    left:svgLeft,
+                    top:svgTop,
+                    width:svgWidth,
+                    height:svgHeight
+                }
+                var line={
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                }
+                this.lineList.push(line)
+                console.log(this.lineList)
+                console.log("moveLine:"+id)
+                this.$store.commit("moveLine",{
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                })
+
             },
-            moveUnderRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
+            moveUnderRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,lineSize,id){
                 var svgLeft,svgTop,svgWidth,svgHeight
                 var lineSX,lineSY,lineEX,lineEY
+                console.log("右下");
+                svgLeft = startLeft + startWidth * 0.5;
+                svgTop = startTop + startHeight;
+                svgWidth = endLeft - svgLeft;
+                svgHeight = endTop + endHeight* 0.5 - svgTop;
+                lineSX =
+                    parseInt(lineSize) * 3;
+                lineSY =
+                    parseInt(lineSize) * 3;
+                lineEX =
+                    svgWidth -
+                    parseInt(lineSize) * 3;
+                lineEY =
+                    svgHeight -
+                    parseInt(lineSize) * 2;
+                var startPosition ={
+                    left:lineSX,
+                    top:lineSY
+                }
+                var endPosition ={
+                    left:lineEX,
+                    top:lineEY
+                }
+                var lineSvgStyle={
+                    position:"absolute",
+                    left:svgLeft,
+                    top:svgTop,
+                    width:svgWidth,
+                    height:svgHeight
+                }
+                var line={
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                }
+                this.lineList.push(line)
+                console.log(this.lineList)
+                console.log("moveLine:"+id)
+                this.$store.commit("moveLine",{
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                })
             },
-            moveUnderMiddle(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
+            moveUnderMiddle(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,lineSize,id){
                 var svgLeft,svgTop,svgWidth,svgHeight
                 var lineSX,lineSY,lineEX,lineEY
+                console.log("下中");
+                if (
+                    endLeft + endWidth * 0.5 <
+                    startLeft + startWidth * 0.5
+                ) {
+                    //中左
+                    console.log("中左");
+                    svgLeft =
+                        endLeft;
+                    svgTop = startTop + startHeight;
+                    svgWidth =
+                        startLeft +
+                        startWidth -
+                        svgLeft;
+                    svgHeight = endTop - svgTop;
+                } else {
+                    if (
+                        endLeft + endWidth * 0.5 >
+                        startLeft + startWidth * 0.5
+                    ) {
+                        //中右
+                        console.log("中右");
+                        svgLeft =
+                            startLeft
+                        svgTop = startTop + startHeight;
+                        svgWidth =
+                            endLeft +
+                            endWidth -
+                            svgLeft;
+                        svgHeight =
+                            endTop - svgTop;
+                    }
+                    else {
+                        //中中
+                        console.log("中中");
+                        svgLeft =
+                            endLeft -
+                            parseInt(
+                                lineSize
+                            ) *
+                            2;
+                        svgTop = startTop + startHeight;
+                        svgWidth =
+                            endWidth;
+                        svgHeight =
+                            endTop - svgTop;
+                    }
+                }
+                lineSX =
+                    startLeft +
+                    startWidth * 0.5 -
+                    svgLeft;
+                lineSY =
+                    parseInt(lineSize) *
+                    3;
+                lineEY =
+                    svgHeight -
+                    parseInt(lineSize)*3
+                lineEX = endLeft + endWidth * 0.5+
+                    parseInt(lineSize)- svgLeft;
+                var startPosition ={
+                    left:lineSX,
+                    top:lineSY
+                }
+                var endPosition ={
+                    left:lineEX,
+                    top:lineEY
+                }
+                var lineSvgStyle={
+                    position:"absolute",
+                    left:svgLeft,
+                    top:svgTop,
+                    width:svgWidth,
+                    height:svgHeight
+                }
+                var line={
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                }
+                this.lineList.push(line)
+                console.log(this.lineList)
+                console.log("moveLine:"+id)
+                this.$store.commit("moveLine",{
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                })
             },
             moveMiddleLeft(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
                 var svgLeft,svgTop,svgWidth,svgHeight
                 var lineSX,lineSY,lineEX,lineEY
+                console.log("左中");
+                if(startTop<endTop){
+                    //console.log("end")
+                    svgLeft =
+                        endLeft + endWidth ;
+                    svgTop = startTop;
+                    svgWidth = startLeft - svgLeft;
+                    svgHeight = endTop +endHeight - svgTop;
+                }
+                else{
+                    //console.log("Start")
+                    svgLeft =
+                        endLeft + endWidth ;
+                    svgTop = endTop;
+                    svgWidth = startLeft - svgLeft;
+                    svgHeight = startTop + startHeight - svgTop;
+                }
+                lineSX =startLeft-
+                    parseInt(linesize)*3-svgLeft;
+                lineSY =
+                    startTop + startHeight*0.5-
+                    parseInt(linesize)-svgTop;
+                lineEX =
+                    endLeft+endWidth+
+                    parseInt(linesize)*3-svgLeft;
+                lineEY =
+                    endTop +endHeight*0.5+
+                    parseInt(linesize)-svgTop;
+                var startPosition ={
+                    left:lineSX,
+                    top:lineSY
+                }
+                var endPosition ={
+                    left:lineEX,
+                    top:lineEY
+                }
+                var lineSvgStyle={
+                    position:"absolute",
+                    left:svgLeft,
+                    top:svgTop,
+                    width:svgWidth,
+                    height:svgHeight
+                }
+                var line={
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                }
+                this.lineList.push(line)
+                console.log(this.lineList)
+                console.log("moveLine:"+id)
+                this.$store.commit("moveLine",{
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                })
             },
-            moveMiddleRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,linesize,id){
+            moveMiddleRight(startLeft,startTop,startWidth,startHeight,endLeft,endTop,endWidth,endHeight,lineSize,id){
                 var svgLeft,svgTop,svgWidth,svgHeight
                 var lineSX,lineSY,lineEX,lineEY
+                if(startTop<endTop){
+                    svgLeft =
+                        startLeft + startWidth ;
+                    svgTop = startTop;
+                    svgWidth = endLeft - svgLeft;
+                    svgHeight = endTop + endHeight - svgTop;
+                }else{
+                    svgLeft =
+                        startLeft + startWidth ;
+                    svgTop = endTop;
+                    svgWidth = endLeft - svgLeft;
+                    svgHeight = startTop + startHeight - svgTop;
+                }
+                lineSX =
+                    parseInt(lineSize) * 3
+                lineSY =
+                    startTop + startHeight*0.5-svgTop;
+                lineEX =
+                    endLeft-
+                    parseInt(lineSize) * 3-svgLeft;
+                lineEY =
+                    endTop + endHeight*0.5-
+                    parseInt(lineSize) * 3-svgTop;
+                var startPosition ={
+                    left:lineSX,
+                    top:lineSY
+                }
+                var endPosition ={
+                    left:lineEX,
+                    top:lineEY
+                }
+                var lineSvgStyle={
+                    position:"absolute",
+                    left:svgLeft,
+                    top:svgTop,
+                    width:svgWidth,
+                    height:svgHeight
+                }
+                var line={
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                }
+                this.lineList.push(line)
+                this.$store.commit("moveLine",{
+                    startPosition:startPosition,
+                    endPosition:endPosition,
+                    lineSvgStyle:lineSvgStyle,
+                    id:id
+                })
             }
         }
     };
