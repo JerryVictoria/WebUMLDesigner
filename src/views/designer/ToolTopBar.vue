@@ -401,7 +401,6 @@
                         strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
                         strokeWidth: this.lineSize //固定几种
                     };
-                    this.uploadFile();
                     this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
                         key: "strokeWidth",
@@ -410,12 +409,14 @@
                         Line: line,
                         lineStyle: style
                     });
+                    this.uploadFile();
                 }
                 this.$store.commit("setLineSize", {
                     lineSize: size
                 });
             },
             linetype() {
+
             },
             saveFile() {
                 // 最外层的容器

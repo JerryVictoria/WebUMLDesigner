@@ -76,11 +76,8 @@
                                 </feMerge>
                             </filter>
                         </defs>
-                        <line
-                                :x1="line.startPosition.left"
-                                :y1="line.startPosition.top"
-                                :x2="line.endPosition.left"
-                                :y2="line.endPosition.top"
+                        <path
+                                :d="line.linePath"
                                 :style="line.lineStyle"
                                 :id="line.lineId"
                                 :marker-end="line.markerend"
@@ -88,7 +85,7 @@
                                 v-clickoutside="clic(line.lineId)"
                                 @click.stop="editline(line.Id)"
                                 @contextmenu.prevent="showContextMenu(line.lineId, $event)"
-                        />
+                        ></path>
                         <!--
                             @click.stop="editline(line.lineId)"
                             v-clickoutside="clic()"
@@ -232,6 +229,7 @@
                 fromlist: [],
                 tolist: [],
                 lineList:[],
+                linePath:"",
             };
         },
         mounted() {
@@ -371,6 +369,14 @@
                             lineKey: "lineSvgStyle",
                             key: "",
                             value: this.lineList[i].lineSvgStyle,
+                            id: this.lineList[i].Id,
+                            Line: this.lineList[i],
+                            lineStyle: this.lineList[i].lineStyle
+                        });
+                        this.$store.dispatch("modifyLine", {
+                            lineKey: "linePath",
+                            key: "",
+                            value: this.lineList[i].linePath,
                             id: this.lineList[i].Id,
                             Line: this.lineList[i],
                             lineStyle: this.lineList[i].lineStyle
@@ -536,6 +542,7 @@
                         .removeChild(
                             document.getElementById("svg" + this.linenumber)
                         );
+                    this.linePath="M"+this.lineStartX+" "+this.lineStartY+" L "+this.lineEndX+" "+this.lineEndY
                     this.mousedown = false;
                     this.$store.commit("setDrawLine", {drawLine: false});
                     //console.log("mouseUp");
@@ -568,6 +575,7 @@
                                 direction: this.lineEndD
                             }
                         ],
+                        linePath:this.linePath,
                         startPosition: {
                             left: this.lineStartX,
                             top: this.lineStartY,
@@ -693,7 +701,7 @@
 
                     var line = document.createElementNS(
                         "http://www.w3.org/2000/svg",
-                        "line"
+                        "path"
                     );
                     line.id = "line" + this.linenumber;
                     var def = document.createElementNS(
@@ -744,11 +752,8 @@
                     //console.log(svg);
                 }
             },
-            drawLine(event) {
-                //画线
-                console.log(this.$store.state.drawLine);
-                console.log(this.mousedown);
-                //console.log(this.$store.state.editingId == "");
+            //直线
+            drawStraight(event){
                 if (
                     this.$store.state.drawLine &&
                     this.mousedown &&
@@ -793,10 +798,12 @@
                         newsvg.style.left = e.x - 11 + "";
                         newsvg.style.top =
                             e.y + document.documentElement.scrollTop - 11 + "";
+                        /*
                         newline.setAttribute("x1", this.EStartX - e.x + 11);
                         newline.setAttribute("y1", this.EStartY - e.y + 11);
                         newline.setAttribute("x2", "11");
                         newline.setAttribute("y2", "11");
+                        */
                         this.lineStartX = this.EStartX - e.x + 11;
                         this.lineStartY = this.EStartY - e.y + 11;
                         this.lineEndX = 11;
@@ -822,10 +829,12 @@
                             document.documentElement.scrollTop -
                             11 +
                             "";
+                        /*
                         newline.setAttribute("x1", this.EStartX - e.x + 11);
                         newline.setAttribute("y1", "11");
                         newline.setAttribute("x2", "11");
                         newline.setAttribute("y2", e.y - this.EStartY + 11);
+                        */
                         this.lineStartX = this.EStartX - e.x + 11;
                         this.lineStartY = 11;
                         this.lineEndX = 11;
@@ -847,10 +856,12 @@
                         newsvg.style.left = this.EStartX - 11 + "";
                         newsvg.style.top =
                             e.y + document.documentElement.scrollTop - 11 + "";
+                        /*
                         newline.setAttribute("x1", "11");
                         newline.setAttribute("y1", this.EStartY - e.y + 11);
                         newline.setAttribute("x2", e.x - this.EStartX + 11);
                         newline.setAttribute("y2", "11");
+                        */
                         this.lineStartX = 11;
                         this.lineStartY = this.EStartY - e.y + 11;
                         this.lineEndX = e.x - this.EStartX + 11;
@@ -876,10 +887,12 @@
                             document.documentElement.scrollTop -
                             11 +
                             "";
+                        /*
                         newline.setAttribute("x1", 11);
                         newline.setAttribute("y1", 11);
                         newline.setAttribute("x2", e.x - this.EStartX + 11);
                         newline.setAttribute("y2", e.y - this.EStartY + 11);
+                        */
                         this.lineStartX = 11;
                         this.lineStartY = 11;
                         this.lineEndX = e.x - this.EStartX + 11;
@@ -887,9 +900,35 @@
                         this.svgLeft = newsvg.style.left;
                         this.svgTop = newsvg.style.top;
                     }
+                    this.linePath="M"+this.lineStartX+" "+this.lineStartY+" L "+this.lineEndX+" "+this.lineEndY
+                    console.log("linePath:"+this.linePath)
+                    newline.setAttribute('d',this.linePath);
                     this.svgWid = newsvg.style.width;
                     this.svgHei = newsvg.style.height;
-                    //console.log(newsvg);
+                    console.log(newsvg);
+                }
+            },
+            //折线
+            drawOrthogonal(event){
+
+            },
+            //曲线
+            drawCurve(event){
+
+            },
+            drawLine(event) {
+                //画线
+                console.log(this.$store.state.drawLine);
+                console.log(this.mousedown);
+                console.log(this.$store.state.lineType);
+                if(this.$store.state.lineType=="straight"){
+                    this.drawStraight(event)
+                }
+                if(this.$store.state.lineType=="orthogonal"){
+                    this.drawOrthogonal(event)
+                }
+                if(this.$store.state.lineType=="curve"){
+                    this.drawCurve(event)
                 }
             },
             clic(item) {
@@ -1496,6 +1535,7 @@
                 lineEY =
                     svgHeight -
                     parseInt(linesize) * 3;
+                var linePath="M"+lineSX+" "+lineSY+" L "+lineEX+" "+lineEY
                 var startPosition ={
                     left:lineSX,
                     top:lineSY
@@ -1520,6 +1560,7 @@
                 line.startPosition=startPosition
                 line.endPosition=endPosition
                 line.lineSvgStyle=lineSvgStyle
+                line.linePath=linePath
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1549,6 +1590,7 @@
                     parseInt(linesize) * 3;
                 lineEY =
                     parseInt(linesize) * 3;
+                var linePath="M"+lineSX+" "+lineSY+" L "+lineEX+" "+lineEY
                 var startPosition ={
                     left:lineSX,
                     top:lineSY
@@ -1573,6 +1615,7 @@
                 line.startPosition=startPosition
                 line.endPosition=endPosition
                 line.lineSvgStyle=lineSvgStyle
+                line.linePath=linePath
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1648,6 +1691,7 @@
                     parseInt(
                         linesize
                     ) * 3;
+                var linePath="M"+lineSX+" "+lineSY+" L "+lineEX+" "+lineEY
                 var startPosition ={
                     left:lineSX,
                     top:lineSY
@@ -1672,6 +1716,7 @@
                 line.startPosition=startPosition
                 line.endPosition=endPosition
                 line.lineSvgStyle=lineSvgStyle
+                line.linePath=linePath
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1702,6 +1747,7 @@
                 lineEY =
                     svgHeight -
                     parseInt(linesize) * 2;
+                var linePath="M"+lineSX+" "+lineSY+" L "+lineEX+" "+lineEY
                 var startPosition ={
                     left:lineSX,
                     top:lineSY
@@ -1726,6 +1772,7 @@
                 line.startPosition=startPosition
                 line.endPosition=endPosition
                 line.lineSvgStyle=lineSvgStyle
+                line.linePath=linePath
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1755,6 +1802,7 @@
                 lineEY =
                     svgHeight -
                     parseInt(lineSize) * 2;
+                var linePath="M"+lineSX+" "+lineSY+" L "+lineEX+" "+lineEY
                 var startPosition ={
                     left:lineSX,
                     top:lineSY
@@ -1779,6 +1827,7 @@
                 line.startPosition=startPosition
                 line.endPosition=endPosition
                 line.lineSvgStyle=lineSvgStyle
+                line.linePath=linePath
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1852,6 +1901,7 @@
                     parseInt(lineSize)*3
                 lineEX = endLeft + endWidth * 0.5+
                     parseInt(lineSize)- svgLeft;
+                var linePath="M"+lineSX+" "+lineSY+" L "+lineEX+" "+lineEY
                 var startPosition ={
                     left:lineSX,
                     top:lineSY
@@ -1876,6 +1926,7 @@
                 line.startPosition=startPosition
                 line.endPosition=endPosition
                 line.lineSvgStyle=lineSvgStyle
+                line.linePath=linePath
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1917,6 +1968,7 @@
                 lineEY =
                     endTop +endHeight*0.5+
                     parseInt(linesize)-svgTop;
+                var linePath="M"+lineSX+" "+lineSY+" L "+lineEX+" "+lineEY
                 var startPosition ={
                     left:lineSX,
                     top:lineSY
@@ -1941,6 +1993,7 @@
                 line.startPosition=startPosition
                 line.endPosition=endPosition
                 line.lineSvgStyle=lineSvgStyle
+                line.linePath=linePath
                 this.lineList.push(line)
                 console.log(this.lineList)
                 console.log("moveLine:"+id)
@@ -1977,6 +2030,7 @@
                 lineEY =
                     endTop + endHeight*0.5-
                     parseInt(lineSize) * 3-svgTop;
+                var linePath="M"+lineSX+" "+lineSY+" L "+lineEX+" "+lineEY
                 var startPosition ={
                     left:lineSX,
                     top:lineSY
@@ -2001,6 +2055,7 @@
                 line.startPosition=startPosition
                 line.endPosition=endPosition
                 line.lineSvgStyle=lineSvgStyle
+                line.linePath=linePath
                 this.lineList.push(line)
                 this.$store.commit("moveLine",{
                     startPosition:startPosition,

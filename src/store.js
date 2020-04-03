@@ -16,7 +16,7 @@ export default new Vuex.Store({
         editingId: "", //当前编辑组件（显示功能）
         lineEditing: false,
         drawLine: false,
-        lineType: "",
+        lineType: "straight",
         lineStyle: "",
         lineColor: "",
         lineSize: "",
@@ -91,6 +91,7 @@ export default new Vuex.Store({
                     markerstart: 'url(#arrow2)',
                     markerend: 'url(#arrow1)',
                     lineList: lines[i].lineList,
+                    linePath:lines[i].path,
                     startPosition: {
                         left: parseInt(lines[i].startPosition.lpLeft),
                         top: parseInt(lines[i].startPosition.lpTop),
@@ -549,6 +550,7 @@ export default new Vuex.Store({
                     markerStart: "url(#arrow2)",
                     markerEnd: "url(#arrow1)",
                     lineList: params.lineList,
+                    path:params.linePath,
                     startPosition: params.startPosition,
                     endPosition: params.endPosition,
                     lineStyle: params.lineStyle,
@@ -576,6 +578,7 @@ export default new Vuex.Store({
                     markerStart: "url(#arrow2)",
                     markerEnd: "url(#arrow1)",
                     lineList: params.Line.lineList,
+                    path:params.Line.linePath,
                     startPosition: params.Line.startPosition,
                     endPosition: params.Line.endPosition,
                     lineStyle: params.lineStyle,
