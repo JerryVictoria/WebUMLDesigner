@@ -468,7 +468,13 @@
                     }
                     if(lineType == "curve"){
                         //@TODO
-
+                        var x1, y1, x2, y2
+                        x1 = (lineStartX + lineEndX) / 2
+                        x2 = x1
+                        y1 = lineStartY
+                        y2 = lineEndY
+                        linePath = "M" + lineStartX + " " +lineStartY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + lineEndX + " " + lineEndY
+                        console.log("linePath:" + linePath)
                     }
                     line.linePath=linePath
                     line.relationType=lineType

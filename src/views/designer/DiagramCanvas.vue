@@ -562,7 +562,13 @@
                         this.linePath = "M" + this.lineStartX + " " + this.lineStartY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + this.lineEndX + " " + this.lineEndY
                     }
                     if (this.$store.state.lineType == "curve") {
-                        //@TODO
+                        var x1, y1, x2, y2
+                        x1 = (this.lineStartX + this.lineEndX) / 2
+                        x2 = x1
+                        y1 = this.lineStartY
+                        y2 = this.lineEndY
+                        this.linePath = "M" + this.lineStartX + " " + this.lineStartY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + this.lineEndX + " " + this.lineEndY
+                        console.log("linePath:" + this.linePath)
                     }
                     this.mousedown = false;
                     this.$store.commit("setDrawLine", {drawLine: false});
@@ -799,7 +805,14 @@
             },
             //曲线
             drawCurve(newline, typeevent) {
-
+                var x1, y1, x2, y2
+                    x1 = (this.lineStartX + this.lineEndX) / 2
+                    x2 = x1
+                    y1 = this.lineStartY
+                    y2 = (this.lineStartY + this.lineEndY) / 2
+                this.linePath = "M" + this.lineStartX + " " + this.lineStartY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + this.lineEndX + " " + this.lineEndY
+                console.log("linePath:" + this.linePath)
+                newline.setAttribute('d', this.linePath);
             },
             drawLine(event) {
                 //画线
@@ -1508,6 +1521,7 @@
                 endHeight = this.$refs[toid + ''][0].getLineBottomPosition()[0].y
                 if ((endTop + endHeight) < startTop) {
                     //上
+                    /*
                     if (endLeft + endWidth < startLeft) {
                         console.log("左上");
                         this.moveTopLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
@@ -1520,10 +1534,12 @@
                             this.moveTopMiddle(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
                         }
                     }
+                    */
                 }
                 else {
                     if (endTop > (startTop + startHeight)) {
                         //下
+                        /*
                         if (endLeft + endWidth < startLeft) {
                             //下左
                             console.log("下左");
@@ -1539,6 +1555,7 @@
                                 this.moveUnderMiddle(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
                             }
                         }
+                        */
                     } else {
                         //中
                         if (endLeft + endWidth < startLeft) {
