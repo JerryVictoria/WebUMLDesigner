@@ -105,7 +105,8 @@ export default new Vuex.Store({
                     lineStyle: {
                         stroke: lines[i].lineStyle.stroke,
                         strokeDasharray: lines[i].lineStyle.strokeDasharray, //虚线之类的
-                        strokeWidth: lines[i].lineStyle.strokeWidth //固定几种
+                        strokeWidth: lines[i].lineStyle.strokeWidth, //固定几种
+                        fill:"none"
                     },
                     lineSvgStyle: {
                         position: lines[i].lineSvgStyle.svgPosition,
@@ -222,7 +223,8 @@ export default new Vuex.Store({
                     state.UML.lines[i].startPosition = params.startPosition;
                     state.UML.lines[i].endPosition = params.endPosition;
                     state.UML.lines[i].lineSvgStyle = params.lineSvgStyle;
-                    console.log("moveLine");
+                    state.UML.lines[i].linePath=params.linePath;
+                    //console.log("moveLine");
                     break;
                 }
             }
@@ -568,6 +570,7 @@ export default new Vuex.Store({
             commit
         }, params) {
             //params.lineStyle.key=params.Line.value;
+            //alert("updateLine")
             axios.post("/updateLine", {
                     lineId: parseInt(params.Line.Id),
                     lid: params.Line.lid,

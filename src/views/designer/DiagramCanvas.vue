@@ -214,7 +214,7 @@
                 lineEndX: 0,
                 lineEndY: 0,
                 linenumber: 0,
-                lineType: "straight",
+                lineType: "",
                 lineText: "",
                 From: "",
                 To: "",
@@ -245,7 +245,7 @@
                 menu.css("position", "fixed");
                 console.log("showContextMenu");
                 this.showMenu = true;
-                if (id.indexOf("line") != -1) {
+                if (id.substr(0,1)=="l") {
                     console.log("line:" + id);
                     this.$store.commit("setLineEditId", {id: id});
                 } else {
@@ -392,7 +392,7 @@
                     this.tolist = []
                     this.lineList = []
                     this.clickOutSide();
-                    this.uploadFile();
+                    //this.uploadFile();
                 }
             },
             handleDragEnter(event) {
@@ -424,11 +424,11 @@
                     this.lineList = []
                     for (var i = 0; i < this.fromlist.length; i++) {
                         console.log(this.fromlist[i])
-                        this.moveLine(this.fromlist[i].from, this.fromlist[i].to, this.fromlist[i].lineStyle.strokeWidth, this.fromlist[i].Id)
+                        this.moveLine(this.fromlist[i].from, this.fromlist[i].to, this.fromlist[i].lineStyle.strokeWidth, this.fromlist[i].Id,this.fromlist[i].relationType)
                     }
                     for (var j = 0; j < this.tolist.length; j++) {
                         console.log(this.tolist[j])
-                        this.moveLine(this.tolist[j].from, this.tolist[j].to, this.tolist[j].lineStyle.strokeWidth, this.tolist[j].Id)
+                        this.moveLine(this.tolist[j].from, this.tolist[j].to, this.tolist[j].lineStyle.strokeWidth, this.tolist[j].Id,this.tolist[j].relationType)
                     }
                 }
             },
@@ -442,11 +442,12 @@
                 console.log("editline" + item);
                 this.$store.commit("setLineEditState", {lineEditing: true});
                 this.$store.commit("setLineEditId", {id: item});
-                console.log(this.$store.state.lineEditId);
+                //console.log(this.$store.state.editingId);
+                //console.log(this.$store.state.lineEditId);
                 var line = document.getElementById("line" + item);
                 const treeElem = document.getElementById("canvas");
                 const svgElem = treeElem.querySelectorAll("svg");
-                console.log(svgElem);
+                //console.log(svgElem);
                 svgElem.forEach(node => {
                     console.log(node.childNodes[1].id);
                     if (node.childNodes[1].id == "line" + item) {
@@ -574,7 +575,7 @@
                         lid: 0,
                         svgId: "svg" + this.linenumber,
                         lineId: "line" + this.linenumber,
-                        relationType: this.lineType,
+                        relationType: this.$store.state.lineType,
                         from: this.From,
                         to: this.To,
                         text: this.lineText,
@@ -1490,7 +1491,7 @@
             },
             //@TODO 节点组件出现重叠时如何画线
             //线条随节点移动而移动
-            moveLine(fromid, toid, lineSize, id) {
+            moveLine(fromid, toid, lineSize, id, relationType) {
                 var startLeft, startTop, startWidth, startHeight
                 var endLeft, endTop, endWidth, endHeight
                 var start, end
@@ -1508,12 +1509,15 @@
                 if ((endTop + endHeight) < startTop) {
                     //上
                     if (endLeft + endWidth < startLeft) {
-                        this.moveTopLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id)
+                        console.log("左上");
+                        this.moveTopLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
                     } else {
                         if (endLeft > startLeft + startWidth) {
-                            this.moveTopRight(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id)
+                            console.log("右上");
+                            this.moveTopRight(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
                         } else {
-                            this.moveTopMiddle(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id)
+                            console.log("上中");
+                            this.moveTopMiddle(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
                         }
                     }
                 }
@@ -1523,16 +1527,16 @@
                         if (endLeft + endWidth < startLeft) {
                             //下左
                             console.log("下左");
-                            this.moveUnderLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id)
+                            this.moveUnderLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
                         } else {
                             if (endLeft > startLeft + startWidth) {
                                 //下右
                                 console.log("下右");
-                                this.moveUnderRight(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id)
+                                this.moveUnderRight(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
                             } else {
                                 //下中
                                 console.log("下中");
-                                this.moveUnderMiddle(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id)
+                                this.moveUnderMiddle(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
                             }
                         }
                     } else {
@@ -1540,12 +1544,12 @@
                         if (endLeft + endWidth < startLeft) {
                             //中左
                             console.log("中左");
-                            this.moveMiddleLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id)
+                            this.moveMiddleLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
                         } else {
                             if (endLeft > startLeft + startWidth) {
                                 //中右
                                 console.log("中右");
-                                this.moveMiddleRight(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id)
+                                this.moveMiddleRight(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
                             } else {
                                 console.log("出现重叠");
                             }
@@ -1553,8 +1557,8 @@
                     }
                 }
             },
-            moveTopLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, linesize, id) {
-                console.log("左上");
+            moveTopLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, linesize, id,relationType) {
+                console.log(relationType);
                 var svgLeft, svgTop, svgWidth, svgHeight
                 var lineSX, lineSY, lineEX, lineEY
                 svgLeft = endLeft + endWidth;
@@ -1574,7 +1578,29 @@
                 lineEY =
                     svgHeight -
                     parseInt(linesize) * 3;
-                var linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
+                var linePath
+                if (relationType == "straight") {
+                    linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
+                }
+                if (relationType == "orthogonal") {
+                        var x1, y1, x2, y2
+                        if (svgWidth > svgHeight) {
+                            x1 = (lineSX + lineEX) / 2
+                            x2 = x1
+                            y1 = lineSY
+                            y2 = lineEY
+                        } else {
+                            x1 = lineSX
+                            x2 = lineEX
+                            y1 = (lineSY + lineEY) / 2
+                            y2 = y1
+                        }
+                        linePath = "M" + lineSX + " " + lineSY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + lineEX + " " + lineEY
+
+                    }
+                if (relationType == "curve") {
+                    //@TODO
+                }
                 var startPosition = {
                     left: lineSX,
                     top: lineSY
@@ -1601,19 +1627,21 @@
                 line.lineSvgStyle = lineSvgStyle
                 line.linePath = linePath
                 this.lineList.push(line)
-                console.log(this.lineList)
                 console.log("moveLine:" + id)
+                console.log(this.lineList)
                 this.$store.commit("moveLine", {
                     startPosition: startPosition,
                     endPosition: endPosition,
                     lineSvgStyle: lineSvgStyle,
+                    linePath:linePath,
                     id: id
                 })
             },
-            moveTopRight(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, linesize, id) {
+            moveTopRight(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, linesize, id,relationType) {
                 console.log("上右");
                 var svgLeft, svgTop, svgWidth, svgHeight
                 var lineSX, lineSY, lineEX, lineEY
+                var linePath
                 svgLeft =
                     startLeft + startWidth * 0.5;
                 svgTop = endTop + endHeight * 0.5;
@@ -1629,7 +1657,28 @@
                     parseInt(linesize) * 3;
                 lineEY =
                     parseInt(linesize) * 3;
-                var linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
+                if (relationType == "straight") {
+                    linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
+                }
+                if (relationType == "orthogonal") {
+                        var x1, y1, x2, y2
+                        if (svgWidth > svgHeight) {
+                            x1 = (lineSX + lineEX) / 2
+                            x2 = x1
+                            y1 = lineSY
+                            y2 = lineEY
+                        } else {
+                            x1 = lineSX
+                            x2 = lineEX
+                            y1 = (lineSY + lineEY) / 2
+                            y2 = y1
+                        }
+                        linePath = "M" + lineSX + " " + lineSY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + lineEX + " " + lineEY
+
+                    }
+                    if (relationType == "curve") {
+                        //@TODO
+                    }
                 var startPosition = {
                     left: lineSX,
                     top: lineSY
@@ -1662,12 +1711,14 @@
                     startPosition: startPosition,
                     endPosition: endPosition,
                     lineSvgStyle: lineSvgStyle,
+                    linePath:linePath,
                     id: id
                 })
             },
-            moveTopMiddle(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, linesize, id) {
+            moveTopMiddle(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, linesize, id,relationType) {
                 var svgLeft, svgTop, svgWidth, svgHeight
                 var lineSX, lineSY, lineEX, lineEY
+                var linePath
                 console.log("上中");
                 if (endLeft + endWidth * 0.5 < startLeft + startWidth * 0.5) {
                     //中左
@@ -1730,7 +1781,28 @@
                     parseInt(
                         linesize
                     ) * 3;
-                var linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
+                if (relationType == "straight") {
+                    linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
+                }
+                if (relationType == "orthogonal") {
+                    var x1, y1, x2, y2
+                    if (svgWidth > svgHeight) {
+                        x1 = (lineSX + lineEX) / 2
+                        x2 = x1
+                        y1 = lineSY
+                        y2 = lineEY
+                    } else {
+                        x1 = lineSX
+                        x2 = lineEX
+                        y1 = (lineSY + lineEY) / 2
+                        y2 = y1
+                    }
+                    linePath = "M" + lineSX + " " + lineSY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + lineEX + " " + lineEY
+
+                }
+                if (relationType == "curve") {
+                    //@TODO
+                }
                 var startPosition = {
                     left: lineSX,
                     top: lineSY
@@ -1763,12 +1835,14 @@
                     startPosition: startPosition,
                     endPosition: endPosition,
                     lineSvgStyle: lineSvgStyle,
+                    linePath:linePath,
                     id: id
                 })
             },
-            moveUnderLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, linesize, id) {
+            moveUnderLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, linesize, id,relationType) {
                 var svgLeft, svgTop, svgWidth, svgHeight
                 var lineSX, lineSY, lineEX, lineEY
+                var linePath
                 svgLeft = endLeft + endWidth;
                 svgTop = startTop + startHeight;
                 svgWidth =
@@ -1786,7 +1860,28 @@
                 lineEY =
                     svgHeight -
                     parseInt(linesize) * 2;
-                var linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
+                if (relationType == "straight") {
+                    linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
+                }
+                if (relationType == "orthogonal") {
+                    var x1, y1, x2, y2
+                    if (svgWidth > svgHeight) {
+                        x1 = (lineSX + lineEX) / 2
+                        x2 = x1
+                        y1 = lineSY
+                        y2 = lineEY
+                    } else {
+                        x1 = lineSX
+                        x2 = lineEX
+                        y1 = (lineSY + lineEY) / 2
+                        y2 = y1
+                    }
+                    linePath = "M" + lineSX + " " + lineSY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + lineEX + " " + lineEY
+
+                }
+                if (relationType == "curve") {
+                    //@TODO
+                }
                 var startPosition = {
                     left: lineSX,
                     top: lineSY
@@ -1819,13 +1914,15 @@
                     startPosition: startPosition,
                     endPosition: endPosition,
                     lineSvgStyle: lineSvgStyle,
+                    linePath:linePath,
                     id: id
                 })
 
             },
-            moveUnderRight(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id) {
+            moveUnderRight(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType) {
                 var svgLeft, svgTop, svgWidth, svgHeight
                 var lineSX, lineSY, lineEX, lineEY
+                var linePath
                 console.log("右下");
                 svgLeft = startLeft + startWidth * 0.5;
                 svgTop = startTop + startHeight;
@@ -1841,8 +1938,28 @@
                 lineEY =
                     svgHeight -
                     parseInt(lineSize) * 2;
-                var linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
-                var startPosition = {
+                if (relationType == "straight") {
+                    linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
+                }
+                if (relationType == "orthogonal") {
+                    var x1, y1, x2, y2
+                    if (svgWidth > svgHeight) {
+                        x1 = (lineSX + lineEX) / 2
+                        x2 = x1
+                        y1 = lineSY
+                        y2 = lineEY
+                    } else {
+                        x1 = lineSX
+                        x2 = lineEX
+                        y1 = (lineSY + lineEY) / 2
+                        y2 = y1
+                    }
+                    linePath = "M" + lineSX + " " + lineSY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + lineEX + " " + lineEY
+
+                }
+                if (relationType == "curve") {
+                    //@TODO
+                }var startPosition = {
                     left: lineSX,
                     top: lineSY
                 }
@@ -1874,12 +1991,14 @@
                     startPosition: startPosition,
                     endPosition: endPosition,
                     lineSvgStyle: lineSvgStyle,
+                    linePath:linePath,
                     id: id
                 })
             },
-            moveUnderMiddle(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id) {
+            moveUnderMiddle(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType) {
                 var svgLeft, svgTop, svgWidth, svgHeight
                 var lineSX, lineSY, lineEX, lineEY
+                var linePath
                 console.log("下中");
                 if (
                     endLeft + endWidth * 0.5 <
@@ -1940,8 +2059,28 @@
                     parseInt(lineSize) * 3
                 lineEX = endLeft + endWidth * 0.5 +
                     parseInt(lineSize) - svgLeft;
-                var linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
-                var startPosition = {
+                if (relationType == "straight") {
+                    linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
+                }
+                if (relationType == "orthogonal") {
+                    var x1, y1, x2, y2
+                    if (svgWidth > svgHeight) {
+                        x1 = (lineSX + lineEX) / 2
+                        x2 = x1
+                        y1 = lineSY
+                        y2 = lineEY
+                    } else {
+                        x1 = lineSX
+                        x2 = lineEX
+                        y1 = (lineSY + lineEY) / 2
+                        y2 = y1
+                    }
+                    linePath = "M" + lineSX + " " + lineSY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + lineEX + " " + lineEY
+
+                }
+                if (relationType == "curve") {
+                    //@TODO
+                }var startPosition = {
                     left: lineSX,
                     top: lineSY
                 }
@@ -1973,12 +2112,14 @@
                     startPosition: startPosition,
                     endPosition: endPosition,
                     lineSvgStyle: lineSvgStyle,
+                    linePath:linePath,
                     id: id
                 })
             },
-            moveMiddleLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, linesize, id) {
+            moveMiddleLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, linesize, id,relationType) {
                 var svgLeft, svgTop, svgWidth, svgHeight
                 var lineSX, lineSY, lineEX, lineEY
+                var linePath
                 console.log("左中");
                 if (startTop < endTop) {
                     //console.log("end")
@@ -2007,8 +2148,28 @@
                 lineEY =
                     endTop + endHeight * 0.5 +
                     parseInt(linesize) - svgTop;
-                var linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
-                var startPosition = {
+                if (relationType == "straight") {
+                    linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
+                }
+                if (relationType == "orthogonal") {
+                    var x1, y1, x2, y2
+                    if (svgWidth > svgHeight) {
+                        x1 = (lineSX + lineEX) / 2
+                        x2 = x1
+                        y1 = lineSY
+                        y2 = lineEY
+                    } else {
+                        x1 = lineSX
+                        x2 = lineEX
+                        y1 = (lineSY + lineEY) / 2
+                        y2 = y1
+                    }
+                    linePath = "M" + lineSX + " " + lineSY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + lineEX + " " + lineEY
+
+                }
+                if (relationType == "curve") {
+                    //@TODO
+                }var startPosition = {
                     left: lineSX,
                     top: lineSY
                 }
@@ -2040,12 +2201,14 @@
                     startPosition: startPosition,
                     endPosition: endPosition,
                     lineSvgStyle: lineSvgStyle,
+                    linePath:linePath,
                     id: id
                 })
             },
-            moveMiddleRight(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id) {
+            moveMiddleRight(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType) {
                 var svgLeft, svgTop, svgWidth, svgHeight
                 var lineSX, lineSY, lineEX, lineEY
+                var linePath
                 if (startTop < endTop) {
                     svgLeft =
                         startLeft + startWidth;
@@ -2069,8 +2232,28 @@
                 lineEY =
                     endTop + endHeight * 0.5 -
                     parseInt(lineSize) * 3 - svgTop;
-                var linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
-                var startPosition = {
+                if (relationType == "straight") {
+                    linePath = "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY
+                }
+                if (relationType == "orthogonal") {
+                    var x1, y1, x2, y2
+                    if (svgWidth > svgHeight) {
+                        x1 = (lineSX + lineEX) / 2
+                        x2 = x1
+                        y1 = lineSY
+                        y2 = lineEY
+                    } else {
+                        x1 = lineSX
+                        x2 = lineEX
+                        y1 = (lineSY + lineEY) / 2
+                        y2 = y1
+                    }
+                    linePath = "M" + lineSX + " " + lineSY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + lineEX + " " + lineEY
+
+                }
+                if (relationType == "curve") {
+                    //@TODO
+                }var startPosition = {
                     left: lineSX,
                     top: lineSY
                 }
@@ -2100,6 +2283,7 @@
                     startPosition: startPosition,
                     endPosition: endPosition,
                     lineSvgStyle: lineSvgStyle,
+                    linePath:linePath,
                     id: id
                 })
             }
