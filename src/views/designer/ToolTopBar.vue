@@ -63,7 +63,7 @@
                             v-for="item in options"
                             :key="item.value"
                             :label="item.label"
-                            :value="item.value"
+                            :value="item.type"
                     >
                         <el-image
                                 :src="item.url"
@@ -244,6 +244,10 @@
             this.$store.commit("setLineStyle", {
                 lineStyle: style
             });
+            this.$store.commit("setLineType", {
+                lineType: "straight"
+            });
+            console.log(this.$store.state.lineType)
             this.$store.commit("setDrawLine", {drawLine: false});
         },
         methods: {
@@ -305,23 +309,24 @@
                     console.log("linecolor" + this.lcolor);
                     console.log("lineid" + this.$store.state.lineEditId);
                     console.log(this.$store.state.UML.lines);
+                    var line
                     for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
                         if (
                             this.$store.state.UML.lines[i].Id ==
                             this.$store.state.lineEditId
                         ) {
-                            var line = this.$store.state.UML.lines[i];
+                            line = this.$store.state.UML.lines[i];
                             console.log(line);
                         }
                     }
                     var style = {
                         stroke: this.lcolor,
                         strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
-                        strokeWidth: line.lineStyle.strokeWidth //固定几种
+                        strokeWidth: line.lineStyle.strokeWidth,//固定几种
+                        fill:"none"
                     };
                     console.log(this.$store.state.lineEditId);
                     console.log(this.lcolor);
-                    this.uploadFile();
                     this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
                         key: "stroke",
@@ -331,6 +336,7 @@
                         lineStyle: style
                     });
                     console.log(this.$store.state.UML.lines);
+                    this.uploadFile();
                 }
                 this.$store.commit("setLineColor", {
                     lineColor: this.lcolor
@@ -355,21 +361,22 @@
                 if (this.$store.state.lineEditId != "") {
                     console.log("linestyle" + this.style);
                     console.log("lineid" + this.$store.state.lineEditId);
+                    var line
                     for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
                         if (
                             this.$store.state.UML.lines[i].Id ==
                             this.$store.state.lineEditId
                         ) {
-                            var line = this.$store.state.UML.lines[i];
+                            line = this.$store.state.UML.lines[i];
                             console.log(line);
                         }
                     }
                     var style1 = {
                         stroke: line.lineStyle.stroke,
                         strokeDasharray: style, //虚线之类的
-                        strokeWidth: line.lineStyle.strokeWidth //固定几种
+                        strokeWidth: line.lineStyle.strokeWidth, //固定几种
+                        fill:"none"
                     };
-                    this.uploadFile();
                     this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
                         key: "strokeDasharray",
@@ -378,6 +385,7 @@
                         Line: line,
                         lineStyle: style1
                     });
+                    this.uploadFile();
                 }
                 this.$store.commit("setLineStyle", {
                     lineStyle: style
@@ -387,19 +395,21 @@
                 if (this.$store.state.lineEditId != "") {
                     console.log("linesize:" + this.lineSize);
                     console.log("lineid" + this.$store.state.lineEditId);
+                    var line
                     for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
                         if (
                             this.$store.state.UML.lines[i].Id ==
                             this.$store.state.lineEditId
                         ) {
-                            var line = this.$store.state.UML.lines[i];
+                            line = this.$store.state.UML.lines[i];
                             console.log(line);
                         }
                     }
                     var style = {
                         stroke: line.lineStyle.stroke,
                         strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
-                        strokeWidth: this.lineSize //固定几种
+                        strokeWidth: this.lineSize, //固定几种
+                        fill:"none"
                     };
                     this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
@@ -415,8 +425,75 @@
                     lineSize: size
                 });
             },
-            linetype() {
+            linetype(lineType) {
+                console.log("lineType："+lineType)
+                if (this.$store.state.lineEditId != "") {
+                    console.log("linestyle" + this.style);
+                    console.log("lineid" + this.$store.state.lineEditId);
+                    var line
+                    for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
+                        if (
+                            this.$store.state.UML.lines[i].Id ==
+                            this.$store.state.lineEditId
+                        ) {
+                            line = this.$store.state.UML.lines[i];
+                            console.log(line);
+                        }
+                    }
+                    var x1, y1, x2, y2
+                    var svgWid = line.lineSvgStyle.width
+                    var svgHei = line.lineSvgStyle.height
+                    var lineStartX = line.startPosition.left
+                    var lineStartY = line.startPosition.top
+                    var lineEndX = line.endPosition.left
+                    var lineEndY = line.endPosition.top
+                    var linePath
+                    if (lineType == "orthogonal"){
+                        if (svgWid > svgHei) {
+                            x1 = (lineStartX + lineEndX) / 2
+                            x2 = x1
+                            y1 = lineStartY
+                            y2 = lineEndY
+                        } else {
+                            x1 = lineStartX
+                            x2 = lineEndX
+                            y1 = (lineStartY + lineEndY) / 2
+                            y2 = y1
+                        }
+                    linePath = "M" + lineStartX + " " + lineStartY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + lineEndX + " " + lineEndY
+                    }
+                    if(lineType == "straight"){
+                        linePath = "M" + lineStartX + " " + lineStartY + " L " + lineEndX + " " +  lineEndY
 
+                    }
+                    if(lineType == "curve"){
+                        //@TODO
+
+                    }
+                    line.linePath=linePath
+                    line.relationType=lineType
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "relationType",
+                        key: "",
+                        value: lineType,
+                        id: this.$store.state.lineEditId,
+                        Line: line,
+                        lineStyle: line.lineStyle
+                    });
+
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "linePath",
+                        key: "",
+                        value: linePath,
+                        id: this.$store.state.lineEditId,
+                        Line: line,
+                        lineStyle: line.lineStyle
+                    });
+                }
+                this.$store.commit("setLineType", {
+                    lineType: lineType
+                });
+                this.uploadFile();
             },
             saveFile() {
                 // 最外层的容器
