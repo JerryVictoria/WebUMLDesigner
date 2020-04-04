@@ -392,7 +392,7 @@
                     this.tolist = []
                     this.lineList = []
                     this.clickOutSide();
-                    //this.uploadFile();
+                    this.uploadFile();
                 }
             },
             handleDragEnter(event) {
@@ -1521,7 +1521,6 @@
                 endHeight = this.$refs[toid + ''][0].getLineBottomPosition()[0].y
                 if ((endTop + endHeight) < startTop) {
                     //上
-                    /*
                     if (endLeft + endWidth < startLeft) {
                         console.log("左上");
                         this.moveTopLeft(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
@@ -1534,12 +1533,10 @@
                             this.moveTopMiddle(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
                         }
                     }
-                    */
                 }
                 else {
                     if (endTop > (startTop + startHeight)) {
                         //下
-                        /*
                         if (endLeft + endWidth < startLeft) {
                             //下左
                             console.log("下左");
@@ -1555,7 +1552,6 @@
                                 this.moveUnderMiddle(startLeft, startTop, startWidth, startHeight, endLeft, endTop, endWidth, endHeight, lineSize, id,relationType)
                             }
                         }
-                        */
                     } else {
                         //中
                         if (endLeft + endWidth < startLeft) {
@@ -1616,7 +1612,13 @@
 
                     }
                 if (relationType == "curve") {
-                    //@TODO
+                    var x1, y1, x2, y2
+                    x1 = (lineSX + lineEX) / 2
+                    x2 = x1
+                    y1 = lineSY
+                    y2 = lineEY
+                    linePath = "M" + lineSX + " " + lineSY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + lineEX + " " + lineEY
+
                 }
                 var startPosition = {
                     left: lineSX,
@@ -1694,7 +1696,13 @@
 
                     }
                     if (relationType == "curve") {
-                        //@TODO
+                        var x1, y1, x2, y2
+                        x1 = (lineSX + lineEX) / 2
+                        x2 = x1
+                        y1 = lineSY
+                        y2 = lineEY
+                        linePath = "M" + lineSX + " " + lineSY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + lineEX + " " + lineEY
+
                     }
                 var startPosition = {
                     left: lineSX,
@@ -1818,7 +1826,13 @@
 
                 }
                 if (relationType == "curve") {
-                    //@TODO
+                    var x1, y1, x2, y2
+                    x1 = (lineSX + lineEX) / 2
+                    x2 = x1
+                    y1 = lineSY
+                    y2 = lineEY
+                    linePath = "M" + lineSX + " " + lineSY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + lineEX + " " + lineEY
+
                 }
                 var startPosition = {
                     left: lineSX,
@@ -1897,7 +1911,13 @@
 
                 }
                 if (relationType == "curve") {
-                    //@TODO
+                    var x1, y1, x2, y2
+                    x1 = (lineSX + lineEX) / 2
+                    x2 = x1
+                    y1 = lineSY
+                    y2 = lineEY
+                    linePath = "M" + lineSX + " " + lineSY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + lineEX + " " + lineEY
+
                 }
                 var startPosition = {
                     left: lineSX,
@@ -1975,8 +1995,15 @@
 
                 }
                 if (relationType == "curve") {
-                    //@TODO
-                }var startPosition = {
+                    var x1, y1, x2, y2
+                    x1 = (lineSX + lineEX) / 2
+                    x2 = x1
+                    y1 = lineSY
+                    y2 = lineEY
+                    linePath = "M" + lineSX + " " + lineSY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + lineEX + " " + lineEY
+
+                }
+                var startPosition = {
                     left: lineSX,
                     top: lineSY
                 }
@@ -2096,8 +2123,15 @@
 
                 }
                 if (relationType == "curve") {
-                    //@TODO
-                }var startPosition = {
+                    var x1, y1, x2, y2
+                    x1 = (lineSX + lineEX) / 2
+                    x2 = x1
+                    y1 = lineSY
+                    y2 = lineEY
+                    linePath = "M" + lineSX + " " + lineSY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + lineEX + " " + lineEY
+
+                }
+                var startPosition = {
                     left: lineSX,
                     top: lineSY
                 }
@@ -2185,8 +2219,15 @@
 
                 }
                 if (relationType == "curve") {
-                    //@TODO
-                }var startPosition = {
+                    var x1, y1, x2, y2
+                    x1 = (lineSX + lineEX) / 2
+                    x2 = x1
+                    y1 = lineSY
+                    y2 = lineEY
+                    linePath = "M" + lineSX + " " + lineSY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + lineEX + " " + lineEY
+
+                }
+                var startPosition = {
                     left: lineSX,
                     top: lineSY
                 }
@@ -2269,8 +2310,15 @@
 
                 }
                 if (relationType == "curve") {
-                    //@TODO
-                }var startPosition = {
+                    var x1, y1, x2, y2
+                    x1 = (lineSX + lineEX) / 2
+                    x2 = x1
+                    y1 = lineSY
+                    y2 = lineEY
+                    linePath = "M" + lineSX + " " + lineSY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + lineEX + " " + lineEY
+
+                }
+                var startPosition = {
                     left: lineSX,
                     top: lineSY
                 }
