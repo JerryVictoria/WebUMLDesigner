@@ -200,7 +200,7 @@ export default {
         deleteProp() {
             if (!this.initData.addFlag) {
                 //console.log(this.initData.vid);
-                this.$store.commit("deleteClassNodeProp", {
+                this.$store.dispatch("deleteClassNodeProp", {
                     id: this.id,
                     contentType: this.propline.contentType + "s",
                     vid: this.initData.vid
