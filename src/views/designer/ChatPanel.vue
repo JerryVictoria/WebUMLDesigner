@@ -8,9 +8,7 @@
                 id="contentDiv"
                 style="padding:2px 10px; height: 230px; width: 100%; margin-top: 10px; overflow-y: auto;"
             >
-                <SelfDialogBox
-                    :text="'self text text......y...a.....f..........'"
-                ></SelfDialogBox>
+                <SelfDialogBox :text="'self text text......y...a.....f..........'"></SelfDialogBox>
                 <OtherDialogBox :text="'other text'"></OtherDialogBox>
                 <SelfDialogBox :text="'self text'"></SelfDialogBox>
                 <OtherDialogBox
@@ -43,11 +41,7 @@
             <div
                 style="margin-top: 10px; display: flex; border-top: 1px solid #E4E7ED; padding-top:6px;"
             >
-                <el-input
-                    placeholder="请输入……"
-                    v-model="message"
-                    @keyup.enter.native="sendMessage"
-                ></el-input>
+                <el-input placeholder="请输入……" v-model="message" @keyup.enter.native="sendMessage"></el-input>
                 <el-button
                     style="margin-left: 5px;"
                     icon="el-icon-s-promotion"
@@ -73,7 +67,7 @@ export default {
         return {
             content: [],
             message: "",
-            wsUrl: "ws://172.19.241.250:8084/websocket/"
+            wsUrl: "ws://localhost:8084/websocket/" /**172.19.241.250 */
         };
     },
     created() {

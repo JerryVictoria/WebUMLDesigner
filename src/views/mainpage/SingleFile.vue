@@ -3,9 +3,11 @@
         <div @click="handleClick">
             <span class="contentSpan omitted">
                 {{ fileName }}
-                <el-tag size="mini" type="primary">{{
+                <el-tag size="mini" type="primary">
+                    {{
                     types[fileType]
-                }}</el-tag>
+                    }}
+                </el-tag>
             </span>
             <el-image :src="src" class="fileImg"></el-image>
         </div>
@@ -21,8 +23,7 @@ export default {
         },
         src: {
             type: String,
-            default:
-                "undefine"
+            default: "undefine"
         },
         fid: {
             type: Number,
@@ -47,40 +48,43 @@ export default {
                 USECASE_DIAGRAM: "用例图",
                 DEPLOYMENT_DIAGRAM: "部署图",
                 ER_DIAGRAM: "实体关系图"
-            },
+            }
         };
     },
     methods: {
         handleClick() {
             var self = this;
             this.$axios
-                .get("/getAllLineByFid", {params: {fid: self.fid}})
-                .then(function (response) {
+                .get("/getAllLineByFid", { params: { fid: self.fid } })
+                .then(function(response) {
                     console.log("getAllLineByFid");
                     console.log(response.data);
                     self.$store.commit("setUMLLines", {
-                        lineList: response.data}
-                        );
-                    console.log(self.$store.state.UML.lines)
+                        lineList: response.data
+                    });
+                    console.log(self.$store.state.UML.lines);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:", error);
                 });
             this.$axios
-                .get("/getAllNodeByFid", {params: {fid: self.fid}})
-                .then(function (response) {
+                .get("/getAllNodeByFid", { params: { fid: self.fid } })
+                .then(function(response) {
                     console.log(response.data);
                     self.$store.commit("setUMLNodes", {
                         nodeList: response.data
                     });
-                    self.$store.commit("setGroupId", {groupId: self.gid});
-                    self.$store.commit("setUMLId", {id: self.fid});
+                    self.$store.commit("setGroupId", { groupId: self.gid });
+                    self.$store.commit("setUMLId", { id: self.fid });
                     self.$store.commit("setUMLType", {
                         type: self.fileType
                     });
-                    self.$router.push({name: "Designer"});
+                    if (self.gid > 0) {
+                        self.$store.dispatch("openGroupEditMode");
+                    }
+                    self.$router.push({ name: "Designer" });
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:", error);
                 });
         }

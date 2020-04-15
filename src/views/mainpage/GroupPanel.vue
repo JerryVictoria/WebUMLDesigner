@@ -247,6 +247,7 @@ export default {
                     self.$store.commit("setUMLLines", {
                         lineList: []
                     });
+                    self.$store.dispatch("openGroupEditMode");
                     self.$router.push({ name: "Designer" });
                 })
                 .catch(function(error) {
