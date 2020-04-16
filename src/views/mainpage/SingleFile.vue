@@ -3,12 +3,17 @@
         <div @click="handleClick">
             <span class="contentSpan omitted">
                 {{ fileName }}
-                <el-tag size="mini" type="primary">
+                <el-tag size="mini" type="info">
                     {{
                     types[fileType]
                     }}
                 </el-tag>
             </span>
+            <el-button
+                style="margin-left:-30px; margin-top: -20px; padding: 0; font-size: 10px;"
+                type="text"
+                @click.stop="deleteFile"
+            >删除</el-button>
             <el-image :src="src" class="fileImg"></el-image>
         </div>
     </el-card>
@@ -87,6 +92,62 @@ export default {
                 .catch(function(error) {
                     console.log("error:", error);
                 });
+        },
+        deleteFile() {
+            var self = this;
+            if (this.gid <= 0) {
+                this.$axios
+                    .get("/delFile", {
+                        params: {
+                            uid: self.$store.state.UML.userId,
+                            fid: self.fid
+                        }
+                    })
+                    .then(function(response) {
+                        console.log("del file res1:", response.data);
+                        if (response.data) {
+                            self.$message({
+                                message: "删除成功！",
+                                type: "success"
+                            });
+                            self.$emit("refreshFileList");
+                        } else {
+                            self.$message({
+                                message: "出现错误！",
+                                type: "error"
+                            });
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log("error:", error);
+                    });
+            } else {
+                this.$axios
+                    .get("/deleteFileByGroup", {
+                        params: {
+                            gid: self.gid,
+                            fid: self.fid
+                        }
+                    })
+                    .then(function(response) {
+                        console.log("del file res2:", response.data);
+                        if (response.data) {
+                            self.$message({
+                                message: "删除成功！",
+                                type: "success"
+                            });
+                            self.$emit("refreshFileList");
+                        } else {
+                            self.$message({
+                                message: "出现错误！",
+                                type: "error"
+                            });
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log("error:", error);
+                    });
+            }
         }
     }
 };

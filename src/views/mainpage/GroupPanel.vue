@@ -90,14 +90,17 @@
                 <!--TODO v-for-->
                 <div v-if="detailList" class="fileListPane">
                     <el-page-header @back="goBack" content="文件列表"></el-page-header>
-                    <SingleFile
-                        v-for="item in fileList"
-                        :key="item.fid"
-                        :fileName="item.fileName"
-                        :fid="item.fid"
-                        :fileType="item.fileType"
-                        :gid="selectGid"
-                    ></SingleFile>
+                    <transition-group name="list-complete">
+                        <SingleFile
+                            v-for="item in fileList"
+                            :key="item.fid"
+                            :fileName="item.fileName"
+                            :fid="item.fid"
+                            :fileType="item.fileType"
+                            :gid="selectGid"
+                            @refreshFileList="selectGroupFile(selectGid)"
+                        ></SingleFile>
+                    </transition-group>
                 </div>
                 <div v-else>
                     <el-button
@@ -260,7 +263,7 @@ export default {
             this.form.group = "";
         },
         selectGroupFile(gid) {
-            console.log("gid:", gid);
+            console.log("selectGroupFile gid:", gid);
             this.selectGid = gid;
             var self = this;
             this.$axios
@@ -350,5 +353,18 @@ export default {
     height: 390px;
     overflow-y: auto;
     padding-top: 10px;
+}
+.list-complete-item {
+    transition: all 1s;
+    display: inline-block;
+    margin-right: 10px;
+}
+.list-complete-enter, .list-complete-leave-to
+/* .list-complete-leave-active for below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateY(30px);
+}
+.list-complete-leave-active {
+    position: absolute;
 }
 </style>
