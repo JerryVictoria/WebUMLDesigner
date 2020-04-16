@@ -2,6 +2,14 @@
     <div style="display: inline-block;">
         <el-card class="box-card">
             <div slot="header" class="clearfix">
+                <el-button
+                    v-if="$store.state.UML.userId == leaderId"
+                    size="mini"
+                    style="float: left; padding: 3px 0; color: red"
+                    type="text"
+                    icon="el-icon-close"
+                    @click="deleteGroup"
+                ></el-button>
                 <span>团队名称：{{name}}</span>
                 <el-button
                     v-if="$store.state.UML.userId == leaderId"
@@ -99,6 +107,32 @@ export default {
                 });
 
             this.dialogVisible = false;
+        },
+        deleteGroup() {
+            if (this.gid <= 0) {
+                return;
+            }
+            var self = this;
+            this.$axios
+                .get("/deleteGroup", { params: { gid: self.gid } })
+                .then(function(response) {
+                    console.log("delete group res:", response.data);
+                    if (response.data) {
+                        self.$message({
+                            message: "删除成功",
+                            type: "success"
+                        });
+                        self.$emit("refresh");
+                    } else {
+                        self.$message({
+                            message: "出现错误",
+                            type: "error"
+                        });
+                    }
+                })
+                .catch(function(error) {
+                    console.log("error:", error);
+                });
         }
     }
 };

@@ -63,17 +63,19 @@
                         @click="dialogVisible = true"
                     >新建团队</el-button>
                 </el-card>
-                <GroupInfo
-                    v-for="item in groupList"
-                    :key="item.gid"
-                    :name="item.groupName"
-                    :invitedMember="item.invitedUserList"
-                    :invitingMember="item.invitingUserList"
-                    :leader="item.captainEmail"
-                    :leaderId="item.captainId"
-                    :gid="item.gid"
-                    @refresh="getAllGroup"
-                ></GroupInfo>
+                <transition-group name="list">
+                    <GroupInfo
+                        v-for="item in groupList"
+                        :key="'gid:'+item.gid"
+                        :name="item.groupName"
+                        :invitedMember="item.invitedUserList"
+                        :invitingMember="item.invitingUserList"
+                        :leader="item.captainEmail"
+                        :leaderId="item.captainId"
+                        :gid="item.gid"
+                        @refresh="getAllGroup()"
+                    ></GroupInfo>
+                </transition-group>
                 <!--TODO v-for-->
             </div>
             <div v-show="activeIndex == '3'" class="centerDiv">
@@ -304,11 +306,19 @@ export default {
                     }
                 })
                 .then(function(response) {
-                    self.$message({
-                        message: "创建成功！",
-                        type: "success"
-                    });
-                    self.getAllGroup();
+                    console.log("create group res:", response.data);
+                    if (response.data > 0) {
+                        self.$message({
+                            message: "创建成功！",
+                            type: "success"
+                        });
+                        self.getAllGroup();
+                    } else {
+                        self.$message({
+                            message: "组名已存在，创建失败！",
+                            type: "error"
+                        });
+                    }
                 })
                 .catch(function(error) {
                     console.log("error:" + error);
@@ -353,6 +363,19 @@ export default {
     height: 390px;
     overflow-y: auto;
     padding-top: 10px;
+}
+.list-item {
+    transition: all 1s;
+    display: inline-block;
+    margin-right: 10px;
+}
+.list-enter, .list-leave-to
+/* .list-complete-leave-active for below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateY(30px);
+}
+.list-leave-active {
+    position: absolute;
 }
 .list-complete-item {
     transition: all 1s;
