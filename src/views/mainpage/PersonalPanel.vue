@@ -69,7 +69,7 @@ export default {
                 UMLType: ""
             },
             fileList: [],
-            imgsrc: "http://q76chphm1.bkt.clouddn.com/"
+            imgsrc: "http://q92yn5po6.bkt.clouddn.com/"
         };
     },
     mounted() {
@@ -145,7 +145,7 @@ export default {
                     self.fileList = response.data;
                     for (var i = 0; i < self.fileList.length; i++) {
                         var imgsrc =
-                            "http://q76chphm1.bkt.clouddn.com/" +
+                            "http://q92yn5po6.bkt.clouddn.com/" +
                             self.fileList[i].fileType +
                             "_" +
                             self.fileList[i].fid +

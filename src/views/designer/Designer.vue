@@ -30,7 +30,9 @@ import ToolTopBar from "../designer/ToolTopBar.vue";
 import DiagramCanvas from "../designer/DiagramCanvas.vue";
 import ComponentsStoreSideBar from "../designer/ComponentsStoreSideBar.vue";
 import ChatPanel from "./ChatPanel.vue";
-
+import html2canvas from "html2canvas";
+import canvg from "canvg";
+import * as qiniu from "qiniu-js";
 export default {
     name: "Designer",
     data() {
@@ -167,7 +169,7 @@ export default {
             console.log("test2");
             //alert("test2")
         }
-    }
+    },
 
 };
 </script>
