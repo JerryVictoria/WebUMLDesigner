@@ -84,7 +84,6 @@ export default new Vuex.Store({
                 state.UML.lines.push({
                     Id: lines[i].lineId,
                     lid: lines[i].lid,
-                    svgId: "svg" + lines[i].lineId,
                     lineId: "line" + lines[i].lineId,
                     relationType: lines[i].relationType,
                     from: lines[i].fromId + "",
@@ -92,7 +91,6 @@ export default new Vuex.Store({
                     text: lines[i].text,
                     markerstart: "url(#arrow2)",
                     markerend: "url(#arrow1)",
-                    lineList: lines[i].lineList,
                     linePath: lines[i].path,
                     startPosition: {
                         left: parseInt(lines[i].startPosition.lpLeft),
@@ -110,13 +108,6 @@ export default new Vuex.Store({
                         strokeWidth: lines[i].lineStyle.strokeWidth, //固定几种
                         fill: "none"
                     },
-                    lineSvgStyle: {
-                        position: lines[i].lineSvgStyle.svgPosition,
-                        width: lines[i].lineSvgStyle.svgWidth,
-                        height: lines[i].lineSvgStyle.svgHeight,
-                        left: lines[i].lineSvgStyle.svgLeft,
-                        top: lines[i].lineSvgStyle.svgTop
-                    }
                 });
             }
         },
@@ -761,7 +752,6 @@ export default new Vuex.Store({
                     startPosition: params.startPosition,
                     endPosition: params.endPosition,
                     lineStyle: params.lineStyle,
-                    lineSvgStyle: params.lineSvgStyle
                 })
                 .then(function(response) {
                     //alert(response);

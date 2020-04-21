@@ -220,9 +220,6 @@
             };
         },
         watch:{
-            lineType(newVal, oldVal) {
-                console.log(newVal, oldVal);
-            },
             $router(to,from){
                 console.log("_____________________________________")
                 console.log(to);
@@ -455,25 +452,16 @@
                         }
                     }
                     var x1, y1, x2, y2
-                    var svgWid = line.lineSvgStyle.width
-                    var svgHei = line.lineSvgStyle.height
                     var lineStartX = line.startPosition.left
                     var lineStartY = line.startPosition.top
                     var lineEndX = line.endPosition.left
                     var lineEndY = line.endPosition.top
                     var linePath
                     if (lineType == "orthogonal"){
-                        if (svgWid > svgHei) {
-                            x1 = (lineStartX + lineEndX) / 2
-                            x2 = x1
-                            y1 = lineStartY
-                            y2 = lineEndY
-                        } else {
                             x1 = lineStartX
                             x2 = lineEndX
                             y1 = (lineStartY + lineEndY) / 2
                             y2 = y1
-                        }
                     linePath = "M" + lineStartX + " " + lineStartY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + lineEndX + " " + lineEndY
                     }
                     if(lineType == "straight"){
@@ -483,10 +471,10 @@
                     if(lineType == "curve"){
                         //@TODO
                         var x1, y1, x2, y2
-                        x1 = (lineStartX + lineEndX) / 2
-                        x2 = x1
-                        y1 = lineStartY
-                        y2 = lineEndY
+                        x1 = lineStartX
+                        x2 = lineEndX
+                        y1 = (lineStartY + lineEndY) / 2
+                        y2 = y1
                         linePath = "M" + lineStartX + " " +lineStartY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + lineEndX + " " + lineEndY
                         console.log("linePath:" + linePath)
                     }
