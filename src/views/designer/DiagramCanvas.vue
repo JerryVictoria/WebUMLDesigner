@@ -247,7 +247,41 @@
             };
         },
         mounted() {
-            //@TODO: 进入页面时加载已有节点和线条等信息
+            var self = this;
+            /*
+            this.$axios
+                .get("/getAllLineByFid", { params: { fid: self.fid } })
+                .then(function(response) {
+                    console.log("getAllLineByFid");
+                    console.log(response.data);
+                    self.$store.commit("setUMLLines", {
+                        lineList: response.data
+                    });
+                    console.log(self.$store.state.UML.lines);
+                })
+                .catch(function(error) {
+                    console.log("error:", error);
+                });
+            this.$axios
+                .get("/getAllNodeByFid", { params: { fid: self.fid } })
+                .then(function(response) {
+                    console.log(response.data);
+                    self.$store.commit("setUMLNodes", {
+                        nodeList: response.data
+                    });
+                    self.$store.commit("setGroupId", { groupId: self.gid });
+                    self.$store.commit("setUMLId", { id: self.fid });
+                    self.$store.commit("setUMLType", {
+                        type: self.fileType
+                    });
+                    if (self.gid > 0) {
+                        self.$store.dispatch("openGroupEditMode");
+                    }
+                })
+                .catch(function(error) {
+                    console.log("error:", error);
+                });
+                */
         },
         methods: {
             showContextMenu(id, event) {

@@ -84,6 +84,9 @@ export default {
                     self.$store.commit("setUMLType", {
                         type: self.fileType
                     });
+                    self.$store.commit("setUMLName",{
+                        name:self.fileName
+                    });
                     if (self.gid > 0) {
                         self.$store.dispatch("openGroupEditMode");
                     }

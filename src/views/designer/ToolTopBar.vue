@@ -35,11 +35,14 @@
                     style="display:inline-flex;left:21%;position:absolute;width:3%;margin: -0.5% 1% 0 1%"
                     @change="linecolor"
             ></el-color-picker>
-            <el-tooltip :content="fileName" placement="top">
+            <el-tooltip content="文件名" placement="top">
                 <el-input
                         style="display:inline-flex;left:65%;position:absolute;width:12%;margin: -1% 1% 0 1%"
                         v-model="fileName"
-                ></el-input>
+                >
+                    <i slot="suffix" class="el-input__icon el-icon-circle-check" v-show="modifyFN" @click="checkFileName"></i>
+                    <i slot="suffix" class="el-input__icon el-icon-circle-close" v-show="modifyFN" @click="closeFileName"></i>
+                </el-input>
             </el-tooltip>
             <el-tooltip content="创建线条" placement="top">
                 <el-button
@@ -122,7 +125,8 @@
         name: "tool-top-bar",
         data() {
             return {
-                fileName: "default文件名",
+                fileName: "",
+                oldFileName:"",
                 lcolor: "#409EFF",
                 create: true,
                 options: [
@@ -207,12 +211,16 @@
                 // 七牛云的上传地址,华东区
                 domain: 'upload.qiniup.com',
                 // 这是七牛云空间的外链默认域名
-                qiniuaddr: 'q92yn5po6.bkt.clouddn.com'
+                qiniuaddr: 'q92yn5po6.bkt.clouddn.com',
+                modifyFN:false
             };
         },
         computed: {
             linePro() {
                 return this.$store.state.lineEditId;
+            },
+            modifyFileName(){
+                return this.fileName;
             }
         },
         watch: {
@@ -256,9 +264,17 @@
                 console.log(this.lineSize)
                 console.log(this.lineStyle)
             },
+            modifyFileName:function(){
+                if(this.oldFileName!=this.fileName){
+                    this.modifyFN=true;
+                }
+            },
             deep: true //对象内部属性的监听，关键。
         },
         mounted() {
+            this.fileName=this.$store.state.UML.UMLName;
+            this.oldFileName=this.fileName;
+            this.modifyFN=false;
             var style = "";
             switch (this.lineStyle) {
                 case "solid":
@@ -297,32 +313,59 @@
             deleteFile() {
                 //alert("删除文件")
                 var self = this;
-                var userId = parseInt(self.$store.state.UML.userId)
-                var fid = parseInt(self.$store.state.UML.UMLId)
-                self.$axios
-                    .get("/delFile", {
-                        params: {
-                            uid: userId,
-                            fid: fid,
-                        }
-                    })
-                    .then(function (response) {
-                        //alert(response.data)
-                        if (response.data) {
-                            self.$message({
-                                message: "文件删除成功",
-                                type: "success"
-                            });
-                            self.$router.push({name: "PersonalPage"});
-                        } else {
-                            self.$message({
-                                message: "文件删除失败",
-                                type: "failure"
-                            });
-                        }
-                    }).catch(function (error) {
-                    console.log("error:" + error);
-                })
+                if (this.gid <= 0) {
+                    this.$axios
+                        .get("/delFile", {
+                            params: {
+                                uid: self.$store.state.UML.userId,
+                                fid: self.fid
+                            }
+                        })
+                        .then(function(response) {
+                            console.log("del file res1:", response.data);
+                            if (response.data) {
+                                self.$message({
+                                    message: "删除成功！",
+                                    type: "success"
+                                });
+                                self.$router.push({name: "PersonalPage"});
+                            } else {
+                                self.$message({
+                                    message: "出现错误！",
+                                    type: "error"
+                                });
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log("error:", error);
+                        });
+                } else {
+                    this.$axios
+                        .get("/deleteFileByGroup", {
+                            params: {
+                                gid: self.gid,
+                                fid: self.fid
+                            }
+                        })
+                        .then(function(response) {
+                            console.log("del file res2:", response.data);
+                            if (response.data) {
+                                self.$message({
+                                    message: "删除成功！",
+                                    type: "success"
+                                });
+                                self.$router.push({name: "PersonalPage"});
+                            } else {
+                                self.$message({
+                                    message: "出现错误！",
+                                    type: "error"
+                                });
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log("error:", error);
+                        });
+                }
             },
             goBack() {
                 console.log("go back");
@@ -583,6 +626,44 @@
                     treeContainnerElem.removeChild(tempElem)
                 })
             },
+            checkFileName(){
+                if(this.fileName==""){
+                    this.$message({
+                        message: "文件名不能为空",
+                        type: "fail"
+                    });
+                }else{
+                    this.oldFileName=this.fileName
+                    this.$axios
+                        .get("/updateFile", {
+                            params: {
+                                fid: this.$store.state.UML.UMLId,
+                                fileName: this.fileName,
+                                fileType: this.$store.state.UML.UMLType
+                            }
+                        })
+                        .then(function(response) {
+                            this.$store.commit("setUMLName",{
+                                name:this.fileName
+                            })
+                            this.$message({
+                                message: "文件名修改成功",
+                                type: "success"
+                            });
+                        })
+                        .catch(function(error) {
+                            console.log("error:" + error);
+                        });
+                    this.modifyFN=false;
+
+                    console.log("checkFileName")
+                }
+            },
+            closeFileName(){
+                this.fileName=this.oldFileName
+                this.modifyFN=false
+                console.log("closeFileName")
+            }
         },
         state: {
             editor: {
