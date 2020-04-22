@@ -239,7 +239,11 @@
                 fromlist: [],
                 tolist: [],
                 lineList: [],
-                linePath: ""
+                linePath: "",
+                lineType: this.$store.state.lineType,
+                lineStyle: this.$store.state.lineStyle,
+                lineColor: this.$store.state.lineColor,
+                lineSize: this.$store.state.lineSize,
             };
         },
         mounted() {
@@ -264,6 +268,12 @@
                 }
             },
             clickOutSide() {
+                if(this.$store.state.lineEditId==""){
+                    this.lineType=this.$store.state.lineType;
+                    this.lineStyle=this.$store.state.lineStyle;
+                    this.lineColor=this.$store.state.lineColor;
+                    this.lineSize=this.$store.state.lineSize;
+                }
                 console.log("clickOutSide");
                 this.$store.commit("setEditState", {editing: false});
                 this.$store.commit("setEditId", {id: ""});
@@ -277,6 +287,10 @@
                     //console.log(node.childNodes[1].id);
                     node.style.filter = "";
                 });
+                this.$store.state.lineType=this.lineType
+                this.$store.state.lineStyle=this.lineStyle
+                this.$store.state.lineColor=this.lineColor
+                this.$store.state.lineSize=this.lineSize
             },
             handleDragStart(event) {
                 console.log("handleDragStart");
@@ -453,6 +467,12 @@
             },
             editline(item) {
                 console.log("editline" + item);
+                if(this.$store.state.lineEditId==""){
+                    this.lineType=this.$store.state.lineType
+                    this.lineStyle=this.$store.state.lineStyle
+                    this.lineColor=this.$store.state.lineColor
+                    this.lineSize=this.$store.state.lineSize
+                }
                 this.$store.commit("setLineEditState", {lineEditing: true});
                 this.$store.commit("setLineEditId", {id: item});
                 //console.log(this.$store.state.editingId);
@@ -462,13 +482,30 @@
                 const svgElem = treeElem.querySelectorAll("path");
                 //console.log(svgElem);
                 svgElem.forEach(node => {
-                    console.log(node.id);
                     if (node.id == "line" + item) {
                         node.style.filter = "url(#drop-shadow)";
                     } else {
                         node.style.filter = "";
                     }
                 });
+                //顶部工具栏显示该线条的样式
+                for(var i=0;i<this.$store.state.UML.lines.length;i++){
+                    if(this.$store.state.UML.lines[i].lineId==("line" + item)){
+                        console.log(this.$store.state.UML.lines[i])
+                        var type,style,color,size;
+                        type=this.$store.state.UML.lines[i].relationType
+                        style=this.$store.state.UML.lines[i].lineStyle.strokeDasharray
+                        color=this.$store.state.UML.lines[i].lineStyle.stroke
+                        size=this.$store.state.UML.lines[i].lineStyle.strokeWidth
+                        this.$store.commit("setLinePro",{
+                            type:type,
+                            style:style,
+                            color:color,
+                            size:size
+                        })
+                        //console.log(this.$store.state)
+                    }
+                }
             },
             mouseEnter() {
                 if (this.$store.state.drawLine) {

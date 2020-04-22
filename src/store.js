@@ -17,7 +17,7 @@ export default new Vuex.Store({
         editingId: "", //当前编辑组件（显示功能）
         lineEditing: false,
         drawLine: false,
-        lineType: "straight",
+        lineType: "",
         lineStyle: "",
         lineColor: "",
         lineSize: "",
@@ -76,6 +76,12 @@ export default new Vuex.Store({
                     properties: nodes[i].properties
                 });
             }
+        },
+        setLinePro(state, params) {
+            state.lineType=params.type;
+            state.lineStyle=params.style;
+            state.lineColor=params.color;
+            state.lineSize=params.size;
         },
         setUMLLines(state, params) {
             state.UML.lines = [];

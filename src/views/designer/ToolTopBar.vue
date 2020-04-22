@@ -117,7 +117,6 @@
     import Diagram from "@/views/designer/DiagramCanvas";
     import html2canvas from "html2canvas";
     import canvg from "canvg";
-    import * as qiniu from 'qiniu-js'
 
     export default {
         name: "tool-top-bar",
@@ -147,14 +146,6 @@
                     }
                 ],
                 sizeOptions: [
-                    {
-                        value: "1",
-                        label: "1px"
-                    },
-                    {
-                        value: "2",
-                        label: "2px"
-                    },
                     {
                         value: "3",
                         label: "3px"
@@ -219,8 +210,13 @@
                 qiniuaddr: 'q92yn5po6.bkt.clouddn.com'
             };
         },
-        watch:{
-            $router(to,from){
+        computed: {
+            linePro() {
+                return this.$store.state.lineEditId;
+            }
+        },
+        watch: {
+            $router(to, from) {
                 console.log("_____________________________________")
                 console.log(to);
                 console.log(from);
@@ -231,7 +227,36 @@
                 }
                 */
             },
-                deep: true //对象内部属性的监听，关键。
+            linePro: function () {
+                this.lcolor = this.$store.state.lineColor;
+                this.lineType = this.$store.state.lineType;
+                var style;
+                switch (this.$store.state.lineStyle) {
+                    case "0,0": {
+                        style = "solid"
+                        break
+                    }
+                    case "10,10": {
+                        style = "dashed"
+                        break
+                    }
+                    case "1,1": {
+                        style = "dot"
+                        break
+                    }
+                    case "20,10,5,10": {
+                        style = "dashdot"
+                        break
+                    }
+                }
+                this.lineStyle = style;
+                this.lineSize = this.$store.state.lineSize
+                console.log(this.lcolor)
+                console.log(this.lineType)
+                console.log(this.lineSize)
+                console.log(this.lineStyle)
+            },
+            deep: true //对象内部属性的监听，关键。
         },
         mounted() {
             var style = "";
@@ -261,7 +286,7 @@
             this.$store.commit("setLineType", {
                 lineType: "straight"
             });
-            console.log(this.$store.state.lineType)
+            console.log(this.$store.state.lineStyle)
             this.$store.commit("setDrawLine", {drawLine: false});
         },
         methods: {
@@ -337,7 +362,7 @@
                         stroke: this.lcolor,
                         strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
                         strokeWidth: line.lineStyle.strokeWidth,//固定几种
-                        fill:"none"
+                        fill: "none"
                     };
                     console.log(this.$store.state.lineEditId);
                     console.log(this.lcolor);
@@ -388,7 +413,7 @@
                         stroke: line.lineStyle.stroke,
                         strokeDasharray: style, //虚线之类的
                         strokeWidth: line.lineStyle.strokeWidth, //固定几种
-                        fill:"none"
+                        fill: "none"
                     };
                     this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
@@ -421,7 +446,7 @@
                         stroke: line.lineStyle.stroke,
                         strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
                         strokeWidth: this.lineSize, //固定几种
-                        fill:"none"
+                        fill: "none"
                     };
                     this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
@@ -437,7 +462,7 @@
                 });
             },
             linetype(lineType) {
-                console.log("lineType："+lineType)
+                console.log("lineType：" + lineType)
                 if (this.$store.state.lineEditId != "") {
                     console.log("linestyle" + this.style);
                     console.log("lineid" + this.$store.state.lineEditId);
@@ -457,29 +482,29 @@
                     var lineEndX = line.endPosition.left
                     var lineEndY = line.endPosition.top
                     var linePath
-                    if (lineType == "orthogonal"){
-                            x1 = lineStartX
-                            x2 = lineEndX
-                            y1 = (lineStartY + lineEndY) / 2
-                            y2 = y1
-                    linePath = "M" + lineStartX + " " + lineStartY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + lineEndX + " " + lineEndY
+                    if (lineType == "orthogonal") {
+                        x1 = lineStartX
+                        x2 = lineEndX
+                        y1 = (lineStartY + lineEndY) / 2
+                        y2 = y1
+                        linePath = "M" + lineStartX + " " + lineStartY + " L " + x1 + " " + y1 + " L " + x2 + " " + y2 + " L " + lineEndX + " " + lineEndY
                     }
-                    if(lineType == "straight"){
-                        linePath = "M" + lineStartX + " " + lineStartY + " L " + lineEndX + " " +  lineEndY
+                    if (lineType == "straight") {
+                        linePath = "M" + lineStartX + " " + lineStartY + " L " + lineEndX + " " + lineEndY
 
                     }
-                    if(lineType == "curve"){
+                    if (lineType == "curve") {
                         //@TODO
                         var x1, y1, x2, y2
                         x1 = lineStartX
                         x2 = lineEndX
                         y1 = (lineStartY + lineEndY) / 2
                         y2 = y1
-                        linePath = "M" + lineStartX + " " +lineStartY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + lineEndX + " " + lineEndY
+                        linePath = "M" + lineStartX + " " + lineStartY + " C " + x1 + " " + y1 + " " + x2 + " " + y2 + " " + lineEndX + " " + lineEndY
                         console.log("linePath:" + linePath)
                     }
-                    line.linePath=linePath
-                    line.relationType=lineType
+                    line.linePath = linePath
+                    line.relationType = lineType
                     this.$store.dispatch("modifyLine", {
                         lineKey: "relationType",
                         key: "",
