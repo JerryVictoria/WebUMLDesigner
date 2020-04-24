@@ -37,7 +37,7 @@
             ></el-color-picker>
             <el-tooltip content="文件名" placement="top">
                 <el-input
-                        style="display:inline-flex;left:65%;position:absolute;width:12%;margin: -1% 1% 0 1%"
+                        style="display:inline-flex;left:64%;position:absolute;width:10%;margin: -1% 1% 0 1%"
                         v-model="fileName"
                 >
                     <i slot="suffix" class="el-input__icon el-icon-circle-check" v-show="modifyFN" @click="checkFileName"></i>
@@ -96,7 +96,7 @@
                         id="lineStyle"
                         v-model="lineStyle"
                         placeholder="线条样式"
-                        style="width: 15%;height: 40px;position:absolute;left:49%;margin: -1% 1% 0 1%"
+                        style="width: 14%;height: 40px;position:absolute;left:49%;margin: -1% 1% 0 1%"
                         @change="linestyle(lineStyle)"
                 >
                     <el-option
@@ -109,6 +109,58 @@
                                 :src="item.url"
                                 style=" width: 160px;height:20px;position:absolute;left:10%"
                         ></el-image>
+                    </el-option>
+                </el-select>
+            </el-tooltip>
+            <el-image
+                        style="display:inline-flex;position:absolute;left:77%;top:51%;width:6%;z-index:1;background-color: white"
+                        :src="startImg"
+                >
+                </el-image>
+            <el-tooltip content="连线起点" placement="top">
+                    <el-select
+                            id="startPoint"
+                            v-model="lineStartPoint"
+                            style="position:absolute;left:75%;position:absolute;width:10%;margin: -1% 1% 0 1%;z-index:0"
+                            @change="startPoint(lineStartPoint)"
+                    >
+                        <el-option
+                                v-for="item in endOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value"
+                        >
+                            <el-image
+                                    :src="item.url"
+                                    style="width: 120px; height:30px;position:absolute;left:6%"
+                            ></el-image>
+                        </el-option>
+                    </el-select>
+                </el-tooltip>
+            <el-image
+                    style="display:inline-flex;position:absolute;left:88%;top:51%;width:6%;z-index:1;background-color: white"
+                    :src="endImg"
+            >
+            </el-image>
+            <el-tooltip content="连线终点" placement="top">
+                <el-select
+                        id="startPoint"
+                        v-model="lineEndPoint"
+                        style="display:inline-flex;left:86%;position:absolute;width:10%;margin: -1% 1% 0 1%;z-index:0"
+                        @change="endPoint(lineEndPoint)"
+
+                >
+                    <el-option
+                            v-for="item in startOptions"
+                            :key="item.label"
+                            :label="item.label"
+                            :value="item.value"
+                    >
+                        <el-image
+                                :src="item.url"
+                                style="width: 120px; height:30px;position:absolute;left:6%"
+                        >
+                        </el-image>
                     </el-option>
                 </el-select>
             </el-tooltip>
@@ -201,9 +253,140 @@
                         url: require("../../assets/image/dashdot.png")
                     }
                 ],
+                startOptions: [
+                    {
+                        value: "(#arrow11)",
+                        number:1,
+                        label:"11",
+                        url: require("../../assets/icons/toolbar/11.png")
+                    },
+                    {
+                        value: "(#arrow5)",
+                        number:2,
+                        label: "5",
+                        url: require("../../assets/icons/toolbar/5.png")
+                    },
+                    {
+                        value: "(#arrow1)",
+                        number:3,
+                        label: "1",
+                        url: require("../../assets/icons/toolbar/1.png")
+                    },
+                    {
+                        value: "(#arrow3)",
+                        number:4,
+                        label: "3",
+                        url: require("../../assets/icons/toolbar/3.png")
+                    },
+                    {
+                        value: "(#arrow15)",
+                        number:5,
+                        label: "15",
+                        url: require("../../assets/icons/toolbar/15.png")
+                    },
+                    {
+                        value: "(#arrow13)",
+                        number:6,
+                        label: "13",
+                        url: require("../../assets/icons/toolbar/13.png")
+                    },
+                    {
+                        value: "(#arrow17)",
+                        number:7,
+                        label: "17",
+                        url: require("../../assets/icons/toolbar/17.png")
+                    },
+                    {
+                        value: "(#arrow21)",
+                        number:8,
+                        label: "21",
+                        url: require("../../assets/icons/toolbar/21.png")
+                    },
+                    {
+                        value: "(#arrow19)",
+                        number:9,
+                        label: "19",
+                        url: require("../../assets/icons/toolbar/19.png")
+                    },
+                    {
+                        value: "(#arrow9)",
+                        number:10,
+                        label: "9",
+                        url: require("../../assets/icons/toolbar/9.png")
+                    },
+                    {
+                        value: "(#arrow7)",
+                        number:11,
+                        label: "7",
+                        url: require("../../assets/icons/toolbar/7.png")
+                    },
+                ],
+                endOptions: [
+                    {
+                        value: "(#arrow12)",
+                        label: "12",
+                        url: require("../../assets/icons/toolbar/12.png")
+                    },
+                    {
+                        value: "(#arrow6)",
+                        label: "6",
+                        url: require("../../assets/icons/toolbar/6.png")
+                    },
+                    {
+                        value: "(#arrow2)",
+                        label: "2",
+                        url: require("../../assets/icons/toolbar/2.png")
+                    },
+                    {
+                        value: "(#arrow4)",
+                        label: "4",
+                        url: require("../../assets/icons/toolbar/4.png")
+                    },
+                    {
+                        value: "(#arrow16)",
+                        label: "16",
+                        url: require("../../assets/icons/toolbar/16.png")
+                    },
+                    {
+                        value: "(#arrow14)",
+                        label: "14",
+                        url: require("../../assets/icons/toolbar/14.png")
+                    },
+                    {
+                        value: "(#arrow18)",
+                        label: "18",
+                        url: require("../../assets/icons/toolbar/18.png")
+                    },
+                    {
+                        value: "(#arrow22)",
+                        label: "22",
+                        url: require("../../assets/icons/toolbar/22.png")
+                    },
+                    {
+                        value: "(#arrow20)",
+                        label: "20",
+                        url: require("../../assets/icons/toolbar/20.png")
+                    },
+                    {
+                        value: "(#arrow10)",
+                        label: "10",
+                        url: require("../../assets/icons/toolbar/10.png")
+                    },
+                    {
+                        value: "(#arrow8)",
+                        label: "8",
+                        url: require("../../assets/icons/toolbar/8.png")
+                    },
+                ],
+                startImg:require('../../assets/icons/toolbar/11.png'),
+                endImg:require('../../assets/icons/toolbar/12.png'),
+                markerStart:"url(#arrow11)",
+                markerEnd:"url(#arrow12)",
                 lineType: "直线",
                 lineSize: "3px",
                 lineStyle: "solid",
+                lineStartPoint:"",
+                lineEndPoint:"",
                 style: "",
                 type: "",
                 imageUrl: '',
@@ -259,6 +442,22 @@
                 }
                 this.lineStyle = style;
                 this.lineSize = this.$store.state.lineSize
+                this.MarkerStart=this.$store.state.markerStart
+                this.MarkerEnd=this.$store.state.markerEnd
+                var sp=this.$store.state.markerStart.substr(10);
+                if(sp.length==2){
+                    sp=sp.substr(0,1);
+                }else{
+                    sp=sp.substr(0,2);
+                }
+                var ep=this.$store.state.markerEnd.substr(10);
+                if(ep.length==2){
+                    ep=ep.substr(0,1);
+                }else{
+                    ep=ep.substr(0,2);
+                }
+                this.startImg = require('../../assets/icons/toolbar/'+sp+'.png');
+                this.endImg= require('../../assets/icons/toolbar/'+ep+'.png');
                 console.log(this.lcolor)
                 console.log(this.lineType)
                 console.log(this.lineSize)
@@ -302,8 +501,20 @@
             this.$store.commit("setLineType", {
                 lineType: "straight"
             });
-            console.log(this.$store.state.lineStyle)
+            this.$store.commit("setMarkerEnd", {
+                ep: "url(#arrow12)"
+            });
+            this.$store.commit("setLineEA", {
+                endPoint: require('../../assets/icons/toolbar/12.png')
+            });
+            this.$store.commit("setMarkerStart", {
+                sp: "url(#arrow11)"
+            });
+            this.$store.commit("setLineSA", {
+                startPoint: require('../../assets/icons/toolbar/11.png')
+            });
             this.$store.commit("setDrawLine", {drawLine: false});
+            console.log(this.$store.state)
         },
         methods: {
             backToPerson() {
@@ -569,6 +780,105 @@
                 this.$store.commit("setLineType", {
                     lineType: lineType
                 });
+            },
+            startPoint(startPoint){
+                console.log("startPoint:"+startPoint);
+                var sp=startPoint.substr(7);
+                if(sp.length==2){
+                    sp=sp.substr(0,1);
+                }else{
+                    sp=sp.substr(0,2);
+                }
+                //console.log("startPoint")
+                if (this.$store.state.lineEditId != "") {
+                    console.log("lineid" + this.$store.state.lineEditId);
+                    console.log(this.$store.state.UML.lines);
+                    var line
+                    for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
+                        if (
+                            this.$store.state.UML.lines[i].Id ==
+                            this.$store.state.lineEditId
+                        ) {
+                            line = this.$store.state.UML.lines[i];
+                            console.log(line);
+                        }
+                    }
+                    var style = {
+                        stroke: line.lineStyle.stroke,
+                        strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
+                        strokeWidth: line.lineStyle.strokeWidth,//固定几种
+                        fill: "none"
+                    };
+                    line.markerstart="url"+startPoint;
+                    console.log(line);
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "markerstart",
+                        key: "",
+                        value: "url"+startPoint,
+                        id: this.$store.state.lineEditId,
+                        Line: line,
+                        lineStyle: style
+                    });
+                    console.log(this.$store.state.UML.lines);
+                }
+                this.$store.commit("setMarkerStart", {
+                    sp: "url"+startPoint
+                });
+                this.$store.commit("setLineSA", {
+                    endPoint: require('../../assets/icons/toolbar/'+sp+'.png')
+                });
+                console.log("this.$store.state.endPoint:"+this.$store.state.endPoint)
+                console.log("this.$store.state.startPoint:"+this.$store.state.markerStart)
+                this.startImg=require('../../assets/icons/toolbar/'+sp+'.png');
+            },
+            endPoint(endPoint){
+                var ep=endPoint.substr(7);
+                if(ep.length==2){
+                    ep=ep.substr(0,1);
+                }else{
+                    ep=ep.substr(0,2);
+                }
+                console.log("endPoint")
+                if (this.$store.state.lineEditId != "") {
+                    console.log("lineid" + this.$store.state.lineEditId);
+                    console.log(this.$store.state.UML.lines);
+                    var line
+                    for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
+                        if (
+                            this.$store.state.UML.lines[i].Id ==
+                            this.$store.state.lineEditId
+                        ) {
+                            line = this.$store.state.UML.lines[i];
+                            console.log(line);
+                        }
+                    }
+                    var style = {
+                        stroke: line.lineStyle.stroke,
+                        strokeDasharray: line.lineStyle.strokeDasharray, //虚线之类的
+                        strokeWidth: line.lineStyle.strokeWidth,//固定几种
+                        fill: "none"
+                    };
+                    line.markerend="url"+endPoint;
+                    console.log(line);
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "markerend",
+                        key: "",
+                        value: "url"+endPoint,
+                        id: this.$store.state.lineEditId,
+                        Line: line,
+                        lineStyle: style
+                    });
+                    console.log(this.$store.state.UML.lines);
+                }
+                this.$store.commit("setMarkerEnd", {
+                    ep: "url"+endPoint
+                });
+                this.$store.commit("setLineEA", {
+                    endPoint: require('../../assets/icons/toolbar/'+ep+'.png')
+                });
+                console.log("this.$store.state.endPoint:"+this.$store.state.endPoint)
+                console.log("this.$store.state.endPoint:"+this.$store.state.markerEnd)
+                this.endImg=require('../../assets/icons/toolbar/'+ep+'.png');
             },
             saveFile() {
                 // 最外层的容器

@@ -67,7 +67,7 @@
                                 refY="6"
                                 orient="auto"
                         >
-                            <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style="fill:#000000"/>
+                            <path d="M2,2 L10,6 L2,10 L2,2" style="fill:#000000"/>
                         </marker>
                         <marker
                                 id="arrow2"
@@ -79,7 +79,252 @@
                                 refY="6"
                                 orient="auto"
                         >
-                            <path d="M2,6 L10,2 L6,6 L10,10 L2,6" style="fill:#000000"/>
+                            <path d="M2,6 L10,2 L10,10 L2,6" style="fill:#000000"/>
+                        </marker>
+                        <marker
+                                id="arrow3"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M2,2 L10,6 L2,10 L2,2" style="fill:white;stroke:black"/>
+                        </marker>
+                        <marker
+                                id="arrow4"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M2,6 L10,2 L10,10 L2,6" style="fill:white;stroke:black"/>
+                        </marker>
+                        <marker
+                                id="arrow5"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M2,2 L10,6 L2,10" style="fill:white;stroke:black"/>
+                        </marker>
+                        <marker
+                                id="arrow6"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M10,2 L2,6 L10,10 " style="fill:white;stroke:black"/>
+                        </marker>
+                        <marker
+                                id="arrow7"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M0,6 L6,2 L12,6 L6,10 L0,6" style="fill:#000000"/>
+                        </marker>
+                        <marker
+                                id="arrow8"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M0,6 L6,2 L12,6 L6,10 L0,6" style="fill:#000000"/>
+                        </marker>
+                        <marker
+                                id="arrow9"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M0,6 L6,2 L12,6 L6,10 L0,6" style="fill:white;stroke: black"/>
+                        </marker>
+                        <marker
+                                id="arrow10"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M0,6 L6,2 L12,6 L6,10 L0,6" style="fill:white;stroke: black"/>
+                        </marker>
+                        <marker
+                                id="arrow11"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M0,6 L12,6" style="stroke:none"/>
+                        </marker>
+                        <marker
+                                id="arrow12"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M0,6 L12,6 " style="stroke:none"/>
+                        </marker>
+                        <marker
+                                id="arrow13"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M0,0 L6,6" style="stroke:black"/>
+                        </marker>
+                        <marker
+                                id="arrow14"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M6,6 L14,14" style="stroke:black"/>
+                        </marker>
+                        <marker
+                                id="arrow15"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M6,6 L0,12" style="stroke:black"/>
+                        </marker>
+                        <marker
+                                id="arrow16"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+
+                            <path d="M6,6 L14,0" style="stroke:black"/>
+                        </marker>
+                        <marker
+                                id="arrow17"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M4,12 L0,0" style="stroke:black"/>
+                        </marker>
+                        <marker
+                                id="arrow18"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <path d="M12,12 L8,0" style="stroke:black"/>
+                        </marker>
+                        <marker
+                                id="arrow19"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <circle cx="6" cy="6" r="2" stroke="black"
+                                    stroke-width="1" fill="white"/>
+                        </marker>
+                        <marker
+                                id="arrow20"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <circle cx="6" cy="6" r="2" stroke="black"
+                                    stroke-width="1" fill="white"/>
+                        </marker>
+                        <marker
+                                id="arrow21"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <circle cx="6" cy="6" r="2" stroke="black"
+                                    stroke-width="1" fill="black"/>
+                        </marker>
+                        <marker
+                                id="arrow22"
+                                markerUnits="strokeWidth"
+                                markerHeight="11"
+                                markerWidth="11"
+                                viewBox="0 0 12 12"
+                                refX="6"
+                                refY="6"
+                                orient="auto"
+                        >
+                            <circle cx="6" cy="6" r="2" stroke="black"
+                                    stroke-width="1" fill="black"/>
                         </marker>
                         <filter id="drop-shadow">
                             <feGaussianBlur in="SourceAlpha" stdDeviation="2.2"/>
@@ -244,6 +489,10 @@
                 lineStyle: this.$store.state.lineStyle,
                 lineColor: this.$store.state.lineColor,
                 lineSize: this.$store.state.lineSize,
+                MarkerStart: this.$store.state.markerStart,
+                startPoint: this.$store.state.startPoint,
+                MarkerEnd: this.$store.state.markerEnd,
+                endPoint: this.$store.state.endPoint,
             };
         },
         mounted() {
@@ -307,6 +556,22 @@
                     this.lineStyle=this.$store.state.lineStyle;
                     this.lineColor=this.$store.state.lineColor;
                     this.lineSize=this.$store.state.lineSize;
+                    this.MarkerStart=this.$store.state.markerStart
+                    this.MarkerEnd=this.$store.state.markerEnd
+                    var sp=this.$store.state.markerStart.substr(10);
+                    if(sp.length==2){
+                        sp=sp.substr(0,1);
+                    }else{
+                        sp=sp.substr(0,2);
+                    }
+                    var ep=this.$store.state.markerEnd.substr(10);
+                    if(ep.length==2){
+                        ep=ep.substr(0,1);
+                    }else{
+                        ep=ep.substr(0,2);
+                    }
+                    this.startPoint = require('../../assets/icons/toolbar/'+sp+'.png');
+                    this.endPoint= require('../../assets/icons/toolbar/'+ep+'.png');
                 }
                 console.log("clickOutSide");
                 this.$store.commit("setEditState", {editing: false});
@@ -325,6 +590,10 @@
                 this.$store.state.lineStyle=this.lineStyle
                 this.$store.state.lineColor=this.lineColor
                 this.$store.state.lineSize=this.lineSize
+                this.$store.state.markerStart=this.MarkerStart
+                this.$store.state.startPoint=this.startPoint
+                this.$store.state.markerEnd=this.MarkerEnd
+                this.$store.state.endPoint=this.endPoint
             },
             handleDragStart(event) {
                 console.log("handleDragStart");
@@ -506,6 +775,22 @@
                     this.lineStyle=this.$store.state.lineStyle
                     this.lineColor=this.$store.state.lineColor
                     this.lineSize=this.$store.state.lineSize
+                    this.MarkerStart=this.$store.state.markerStart
+                    this.MarkerEnd=this.$store.state.markerEnd
+                    var sp=this.$store.state.markerStart.substr(10);
+                    if(sp.length==2){
+                        sp=sp.substr(0,1);
+                    }else{
+                        sp=sp.substr(0,2);
+                    }
+                    var ep=this.$store.state.markerEnd.substr(10);
+                    if(ep.length==2){
+                        ep=ep.substr(0,1);
+                    }else{
+                        ep=ep.substr(0,2);
+                    }
+                    this.startPoint = require('../../assets/icons/toolbar/'+sp+'.png');
+                    this.endPoint= require('../../assets/icons/toolbar/'+ep+'.png');
                 }
                 this.$store.commit("setLineEditState", {lineEditing: true});
                 this.$store.commit("setLineEditId", {id: item});
@@ -526,16 +811,20 @@
                 for(var i=0;i<this.$store.state.UML.lines.length;i++){
                     if(this.$store.state.UML.lines[i].lineId==("line" + item)){
                         console.log(this.$store.state.UML.lines[i])
-                        var type,style,color,size;
+                        var type,style,color,size,mStart,mEnd;
                         type=this.$store.state.UML.lines[i].relationType
                         style=this.$store.state.UML.lines[i].lineStyle.strokeDasharray
                         color=this.$store.state.UML.lines[i].lineStyle.stroke
                         size=this.$store.state.UML.lines[i].lineStyle.strokeWidth
+                        mStart=this.$store.state.UML.lines[i].markerstart
+                        mEnd=this.$store.state.UML.lines[i].markerend
                         this.$store.commit("setLinePro",{
                             type:type,
                             style:style,
                             color:color,
-                            size:size
+                            size:size,
+                            mStart:mStart,
+                            mEnd:mEnd
                         })
                         //console.log(this.$store.state)
                     }
@@ -687,8 +976,8 @@
                         from: this.From,
                         to: this.To,
                         text: this.lineText,
-                        markerend: "url(#arrow1)",
-                        markerstart: "url(#arrow2)",
+                        markerend: this.$store.state.markerEnd,
+                        markerstart: this.$store.state.markerStart,
                         linePath: this.linePath,
                         startPosition: {
                             left: this.lineStartX,
@@ -966,8 +1255,11 @@
                     var lineId = "line" + this.linenumber;
                     var newline = document.getElementById(lineId);
                     var type;
-                    newline.setAttribute("marker-start", "url(#arrow2");
-                    newline.setAttribute("marker-end", "url(#arrow1");
+                    console.log(this.$store.state)
+                    console.log("marker-start:"+this.$store.state.markerStart)
+                    console.log("marker-end:"+ this.$store.state.markerEnd)
+                    newline.setAttribute("marker-start", this.$store.state.markerStart);
+                    newline.setAttribute("marker-end", this.$store.state.markerEnd);
                     newline.setAttribute(
                         "style",
                         "stroke:" +
@@ -976,7 +1268,7 @@
                         this.$store.state.lineSize +
                         ";stroke-dasharray:" +
                         this.$store.state.lineStyle +
-                        ";zIndex:3;fill:none"
+                        ";fill:none"
                     );
                     this.lineStartX = this.EStartX
                     this.lineStartY = this.EStartY
@@ -1140,18 +1432,13 @@
                         */
                     } else {
                         //中
-                        if (this.eEndX + this.eEndW < this.eStartX) {
+                        if (this.eEndX + this.eEndW < this.eStartX + this.eStartW) {
                             //中左
                             console.log("中左");
                             this.middleLeft();
                         } else {
-                            if (this.eEndX > this.eStartX + this.eStartW) {
-                                //中右
-                                console.log("中右");
-                                this.middleRight();
-                            } else {
-                                console.log("出现重叠");
-                            }
+                              console.log("中右");
+                              this.middleRight();
                         }
                     }
                 }

@@ -24,6 +24,10 @@ export default new Vuex.Store({
         lineSA: "",
         lineEA: "",
         lineEditId: "",
+        startPoint:"",
+        endPoint:"",
+        markerStart:"",
+        markerEnd:"",
         Token: "",
         refreshTime: 0,
         autoId: 100, // max of all TODO init
@@ -83,6 +87,8 @@ export default new Vuex.Store({
             state.lineStyle = params.style;
             state.lineColor = params.color;
             state.lineSize = params.size;
+            state.markerStart = params.mStart;
+            state.markerEnd = params.mEnd;
         },
         setUMLLines(state, params) {
             state.UML.lines = [];
@@ -96,8 +102,8 @@ export default new Vuex.Store({
                     from: lines[i].fromId + "",
                     to: lines[i].toId + "",
                     text: lines[i].text,
-                    markerstart: "url(#arrow2)",
-                    markerend: "url(#arrow1)",
+                    markerstart: lines[i].markerStart,
+                    markerend: lines[i].markerEnd,
                     linePath: lines[i].path,
                     startPosition: {
                         left: parseInt(lines[i].startPosition.lpLeft),
@@ -161,15 +167,23 @@ export default new Vuex.Store({
         //初始化线条开端样式
         setLineSA(state, params) {
             console.log("setLineSA", params);
-            state.lineSA = params.lineSA;
+            state.startPoint = params.startPoint;
         },
         //初始化线条终端样式
         setLineEA(state, params) {
             console.log("setLineEA", params);
-            state.lineEA = params.lineEA;
+            state.endPoint = params.endPoint;
         },
         setToken(state, params) {
             state.Token = params.Token;
+            //alert("setToken"+state.Token);
+        },
+        setMarkerStart(state, params) {
+            state.markerStart = params.sp;
+            //alert("setToken"+state.Token);
+        },
+        setMarkerEnd(state, params) {
+            state.markerEnd = params.ep;
             //alert("setToken"+state.Token);
         },
         setRefreshTime(state, params) {
@@ -885,7 +899,6 @@ export default new Vuex.Store({
             commit,
             state
         }, params) {
-            console.log("modifyLine:" + params);
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "updateLine",
@@ -915,8 +928,8 @@ export default new Vuex.Store({
                     fromId: params.Line.from,
                     toId: params.Line.to,
                     text: params.Line.text,
-                    markerStart: "url(#arrow2)",
-                    markerEnd: "url(#arrow1)",
+                    markerStart: params.Line.markerstart,
+                    markerEnd: params.Line.markerend,
                     path: params.Line.linePath,
                     startPosition: params.Line.startPosition,
                     endPosition: params.Line.endPosition,
