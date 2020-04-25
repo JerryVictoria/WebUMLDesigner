@@ -152,7 +152,8 @@ export default {
             groupList: [],
             invitationList: [],
             fileList: [],
-            selectGid: -1
+            selectGid: -1,
+            userList: []
             /*
                 gid: 2
                 groupId: null
@@ -170,8 +171,10 @@ export default {
     mounted() {
         this.getAllGroup();
         this.getAllInvitation();
+        this.getAllUser();
     },
     methods: {
+        getAllUser() {},
         getAllGroup() {
             var self = this;
             this.$axios

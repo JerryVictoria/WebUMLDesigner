@@ -24,14 +24,14 @@ export default new Vuex.Store({
         lineSA: "",
         lineEA: "",
         lineEditId: "",
-        startPoint:"",
-        endPoint:"",
-        markerStart:"",
-        markerEnd:"",
+        startPoint: "",
+        endPoint: "",
+        markerStart: "",
+        markerEnd: "",
         Token: "",
         refreshTime: 0,
         autoId: 100, // max of all TODO init
-        groupWsUrl: "ws://localhost:8084/groupEdit/",
+        groupWsUrl: "ws://172.19.241.250:8084/groupEdit/",
         websock: null,
         originContentType: "", //专门用于协作记录varAndFunc的类型
         UML: {
@@ -42,9 +42,9 @@ export default new Vuex.Store({
             userId: "",
             groupId: "",
             nodes: [],
-            lines: []
+            lines: [],
         },
-        histories: [] //循环队列实现
+        histories: [], //循环队列实现
     },
     mutations: {
         setuserId(state, params) {
@@ -76,9 +76,9 @@ export default new Vuex.Store({
                         left: nodes[i].nodeStyle.styleLeft,
                         top: nodes[i].nodeStyle.styleTop,
                         width: nodes[i].nodeStyle.styleWidth,
-                        height: nodes[i].nodeStyle.styleHeight
+                        height: nodes[i].nodeStyle.styleHeight,
                     },
-                    properties: nodes[i].properties
+                    properties: nodes[i].properties,
                 });
             }
         },
@@ -108,18 +108,18 @@ export default new Vuex.Store({
                     startPosition: {
                         left: parseInt(lines[i].startPosition.lpLeft),
                         top: parseInt(lines[i].startPosition.lpTop),
-                        direction: ""
+                        direction: "",
                     },
                     endPosition: {
                         left: parseInt(lines[i].endPosition.lpLeft),
                         top: parseInt(lines[i].endPosition.lpTop),
-                        direction: ""
+                        direction: "",
                     },
                     lineStyle: {
                         stroke: lines[i].lineStyle.stroke,
                         strokeDasharray: lines[i].lineStyle.strokeDasharray, //虚线之类的
                         strokeWidth: lines[i].lineStyle.strokeWidth, //固定几种
-                        fill: "none"
+                        fill: "none",
                     },
                 });
             }
@@ -251,7 +251,9 @@ export default new Vuex.Store({
                 if (state.UML.nodes[i].id == params.id) {
                     if (params.key instanceof Array) {
                         for (
-                            var j = 0, keylen = params.key.length; j < keylen; j++
+                            var j = 0, keylen = params.key.length;
+                            j < keylen;
+                            j++
                         ) {
                             if (
                                 state.UML.nodes[i][params.nodeKey][
@@ -286,21 +288,21 @@ export default new Vuex.Store({
         //增加类节点属性
         addClassNodeProp(state, params) {
             console.log("addClassNodeProp");
-            var addProps = i => {
+            var addProps = (i) => {
                 if (params.contentType == "functions") {
                     state.UML.nodes[i]["properties"][params.contentType].push({
                         modifier: params.modifier,
                         dataType: params.dataType,
                         name: params.name,
                         params: params.params ? params.params : "",
-                        vid: params.vid
+                        vid: params.vid,
                     });
                 } else {
                     state.UML.nodes[i]["properties"][params.contentType].push({
                         modifier: params.modifier,
                         dataType: params.dataType,
                         name: params.name,
-                        vid: params.vid
+                        vid: params.vid,
                     });
                 }
             };
@@ -330,27 +332,29 @@ export default new Vuex.Store({
         //修改类节点属性
         changeClassNodeProp(state, params) {
             console.log("changeClassNodeProp");
-            var addProps = i => {
+            var addProps = (i) => {
                 if (params.contentType == "functions") {
                     state.UML.nodes[i]["properties"][params.contentType].push({
                         modifier: params.modifier,
                         dataType: params.dataType,
                         name: params.name,
                         params: params.params ? params.params : "",
-                        vid: params.vid
+                        vid: params.vid,
                     });
                 } else {
                     state.UML.nodes[i]["properties"][params.contentType].push({
                         modifier: params.modifier,
                         dataType: params.dataType,
                         name: params.name,
-                        vid: params.vid
+                        vid: params.vid,
                     });
                 }
             };
             for (var i = 0, l = state.UML.nodes.length; i < l; i++) {
                 if (state.UML.nodes[i].id == params.id) {
-                    var originContentType = params.originContentType ? params.originContentType : state.originContentType;
+                    var originContentType = params.originContentType
+                        ? params.originContentType
+                        : state.originContentType;
                     if (originContentType == params.contentType) {
                         //相同则直接修改属性
                         var arr =
@@ -363,9 +367,9 @@ export default new Vuex.Store({
                                 arr[j].dataType = params.dataType;
                                 arr[j].name = params.name;
                                 if (params.contentType == "functions") {
-                                    arr[j].params = params.params ?
-                                        params.params :
-                                        "";
+                                    arr[j].params = params.params
+                                        ? params.params
+                                        : "";
                                 }
                                 return;
                             }
@@ -388,7 +392,7 @@ export default new Vuex.Store({
         },
         //修改线条数据
         modifyLine(state, param) {
-            alert("modifyLine:"+state.UML.lines.length);
+            alert("modifyLine:" + state.UML.lines.length);
             //console.log("modifyline", param);
             //TODO如果修改数值和上一次一样，记录为未修改
             var modifiedFlag = false;
@@ -439,43 +443,43 @@ export default new Vuex.Store({
                     //alert(param.lineId + ":" + state.UML.lines[i].Id);
                     if (param.relationType != state.UML.lines[i].relationType) {
                         //alert("relationType");
-                        state.UML.lines[i].relationType = param.relationType
+                        state.UML.lines[i].relationType = param.relationType;
                     }
                     if (state.UML.lines[i].from != param.from) {
                         //alert("from");
-                        state.UML.lines[i].from = param.from
+                        state.UML.lines[i].from = param.from;
                     }
                     if (state.UML.lines[i].to != param.to) {
                         //alert("to");
-                        state.UML.lines[i].to = param.to
+                        state.UML.lines[i].to = param.to;
                     }
                     if (state.UML.lines[i].text != param.text) {
                         //alert("text");
-                        state.UML.lines[i].text = param.text
+                        state.UML.lines[i].text = param.text;
                     }
                     if (state.UML.lines[i].markerstart != param.markerstart) {
                         //alert("markerstart");
-                        state.UML.lines[i].markerstart = param.markerstart
+                        state.UML.lines[i].markerstart = param.markerstart;
                     }
                     if (state.UML.lines[i].markerend != param.markerend) {
                         //alert("markerend");
-                        state.UML.lines[i].markerend = param.markerend
+                        state.UML.lines[i].markerend = param.markerend;
                     }
                     if (state.UML.lines[i].linePath != param.linePath) {
                         //alert("linePath");
-                        state.UML.lines[i].linePath = param.linePath
+                        state.UML.lines[i].linePath = param.linePath;
                     }
                     if (state.UML.lines[i].startPostion != param.startPostion) {
                         //alert("startPostion");
-                        state.UML.lines[i].startPostion = param.startPostion
+                        state.UML.lines[i].startPostion = param.startPostion;
                     }
                     if (state.UML.lines[i].endPostion != param.endPostion) {
                         //alert("endPostion");
-                        state.UML.lines[i].endPostion = param.endPostion
+                        state.UML.lines[i].endPostion = param.endPostion;
                     }
                     if (state.UML.lines[i].lineStyle != param.lineStyle) {
                         //alert("lineStyle");
-                        state.UML.lines[i].lineStyle = param.lineStyle
+                        state.UML.lines[i].lineStyle = param.lineStyle;
                     }
                     modifiedFlag = true;
                     break;
@@ -492,28 +496,25 @@ export default new Vuex.Store({
         //后退
         backward(state) {},
         //前进
-        forward(state) {}
+        forward(state) {},
     },
     actions: {
-        openGroupEditMode({
-            commit,
-            state
-        }) {
+        openGroupEditMode({ commit, state }) {
             //alert("openGroupEditMode");
             var msg = JSON.stringify({
                 gid: state.UML.groupId,
                 uid: state.UML.userId,
-                fid: state.UML.UMLId
+                fid: state.UML.UMLId,
             });
             console.log(state.groupWsUrl + msg);
             state.websock = new WebSocket(state.groupWsUrl + msg);
-            state.websock.onopen = function () {
+            state.websock.onopen = function() {
                 console.log("onopen");
             };
-            state.websock.onerror = function () {
+            state.websock.onerror = function() {
                 console.log("onerror");
             };
-            state.websock.onmessage = function (e) {
+            state.websock.onmessage = function(e) {
                 var data = $.parseJSON(e.data);
                 console.log(data);
                 if (data.newNodeParam && data.editMethod == "Add") {
@@ -522,7 +523,7 @@ export default new Vuex.Store({
                         id: data.idParams.nid,
                         type: data.newNodeParam.nodeType,
                         styles: data.newNodeParam.styles,
-                        properties: data.newNodeParam.props
+                        properties: data.newNodeParam.props,
                     };
                     commit("addNode", node);
                 } else if (data.varAndFuncParams && data.editMethod == "Add") {
@@ -533,16 +534,28 @@ export default new Vuex.Store({
                         dataType: data.varAndFuncParams.dataType,
                         name: data.varAndFuncParams.name,
                         params: data.varAndFuncParams.params,
-                        contentType: data.varAndFuncParams.flag == 1 ? "functions" : "variables"
+                        contentType:
+                            data.varAndFuncParams.flag == 1
+                                ? "functions"
+                                : "variables",
                     });
-                } else if (data.varAndFuncParams && data.editMethod == "Delete") {
+                } else if (
+                    data.varAndFuncParams &&
+                    data.editMethod == "Delete"
+                ) {
                     //alert("varAndFuncParams")
                     commit("deleteClassNodeProp", {
                         id: data.varAndFuncParams.nid,
                         vid: data.varAndFuncParams.vid,
-                        contentType: data.varAndFuncParams.flag == 1 ? "functions" : "variables"
+                        contentType:
+                            data.varAndFuncParams.flag == 1
+                                ? "functions"
+                                : "variables",
                     });
-                } else if (data.varAndFuncParams && data.editMethod == "Update") {
+                } else if (
+                    data.varAndFuncParams &&
+                    data.editMethod == "Update"
+                ) {
                     commit("changeClassNodeProp", {
                         id: data.varAndFuncParams.nid,
                         vid: data.varAndFuncParams.vid,
@@ -550,7 +563,10 @@ export default new Vuex.Store({
                         dataType: data.varAndFuncParams.dataType,
                         name: data.varAndFuncParams.name,
                         params: data.varAndFuncParams.params,
-                        contentType: data.varAndFuncParams.flag == 1 ? "functions" : "variables"
+                        contentType:
+                            data.varAndFuncParams.flag == 1
+                                ? "functions"
+                                : "variables",
                     });
                 } else if (data.editMethod == "Delete" && data.idParams.nid) {
                     //alert("node")
@@ -562,14 +578,14 @@ export default new Vuex.Store({
                         id: data.nodeParams.nid,
                         nodeKey: data.nodeParams.nodeKey,
                         key: data.nodeParams.key,
-                        value: data.nodeParams.value
+                        value: data.nodeParams.value,
                     });
-                } else if (data.lineParams&&data.editMethod == "Add" ) {
-                    var params={
+                } else if (data.lineParams && data.editMethod == "Add") {
+                    var params = {
                         Id: data.lineParams.lineId,
                         lid: data.idParams.lid,
-                        lineId:"line"+data.lineParams.lineId,
-                        relationType:data.lineParams.relationType,
+                        lineId: "line" + data.lineParams.lineId,
+                        relationType: data.lineParams.relationType,
                         from: data.lineParams.fromId,
                         to: data.lineParams.toId,
                         text: data.lineParams.text,
@@ -577,16 +593,16 @@ export default new Vuex.Store({
                         markerstart: data.lineParams.markerStart,
                         linePath: data.lineParams.path,
                         startPosition: data.lineParams.startPosition,
-                        endPosition:data.lineParams.endPosition,
+                        endPosition: data.lineParams.endPosition,
                         lineStyle: data.lineParams.lineStyle,
-                    }
+                    };
                     commit("addLine", params);
-                } else if (data.editMethod == "Delete"&&data.idParams.lid) {
-                    var param={
-                        id:data.idParams.lid
-                    }
+                } else if (data.editMethod == "Delete" && data.idParams.lid) {
+                    var param = {
+                        id: data.idParams.lid,
+                    };
                     commit("removeLine", param);
-                } else if (data.editMethod == "Update"&&data.lineParams) {
+                } else if (data.editMethod == "Update" && data.lineParams) {
                     var change = {
                         lineId: data.lineParams.lineId,
                         lid: data.lineParams.lid,
@@ -604,21 +620,18 @@ export default new Vuex.Store({
                     commit("modifyLineByCover", change);
                 }
             };
-            state.websock.onclose = function () {
+            state.websock.onclose = function() {
                 console.log("onclose");
             };
         },
-        addNode({
-            commit,
-            state
-        }, params) {
+        addNode({ commit, state }, params) {
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "Add",
                     idParams: {
                         gid: state.UML.groupId,
                         uid: state.UML.userId,
-                        fid: state.UML.UMLId
+                        fid: state.UML.UMLId,
                     },
                     newNodeParam: {
                         uid: state.UML.userId,
@@ -626,8 +639,8 @@ export default new Vuex.Store({
                         fid: state.UML.UMLId,
                         nodeType: params.type,
                         styles: params.styles,
-                        props: params.properties
-                    }
+                        props: params.properties,
+                    },
                 });
                 //console.log("send addNode msg:", msg);
                 state.websock.send(msg);
@@ -641,25 +654,22 @@ export default new Vuex.Store({
                     fid: state.UML.UMLId,
                     nodeType: params.type,
                     styles: params.styles,
-                    props: params.properties
+                    props: params.properties,
                 })
-                .then(function (response) {
+                .then(function(response) {
                     var node = {
                         id: response.data,
                         type: params.type,
                         styles: params.styles,
-                        properties: params.properties
+                        properties: params.properties,
                     };
                     commit("addNode", node);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:" + error);
                 });
         },
-        modifyNode({
-            commit,
-            state
-        }, params) {
+        modifyNode({ commit, state }, params) {
             var keys = [];
             var values = [];
             if (params.key instanceof Array) {
@@ -681,14 +691,14 @@ export default new Vuex.Store({
                         uid: state.UML.userId,
                         fid: state.UML.UMLId,
                         nid: params.id,
-                        lid: -1
+                        lid: -1,
                     },
                     nodeParams: {
                         nid: params.id,
                         nodeKey: params.nodeKey,
                         key: keys,
-                        value: values
-                    }
+                        value: values,
+                    },
                 });
                 console.log("send modifyNode msg:", msg);
                 state.websock.send(msg);
@@ -699,19 +709,16 @@ export default new Vuex.Store({
                     nid: params.id,
                     nodeKey: params.nodeKey,
                     key: keys,
-                    value: values
+                    value: values,
                 })
-                .then(function (response) {
+                .then(function(response) {
                     commit("modifyNode", params);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:" + error);
                 });
         },
-        removeNode({
-            commit,
-            state
-        }, params) {
+        removeNode({ commit, state }, params) {
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "Delete",
@@ -721,8 +728,8 @@ export default new Vuex.Store({
                         fid: state.UML.UMLId,
                         nid: params.id,
                         vid: -1,
-                        lid: -1
-                    }
+                        lid: -1,
+                    },
                 });
                 //console.log("send deleteNode msg:", msg);
                 state.websock.send(msg);
@@ -732,20 +739,17 @@ export default new Vuex.Store({
                 .get("/delNode", {
                     params: {
                         fid: state.UML.UMLId,
-                        nid: params.id
-                    }
+                        nid: params.id,
+                    },
                 })
-                .then(function (response) {
+                .then(function(response) {
                     commit("removeNode", params);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:" + error);
                 });
         },
-        addClassNodeProp({
-            commit,
-            state
-        }, params) {
+        addClassNodeProp({ commit, state }, params) {
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "Add",
@@ -753,7 +757,7 @@ export default new Vuex.Store({
                         gid: state.UML.groupId,
                         uid: state.UML.userId,
                         fid: state.UML.UMLId,
-                        nid: params.id
+                        nid: params.id,
                     },
                     varAndFuncParams: {
                         nid: params.id,
@@ -761,8 +765,8 @@ export default new Vuex.Store({
                         dataType: params.dataType,
                         name: params.name,
                         params: params.params,
-                        flag: params.contentType == "functions" ? 1 : 0
-                    }
+                        flag: params.contentType == "functions" ? 1 : 0,
+                    },
                 });
                 console.log("send addNodeProp msg:", msg);
                 state.websock.send(msg);
@@ -775,21 +779,18 @@ export default new Vuex.Store({
                     dataType: params.dataType,
                     name: params.name,
                     params: params.params,
-                    flag: params.contentType == "functions" ? 1 : 0
+                    flag: params.contentType == "functions" ? 1 : 0,
                 })
-                .then(function (response) {
+                .then(function(response) {
                     params.vid = response.data;
                     console.log(params);
                     commit("addClassNodeProp", params);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:" + error);
                 });
         },
-        changeClassNodeProp({
-            commit,
-            state
-        }, params) {
+        changeClassNodeProp({ commit, state }, params) {
             if (state.UML.groupId > 0) {
                 state.originContentType = params.originContentType;
                 var msg = JSON.stringify({
@@ -800,7 +801,7 @@ export default new Vuex.Store({
                         fid: state.UML.UMLId,
                         nid: params.id,
                         vid: params.vid,
-                        lid: -1
+                        lid: -1,
                     },
                     varAndFuncParams: {
                         nid: params.id,
@@ -809,8 +810,8 @@ export default new Vuex.Store({
                         dataType: params.dataType,
                         name: params.name,
                         params: params.params,
-                        flag: params.contentType == "functions" ? 1 : 0
-                    }
+                        flag: params.contentType == "functions" ? 1 : 0,
+                    },
                 });
                 console.log("send modifyNodeProp msg:", msg);
                 state.websock.send(msg);
@@ -824,19 +825,16 @@ export default new Vuex.Store({
                     dataType: params.dataType,
                     name: params.name,
                     params: params.params,
-                    flag: params.contentType == "functions" ? 1 : 0
+                    flag: params.contentType == "functions" ? 1 : 0,
                 })
-                .then(function (response) {
+                .then(function(response) {
                     commit("changeClassNodeProp", params);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:" + error);
                 });
         },
-        deleteClassNodeProp({
-            commit,
-            state
-        }, params) {
+        deleteClassNodeProp({ commit, state }, params) {
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "Delete",
@@ -846,13 +844,13 @@ export default new Vuex.Store({
                         fid: state.UML.UMLId,
                         nid: params.id,
                         vid: params.vid,
-                        lid: -1
+                        lid: -1,
                     },
                     varAndFuncParams: {
                         nid: params.id,
                         vid: params.vid,
-                        flag: params.contentType == "functions" ? 1 : 0
-                    }
+                        flag: params.contentType == "functions" ? 1 : 0,
+                    },
                 });
                 console.log("send deleteNodeProp msg:", msg);
                 state.websock.send(msg);
@@ -862,20 +860,17 @@ export default new Vuex.Store({
                 .get("/delVarAndFUnc", {
                     params: {
                         nid: params.id,
-                        vid: params.vid
-                    }
+                        vid: params.vid,
+                    },
                 })
-                .then(function (response) {
+                .then(function(response) {
                     commit("deleteClassNodeProp", params);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:" + error);
                 });
         },
-        removeLine({
-            commit,
-            state
-        }, params) {
+        removeLine({ commit, state }, params) {
             var lid = parseInt(params.id);
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
@@ -885,7 +880,7 @@ export default new Vuex.Store({
                         uid: state.UML.userId,
                         fid: state.UML.UMLId,
                         lid: parseInt(params.id),
-                        vid: -1
+                        vid: -1,
                     },
                 });
                 console.log("send modifyNode msg:", msg);
@@ -897,20 +892,17 @@ export default new Vuex.Store({
                 .get("/delLine", {
                     params: {
                         fid: state.UML.UMLId,
-                        lid: lid
-                    }
+                        lid: lid,
+                    },
                 })
-                .then(function (response) {
+                .then(function(response) {
                     commit("removeLine", params);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:" + error);
                 });
         },
-        addLine({
-            commit,
-            state
-        }, params) {
+        addLine({ commit, state }, params) {
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "Add",
@@ -918,13 +910,13 @@ export default new Vuex.Store({
                         gid: state.UML.groupId,
                         uid: state.UML.userId,
                         fid: state.UML.UMLId,
-                        newLine: "true"
+                        newLine: "true",
                     },
                     lineParams: {
                         uid: state.UML.userId,
                         gid: state.UML.groupId ? state.UML.groupId : -1,
                         fid: state.UML.UMLId,
-                        Id:params.lineId,
+                        Id: params.lineId,
                         lineId: parseInt(params.Id),
                         relationType: params.relationType,
                         fromId: params.from,
@@ -959,19 +951,16 @@ export default new Vuex.Store({
                     endPosition: params.endPosition,
                     lineStyle: params.lineStyle,
                 })
-                .then(function (response) {
+                .then(function(response) {
                     //alert(response);
                     params.lid = response.data;
                     commit("addLine", params);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:" + error);
                 });
         },
-        modifyLine({
-            commit,
-            state
-        }, params) {
+        modifyLine({ commit, state }, params) {
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "Update",
@@ -980,7 +969,7 @@ export default new Vuex.Store({
                         uid: state.UML.userId,
                         fid: state.UML.UMLId,
                         lid: params.Line.lid,
-                        vid:-1
+                        vid: -1,
                     },
                     lineParams: {
                         lineId: parseInt(params.Line.Id),
@@ -995,7 +984,7 @@ export default new Vuex.Store({
                         startPosition: params.Line.startPosition,
                         endPosition: params.Line.endPosition,
                         lineStyle: params.lineStyle,
-                    }
+                    },
                 });
                 console.log("send modifyNode msg:", msg);
                 state.websock.send(msg);
@@ -1018,7 +1007,7 @@ export default new Vuex.Store({
                     endPosition: params.Line.endPosition,
                     lineStyle: params.lineStyle,
                 })
-                .then(function (response) {
+                .then(function(response) {
                     var change = {
                         lineId: parseInt(params.Line.Id),
                         lid: params.Line.lid,
@@ -1035,64 +1024,57 @@ export default new Vuex.Store({
                     };
                     commit("modifyLineByCover", change);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:" + error);
                 });
         },
-        getRefreshTime({
-            commit,
-            state
-        }, params) {
+        getRefreshTime({ commit, state }, params) {
             //alert("getRefreshTime"+parseInt(state.UML.UMLId));
             var id = parseInt(state.UML.UMLId);
             axios
                 .get("/getRefreshTime", {
                     params: {
-                        fid: id
-                    }
+                        fid: id,
+                    },
                 })
-                .then(function (response) {
+                .then(function(response) {
                     var RefreshTime = {
-                        refreshTime: response.data
+                        refreshTime: response.data,
                     };
                     //alert(response.data);
                     commit("setRefreshTime", RefreshTime);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:" + error);
                 });
         },
-        getToken({
-            commit
-        }, params) {
+        getToken({ commit }, params) {
             //alert(params.key);
             axios
                 .post("/getToken", {
-                    key: params.key
+                    key: params.key,
                 })
-                .then(function (response) {
+                .then(function(response) {
                     var token = {
-                        Token: response.data
+                        Token: response.data,
                     };
                     //alert(token);
                     commit("setToken", token);
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log("error:" + error);
                 });
         },
-        refreshPic({
-            commit
-        }, params) {
+        refreshPic({ commit }, params) {
             //alert(params.url);
             axios
                 .post("/refreshPic", {
-                    url: params.url
+                    url: params.url,
                 })
-                .then(function (response) {})
-                .catch(function (error) {
+                .then(function(response) {})
+                .catch(function(error) {
                     console.log("error:" + error);
                 });
-        }
-    }
+        },
+    },
 });

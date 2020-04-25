@@ -8,7 +8,7 @@
                 id="contentDiv"
                 style="padding:2px 10px; height: 230px; width: 100%; margin-top: 10px; overflow-y: auto;"
             >
-                <SelfDialogBox :text="'self text text......y...a.....f..........'"></SelfDialogBox>
+                <!-- <SelfDialogBox :text="'self text text......y...a.....f..........'"></SelfDialogBox>
                 <OtherDialogBox :text="'other text'"></OtherDialogBox>
                 <SelfDialogBox :text="'self text'"></SelfDialogBox>
                 <OtherDialogBox
@@ -17,7 +17,7 @@
                     "
                 ></OtherDialogBox>
                 <SelfDialogBox :text="'self text'"></SelfDialogBox>
-                <OtherDialogBox :text="'other text'"></OtherDialogBox>
+                <OtherDialogBox :text="'other text'"></OtherDialogBox>-->
                 <!--
                 <template v-for>
                     if id == self
@@ -67,7 +67,7 @@ export default {
         return {
             content: [],
             message: "",
-            wsUrl: "ws://localhost:8084/websocket/" /**172.19.241.250 */
+            wsUrl: "ws://172.19.241.250:8084/websocket/" /**172.19.241.250 */
         };
     },
     created() {
