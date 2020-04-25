@@ -524,12 +524,15 @@
             deleteFile() {
                 //alert("删除文件")
                 var self = this;
-                if (this.gid <= 0) {
+                var gid=parseInt(self.$store.state.UML.groupId)
+                var userId = parseInt(self.$store.state.UML.userId)
+                var fid = parseInt(self.$store.state.UML.UMLId)
+                if (gid <= 0) {
                     this.$axios
                         .get("/delFile", {
                             params: {
-                                uid: self.$store.state.UML.userId,
-                                fid: self.fid
+                                uid: userId,
+                                fid: fid
                             }
                         })
                         .then(function(response) {
@@ -539,7 +542,7 @@
                                     message: "删除成功！",
                                     type: "success"
                                 });
-                                self.$router.push({name: "PersonalPage"});
+                                self.$router.push({ name: "PersonalPage" });
                             } else {
                                 self.$message({
                                     message: "出现错误！",
@@ -554,8 +557,8 @@
                     this.$axios
                         .get("/deleteFileByGroup", {
                             params: {
-                                gid: self.gid,
-                                fid: self.fid
+                                gid: gid,
+                                fid: fid
                             }
                         })
                         .then(function(response) {
@@ -565,7 +568,7 @@
                                     message: "删除成功！",
                                     type: "success"
                                 });
-                                self.$router.push({name: "PersonalPage"});
+                                self.$router.push({ name: "PersonalPage" });
                             } else {
                                 self.$message({
                                     message: "出现错误！",
@@ -935,6 +938,14 @@
                     document.body.removeChild(a);
                     treeContainnerElem.removeChild(tempElem)
                 })
+            },
+            dataURLToBlob(dataurl) {//ie 图片转格式
+                var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                    bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+                return new Blob([u8arr], {type: mime})
             },
             checkFileName(){
                 if(this.fileName==""){

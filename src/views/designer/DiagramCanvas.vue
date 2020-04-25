@@ -801,8 +801,11 @@
                 const svgElem = treeElem.querySelectorAll("path");
                 //console.log(svgElem);
                 svgElem.forEach(node => {
-                    if (node.id == "line" + item) {
+                    console.log(node.id)
+                    if ("line" + item==node.id) {
+                        console.log(node.style.filter)
                         node.style.filter = "url(#drop-shadow)";
+                        console.log(node.style.filter)
                     } else {
                         node.style.filter = "";
                     }
@@ -998,10 +1001,9 @@
                             fill: "none"
                         },
                     };
-                    console.log(newline);
                     //this.$store.commit("addLine", newline);
                     this.$store.dispatch("addLine", newline);
-                    //console.log(this.$store.state.UML.lines);
+                    console.log(this.$store.state.UML.lines);
                     this.lineStartX = 0;
                     this.lineStartY = 0;
                     this.lineEndX = 0;
