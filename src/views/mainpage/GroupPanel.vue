@@ -149,6 +149,7 @@
                             :fid="item.fid"
                             :fileType="item.fileType"
                             :gid="selectGid"
+                            :src="item.refreshTime"
                             @refreshFileList="selectGroupFile(selectGid)"
                         ></SingleFile>
                     </transition-group>
@@ -212,6 +213,7 @@ export default {
             invitationList: [],
             fileList: [],
             selectGid: -1,
+            imgsrc: "http://q92yn5po6.bkt.clouddn.com/"
             /*
                 gid: 2
                 groupId: null
@@ -337,6 +339,16 @@ export default {
                     console.log(response.data);
                     self.fileList = response.data;
                     console.log("fileList:", self.fileList);
+                    for (var i = 0; i < self.fileList.length; i++) {
+                        var imgsrc =
+                            "http://q92yn5po6.bkt.clouddn.com/" +
+                            self.fileList[i].fileType +
+                            "_" +
+                            self.fileList[i].fid +
+                            "?v=" +
+                            self.fileList[i].refreshTime;
+                        self.fileList[i].refreshTime = imgsrc;
+                    }
                 })
                 .catch(function(error) {
                     console.log("error:" + error);
