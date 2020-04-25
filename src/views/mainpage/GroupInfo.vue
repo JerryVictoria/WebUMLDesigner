@@ -10,31 +10,48 @@
                     icon="el-icon-close"
                     @click="deleteGroup"
                 ></el-button>
-                <span>团队名称：{{name}}</span>
+                <span>团队名称：{{ name }}</span>
                 <el-button
                     v-if="$store.state.UML.userId == leaderId"
                     size="mini"
                     style="float: right; padding: 3px 0"
                     type="text"
                     icon="el-icon-plus"
-                    @click="dialogVisible = true"
-                >邀请</el-button>
+                    @click="handleClick"
+                    >邀请</el-button
+                >
                 <!--TODO leader == user-->
             </div>
             <div class="list">
-                <div class="text item">队长邮箱：{{leader}}</div>
-                <div v-for="(item, index) in invitedMember" :key="index" class="text item">
-                    <el-tooltip effect="dark" :content="item.userEmail" placement="right">
+                <div class="text item">队长邮箱：{{ leader }}</div>
+                <div
+                    v-for="(item, index) in invitedMember"
+                    :key="index"
+                    class="text item"
+                >
+                    <el-tooltip
+                        effect="dark"
+                        :content="item.userEmail"
+                        placement="right"
+                    >
                         <div class="contentSpan omitted">
-                            {{item.userName}}
+                            {{ item.userName }}
                             <el-tag size="mini" type="success">已接受</el-tag>
                         </div>
                     </el-tooltip>
                 </div>
-                <div v-for="(item, index) in invitingMember" :key="index" class="text item">
-                    <el-tooltip effect="dark" :content="item.userEmail" placement="right">
+                <div
+                    v-for="(item, index) in invitingMember"
+                    :key="index"
+                    class="text item"
+                >
+                    <el-tooltip
+                        effect="dark"
+                        :content="item.userEmail"
+                        placement="right"
+                    >
                         <div class="contentSpan omitted">
-                            {{item.userName}}
+                            {{ item.userName }}
                             <el-tag size="mini" type="info">未处理</el-tag>
                         </div>
                     </el-tooltip>
@@ -46,13 +63,21 @@
                 v-model="newMembers"
                 multiple
                 filterable
-                allow-create
-                default-first-option
-                placeholder="输入你想邀请的成员邮箱"
-            ></el-select>
+                placeholder="选择你想邀请的成员邮箱"
+            >
+                <el-option
+                    v-for="item in userList"
+                    :key="item.userEmail"
+                    :label="item.userEmail"
+                    :value="item.userEmail"
+                >
+                </el-option>
+            </el-select>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="inviteUser()">确 定</el-button>
+                <el-button type="primary" @click="inviteUser()"
+                    >确 定</el-button
+                >
             </span>
         </el-dialog>
     </div>
@@ -63,39 +88,65 @@ export default {
     props: {
         name: {
             type: String,
-            default: "undefine"
+            default: "undefine",
         },
         invitedMember: {
-            type: Array
+            type: Array,
         },
         invitingMember: {
-            type: Array
+            type: Array,
         },
         leader: {
-            type: String
+            type: String,
         },
         leaderId: {
             type: Number,
-            default: -1
+            default: -1,
         },
         gid: {
             type: Number,
-            default: -1
-        }
+            default: -1,
+        },
     },
     data() {
         return {
             dialogVisible: false,
-            newMembers: []
+            newMembers: [],
+            userList: [],
         };
     },
     methods: {
+        handleClick() {
+            this.dialogVisible = true;
+            this.getAllUser();
+        },
+        getAllUser() {
+            var self = this;
+            this.$axios
+                .get("/getAllUser", {
+                    params: {
+                        uid: self.$store.state.UML.userId,
+                        gid: this.gid,
+                    },
+                })
+                .then(function(response) {
+                    console.log(
+                        "getAllUser:",
+                        self.$store.state.UML.userId,
+                        response.data
+                    );
+                    self.userList = response.data;
+                })
+                .catch(function(error) {
+                    console.log("error:" + error);
+                });
+        },
         inviteUser() {
             var self = this;
             this.$axios
                 .post("/inviteUser", {
                     gid: self.gid,
-                    userEmailList: self.newMembers
+                    userEmailList: self.newMembers,
                 })
                 .then(function(response) {
                     console.log(response.data);
@@ -120,21 +171,21 @@ export default {
                     if (response.data) {
                         self.$message({
                             message: "删除成功",
-                            type: "success"
+                            type: "success",
                         });
                         self.$emit("refresh");
                     } else {
                         self.$message({
                             message: "出现错误",
-                            type: "error"
+                            type: "error",
                         });
                     }
                 })
                 .catch(function(error) {
                     console.log("error:", error);
                 });
-        }
-    }
+        },
+    },
 };
 </script>
 <style scoped>

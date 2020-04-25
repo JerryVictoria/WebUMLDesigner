@@ -1,7 +1,11 @@
 <template>
     <div>
         <div style="display: flex">
-            <el-menu :default-active="activeIndex" class="groupmenu" @select="handleSelect">
+            <el-menu
+                :default-active="activeIndex"
+                class="groupmenu"
+                @select="handleSelect"
+            >
                 <el-menu-item index="1">
                     <i class="el-icon-document"></i>
                     <span slot="title">新建文件</span>
@@ -24,23 +28,55 @@
                 v-show="activeIndex == '1'"
                 style="width: 300px; margin: 10px auto"
             >
-                <el-form ref="form" :model="form" label-width="80px" style="width: 300px;">
+                <el-form
+                    ref="form"
+                    :model="form"
+                    label-width="80px"
+                    style="width: 300px;"
+                >
                     <el-form-item label="文件名称">
                         <el-input v-model="form.name"></el-input>
                     </el-form-item>
                     <el-form-item label="UML类型">
-                        <el-select v-model="form.type" placeholder="请选择UML类型">
-                            <el-option label="类图" value="CLASS_DIAGRAM"></el-option>
-                            <el-option label="顺序图" value="SEQUENCE_DIAGRAM"></el-option>
-                            <el-option label="组件图" value="COMPONENT_DIAGRAM"></el-option>
-                            <el-option label="状态图" value="STATE_DIAGRAM"></el-option>
-                            <el-option label="用例图" value="USECASE_DIAGRAM"></el-option>
-                            <el-option label="部署图" value="DEPLOYMENT_DIAGRAM"></el-option>
-                            <el-option label="实体关系图" value="ER_DIAGRAM"></el-option>
+                        <el-select
+                            v-model="form.type"
+                            placeholder="请选择UML类型"
+                        >
+                            <el-option
+                                label="类图"
+                                value="CLASS_DIAGRAM"
+                            ></el-option>
+                            <el-option
+                                label="顺序图"
+                                value="SEQUENCE_DIAGRAM"
+                            ></el-option>
+                            <el-option
+                                label="组件图"
+                                value="COMPONENT_DIAGRAM"
+                            ></el-option>
+                            <el-option
+                                label="状态图"
+                                value="STATE_DIAGRAM"
+                            ></el-option>
+                            <el-option
+                                label="用例图"
+                                value="USECASE_DIAGRAM"
+                            ></el-option>
+                            <el-option
+                                label="部署图"
+                                value="DEPLOYMENT_DIAGRAM"
+                            ></el-option>
+                            <el-option
+                                label="实体关系图"
+                                value="ER_DIAGRAM"
+                            ></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="协作者">
-                        <el-select v-model="form.group" placeholder="请选择协助小组">
+                        <el-select
+                            v-model="form.group"
+                            placeholder="请选择协助小组"
+                        >
                             <el-option
                                 v-for="(item, index) in groupList"
                                 :key="index"
@@ -50,8 +86,17 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item>
-                        <el-button style="float: right; margin-left: 5px" @click="resetForm()">清空</el-button>
-                        <el-button style="float: right" type="primary" @click="onSubmit">创建</el-button>
+                        <el-button
+                            style="float: right; margin-left: 5px"
+                            @click="resetForm()"
+                            >清空</el-button
+                        >
+                        <el-button
+                            style="float: right"
+                            type="primary"
+                            @click="onSubmit"
+                            >创建</el-button
+                        >
                     </el-form-item>
                 </el-form>
             </div>
@@ -61,12 +106,13 @@
                         class="createBtn"
                         icon="el-icon-circle-plus-outline"
                         @click="dialogVisible = true"
-                    >新建团队</el-button>
+                        >新建团队</el-button
+                    >
                 </el-card>
                 <transition-group name="list">
                     <GroupInfo
                         v-for="item in groupList"
-                        :key="'gid:'+item.gid"
+                        :key="'gid:' + item.gid"
                         :name="item.groupName"
                         :invitedMember="item.invitedUserList"
                         :invitingMember="item.invitingUserList"
@@ -91,7 +137,10 @@
             <div v-show="activeIndex == '4'" class="centerDiv">
                 <!--TODO v-for-->
                 <div v-if="detailList" class="fileListPane">
-                    <el-page-header @back="goBack" content="文件列表"></el-page-header>
+                    <el-page-header
+                        @back="goBack"
+                        content="文件列表"
+                    ></el-page-header>
                     <transition-group name="list-complete">
                         <SingleFile
                             v-for="item in fileList"
@@ -110,13 +159,23 @@
                         :key="index"
                         class="fileListBtn"
                         @click="selectGroupFile(item.gid)"
-                    >{{item.groupName}}</el-button>
+                        >{{ item.groupName }}</el-button
+                    >
                 </div>
             </div>
         </div>
         <PageFooter></PageFooter>
-        <el-dialog title="创建你的团队" :visible.sync="dialogVisible" width="30%">
-            <el-form ref="groupform" :model="groupform" label-width="80px" style="width: 300px;">
+        <el-dialog
+            title="创建你的团队"
+            :visible.sync="dialogVisible"
+            width="30%"
+        >
+            <el-form
+                ref="groupform"
+                :model="groupform"
+                label-width="80px"
+                style="width: 300px;"
+            >
                 <el-form-item label="团队名称">
                     <el-input v-model="groupform.name"></el-input>
                 </el-form-item>
@@ -143,17 +202,16 @@ export default {
             form: {
                 name: "",
                 type: "",
-                group: ""
+                group: "",
             },
             groupform: {
-                name: ""
+                name: "",
             },
             detailList: false,
             groupList: [],
             invitationList: [],
             fileList: [],
             selectGid: -1,
-            userList: []
             /*
                 gid: 2
                 groupId: null
@@ -171,17 +229,15 @@ export default {
     mounted() {
         this.getAllGroup();
         this.getAllInvitation();
-        this.getAllUser();
     },
     methods: {
-        getAllUser() {},
         getAllGroup() {
             var self = this;
             this.$axios
                 .get("/getAllGroupByUid", {
                     params: {
-                        uid: self.$store.state.UML.userId
-                    }
+                        uid: self.$store.state.UML.userId,
+                    },
                 })
                 .then(function(response) {
                     console.log(
@@ -200,8 +256,8 @@ export default {
             this.$axios
                 .get("/getAllInvitingGroupByUid", {
                     params: {
-                        uid: self.$store.state.UML.userId
-                    }
+                        uid: self.$store.state.UML.userId,
+                    },
                 })
                 .then(function(response) {
                     console.log(response.data);
@@ -228,32 +284,32 @@ export default {
                     params: {
                         gid: self.form.group,
                         fileName: self.form.name,
-                        fileType: self.form.type
-                    }
+                        fileType: self.form.type,
+                    },
                 })
                 .then(function(response) {
                     console.log("success:" + response.data);
                     self.$message({
                         message: "创建成功",
-                        type: "success"
+                        type: "success",
                     });
                     self.$store.commit("setUMLId", { id: response.data });
                     self.$store.commit("setUMLName", {
-                        name: self.form.name
+                        name: self.form.name,
                     });
                     self.$store.commit("setUMLType", {
-                        type: self.form.type
+                        type: self.form.type,
                     });
                     self.$store.commit("setGroupId", {
-                        groupId: self.form.group
+                        groupId: self.form.group,
                     });
                     //清空Nodes
                     self.$store.commit("setUMLNodes", {
-                        nodeList: []
+                        nodeList: [],
                     });
                     //清空lines
                     self.$store.commit("setUMLLines", {
-                        lineList: []
+                        lineList: [],
                     });
                     self.$store.dispatch("openGroupEditMode");
                     self.$router.push({ name: "Designer" });
@@ -274,8 +330,8 @@ export default {
             this.$axios
                 .get("/getAllFileByGid", {
                     params: {
-                        gid: gid
-                    }
+                        gid: gid,
+                    },
                 })
                 .then(function(response) {
                     console.log(response.data);
@@ -295,7 +351,7 @@ export default {
             if (this.groupform.name == "") {
                 this.$message({
                     message: "小组名不能为空！",
-                    type: "warning"
+                    type: "warning",
                 });
                 this.dialogVisible = false;
                 return;
@@ -305,21 +361,21 @@ export default {
                 .get("/createGroup", {
                     params: {
                         groupName: self.groupform.name,
-                        uid: self.$store.state.UML.userId
-                    }
+                        uid: self.$store.state.UML.userId,
+                    },
                 })
                 .then(function(response) {
                     console.log("create group res:", response.data);
                     if (response.data > 0) {
                         self.$message({
                             message: "创建成功！",
-                            type: "success"
+                            type: "success",
                         });
                         self.getAllGroup();
                     } else {
                         self.$message({
                             message: "组名已存在，创建失败！",
-                            type: "error"
+                            type: "error",
                         });
                     }
                 })
@@ -328,8 +384,8 @@ export default {
                 });
             this.groupform.name = "";
             this.dialogVisible = false;
-        }
-    }
+        },
+    },
 };
 </script>
 <style scoped>
