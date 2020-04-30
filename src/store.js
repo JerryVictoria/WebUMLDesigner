@@ -286,8 +286,11 @@ export default new Vuex.Store({
         },
         //增加类节点属性
         addClassNodeProp(state, params) {
-            console.log("addClassNodeProp");
+            console.log("addClassNodeProp", params);
             var addProps = (i) => {
+                if (state.UML.nodes[i]["properties"][params.contentType] == null || state.UML.nodes[i]["properties"][params.contentType] == undefined) {
+                    Vue.set(state.UML.nodes[i]["properties"], params.contentType, []);
+                }
                 if (params.contentType == "functions") {
                     state.UML.nodes[i]["properties"][params.contentType].push({
                         modifier: params.modifier,
@@ -332,6 +335,9 @@ export default new Vuex.Store({
         changeClassNodeProp(state, params) {
             console.log("changeClassNodeProp");
             var addProps = (i) => {
+                if (state.UML.nodes[i]["properties"][params.contentType] == null || state.UML.nodes[i]["properties"][params.contentType] == undefined) {
+                    Vue.set(state.UML.nodes[i]["properties"], params.contentType, []);
+                }
                 if (params.contentType == "functions") {
                     state.UML.nodes[i]["properties"][params.contentType].push({
                         modifier: params.modifier,
