@@ -67,9 +67,10 @@
 </template>
 
 <script>
-    import html2canvas from "html2canvas";
-    import canvg from "canvg";
-    import * as qiniu from 'qiniu-js'
+import html2canvas from "html2canvas";
+import canvg from "canvg";
+import * as qiniu from "qiniu-js";
+import $ from "jquery";
 export default {
     name: "components-store-side-bar",
     props: {
@@ -355,10 +356,8 @@ export default {
                             properties: {
                                 className: "someClass",
                                 classType: "abstract", // e.g. abstract
-                                variables: [
-                                ], // mock data
-                                functions: [
-                                ]
+                                variables: [], // mock data
+                                functions: []
                             }
                         },
                         /*{
@@ -599,16 +598,6 @@ export default {
             var canv = document.getElementById("canvas").childNodes[0];
             var length = this.$store.state.UML.nodes.length;
             var side = document.getElementById("side");
-            var newid;
-            if (length != 0) {
-                newid =
-                    parseInt(this.$store.state.UML.nodes[length - 1].id) +
-                    1 +
-                    "";
-            } else {
-                newid = "1";
-            }
-            console.log("newid:" + newid);
             var canv = document.getElementById("canvas").childNodes[0];
             var c = {
                 l: canv.offsetLeft + canv.clientLeft,
@@ -621,8 +610,9 @@ export default {
             if (e.x > 0 && e.y > 0) {
                 event.preventDefault();
                 event.dataTransfer.dropEffect = "copy";
+                var newProp = {};
+                $.extend(true, newProp, this.prop);
                 var addcom = {
-                    id: newid,
                     type: this.type,
                     styles: {
                         width: this.w,
@@ -630,7 +620,7 @@ export default {
                         left: e.x - this.w / 2,
                         top: e.y + document.documentElement.scrollTop
                     },
-                    properties: this.prop
+                    properties: newProp
                 };
                 console.log(addcom);
                 this.$store.dispatch("addNode", addcom);
@@ -666,7 +656,7 @@ export default {
             //alert(image.getBoundingClientRect().right);
             //alert(image.getBoundingClientRect().top);
             //alert(image.getBoundingClientRect().bottom);
-        },
+        }
     },
     watch: {
         Search: function() {
