@@ -1,28 +1,28 @@
 <template>
     <div id="diagramCanvas">
         <div
-                id="visualEditor"
-                @dragstart.stop="handleDragStart"
-                @dragend.stop="handleDragEnd"
-                @dragenter.stop="handleDragEnter"
-                @dragover.stop="handleDragOver"
-                @click="clickOutSide"
-                @mouseenter.stop="mouseEnter"
-                @mouseleave.stop="mouseLeave"
-                @mousedown.stop="mouseDown"
+            id="visualEditor"
+            @dragstart.stop="handleDragStart"
+            @dragend.stop="handleDragEnd"
+            @dragenter.stop="handleDragEnter"
+            @dragover.stop="handleDragOver"
+            @click="clickOutSide"
+            @mouseenter.stop="mouseEnter"
+            @mouseleave.stop="mouseLeave"
+            @mousedown.stop="mouseDown"
         >
             <div id="canvas1">
                 <div
-                        v-for="item in $store.state.UML.nodes"
-                        :key="item.id"
-                        :id="item.id"
-                        @contextmenu.prevent="showContextMenu(item.id, $event)"
-                        style="z-index: 1"
+                    v-for="item in $store.state.UML.nodes"
+                    :key="item.id"
+                    :id="item.id"
+                    @contextmenu.prevent="showContextMenu(item.id, $event)"
+                    style="z-index: 1"
                 >
                     <Resizer
-                            :key="item.id"
-                            :id="item.id"
-                            :style="{
+                        :key="item.id"
+                        :id="item.id"
+                        :style="{
                         left: item.styles.left + 'px',
                         top: item.styles.top + 'px',
                         zIndex:2
@@ -31,8 +31,7 @@
                         <component :is="item.type" v-bind="item" :ref="item.id"></component>
                     </Resizer>
                 </div>
-                <svg id="svg" xmlns="http://www.w3.org/2000/svg"
-                     version="1.1">
+                <svg id="svg" xmlns="http://www.w3.org/2000/svg" version="1.1">
                     <!--
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -55,299 +54,322 @@
                         />
 
                     </svg>
-                -->
+                    -->
                     <defs>
                         <marker
-                                id="arrow1"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow1"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M2,2 L10,6 L2,10 L2,2" style="fill:#000000"/>
+                            <path d="M2,2 L10,6 L2,10 L2,2" style="fill:#000000" />
                         </marker>
                         <marker
-                                id="arrow2"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow2"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M2,6 L10,2 L10,10 L2,6" style="fill:#000000"/>
+                            <path d="M2,6 L10,2 L10,10 L2,6" style="fill:#000000" />
                         </marker>
                         <marker
-                                id="arrow3"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow3"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M2,2 L10,6 L2,10 L2,2" style="fill:white;stroke:black"/>
+                            <path d="M2,2 L10,6 L2,10 L2,2" style="fill:white;stroke:black" />
                         </marker>
                         <marker
-                                id="arrow4"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow4"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M2,6 L10,2 L10,10 L2,6" style="fill:white;stroke:black"/>
+                            <path d="M2,6 L10,2 L10,10 L2,6" style="fill:white;stroke:black" />
                         </marker>
                         <marker
-                                id="arrow5"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow5"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M2,2 L10,6 L2,10" style="fill:white;stroke:black"/>
+                            <path d="M2,2 L10,6 L2,10" style="fill:white;stroke:black" />
                         </marker>
                         <marker
-                                id="arrow6"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow6"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M10,2 L2,6 L10,10 " style="fill:white;stroke:black"/>
+                            <path d="M10,2 L2,6 L10,10 " style="fill:white;stroke:black" />
                         </marker>
                         <marker
-                                id="arrow7"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow7"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M0,6 L6,2 L12,6 L6,10 L0,6" style="fill:#000000"/>
+                            <path d="M0,6 L6,2 L12,6 L6,10 L0,6" style="fill:#000000" />
                         </marker>
                         <marker
-                                id="arrow8"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow8"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M0,6 L6,2 L12,6 L6,10 L0,6" style="fill:#000000"/>
+                            <path d="M0,6 L6,2 L12,6 L6,10 L0,6" style="fill:#000000" />
                         </marker>
                         <marker
-                                id="arrow9"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow9"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M0,6 L6,2 L12,6 L6,10 L0,6" style="fill:white;stroke: black"/>
+                            <path d="M0,6 L6,2 L12,6 L6,10 L0,6" style="fill:white;stroke: black" />
                         </marker>
                         <marker
-                                id="arrow10"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow10"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M0,6 L6,2 L12,6 L6,10 L0,6" style="fill:white;stroke: black"/>
+                            <path d="M0,6 L6,2 L12,6 L6,10 L0,6" style="fill:white;stroke: black" />
                         </marker>
                         <marker
-                                id="arrow11"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow11"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M0,6 L12,6" style="stroke:none"/>
+                            <path d="M0,6 L12,6" style="stroke:none" />
                         </marker>
                         <marker
-                                id="arrow12"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow12"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M0,6 L12,6 " style="stroke:none"/>
+                            <path d="M0,6 L12,6 " style="stroke:none" />
                         </marker>
                         <marker
-                                id="arrow13"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow13"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M0,0 L6,6" style="stroke:black"/>
+                            <path d="M0,0 L6,6" style="stroke:black" />
                         </marker>
                         <marker
-                                id="arrow14"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow14"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M6,6 L14,14" style="stroke:black"/>
+                            <path d="M6,6 L14,14" style="stroke:black" />
                         </marker>
                         <marker
-                                id="arrow15"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow15"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M6,6 L0,12" style="stroke:black"/>
+                            <path d="M6,6 L0,12" style="stroke:black" />
                         </marker>
                         <marker
-                                id="arrow16"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow16"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-
-                            <path d="M6,6 L14,0" style="stroke:black"/>
+                            <path d="M6,6 L14,0" style="stroke:black" />
                         </marker>
                         <marker
-                                id="arrow17"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow17"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M4,12 L0,0" style="stroke:black"/>
+                            <path d="M4,12 L0,0" style="stroke:black" />
                         </marker>
                         <marker
-                                id="arrow18"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow18"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <path d="M12,12 L8,0" style="stroke:black"/>
+                            <path d="M12,12 L8,0" style="stroke:black" />
                         </marker>
                         <marker
-                                id="arrow19"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow19"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <circle cx="6" cy="6" r="2" stroke="black"
-                                    stroke-width="1" fill="white"/>
+                            <circle
+                                cx="6"
+                                cy="6"
+                                r="2"
+                                stroke="black"
+                                stroke-width="1"
+                                fill="white"
+                            />
                         </marker>
                         <marker
-                                id="arrow20"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow20"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <circle cx="6" cy="6" r="2" stroke="black"
-                                    stroke-width="1" fill="white"/>
+                            <circle
+                                cx="6"
+                                cy="6"
+                                r="2"
+                                stroke="black"
+                                stroke-width="1"
+                                fill="white"
+                            />
                         </marker>
                         <marker
-                                id="arrow21"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow21"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <circle cx="6" cy="6" r="2" stroke="black"
-                                    stroke-width="1" fill="black"/>
+                            <circle
+                                cx="6"
+                                cy="6"
+                                r="2"
+                                stroke="black"
+                                stroke-width="1"
+                                fill="black"
+                            />
                         </marker>
                         <marker
-                                id="arrow22"
-                                markerUnits="strokeWidth"
-                                markerHeight="11"
-                                markerWidth="11"
-                                viewBox="0 0 12 12"
-                                refX="6"
-                                refY="6"
-                                orient="auto"
+                            id="arrow22"
+                            markerUnits="strokeWidth"
+                            markerHeight="11"
+                            markerWidth="11"
+                            viewBox="0 0 12 12"
+                            refX="6"
+                            refY="6"
+                            orient="auto"
                         >
-                            <circle cx="6" cy="6" r="2" stroke="black"
-                                    stroke-width="1" fill="black"/>
+                            <circle
+                                cx="6"
+                                cy="6"
+                                r="2"
+                                stroke="black"
+                                stroke-width="1"
+                                fill="black"
+                            />
                         </marker>
                         <filter id="drop-shadow">
-                            <feGaussianBlur in="SourceAlpha" stdDeviation="2.2"/>
-                            <feOffset dx="1" dy="12" result="offsetblur"/>
-                            <feFlood flood-color="rgba(0,0,0,0.5)"/>
-                            <feComposite in2="offsetblur" operator="in"/>
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="2.2" />
+                            <feOffset dx="1" dy="12" result="offsetblur" />
+                            <feFlood flood-color="rgba(0,0,0,0.5)" />
+                            <feComposite in2="offsetblur" operator="in" />
                             <feMerge>
-                                <feMergeNode/>
-                                <feMergeNode in="SourceGraphic"/>
+                                <feMergeNode />
+                                <feMergeNode in="SourceGraphic" />
                             </feMerge>
                         </filter>
                     </defs>
                     <path
-                            v-for="line in $store.state.UML.lines"
-                            :key="line.lineId"
-                            :d="line.linePath"
-                            :style="line.lineStyle"
-                            :id="line.lineId"
-                            :marker-end="line.markerend"
-                            :marker-start="line.markerstart"
-                            v-clickoutside="clic(line.lineId)"
-                            @click.stop="editline(line.Id)"
-                            @contextmenu.prevent="showContextMenu(line.lineId, $event)"
+                        v-for="line in $store.state.UML.lines"
+                        :key="line.lineId"
+                        :d="line.linePath"
+                        :style="line.lineStyle"
+                        :id="line.lineId"
+                        :marker-end="line.markerend"
+                        :marker-start="line.markerstart"
+                        v-clickoutside="clic(line.lineId)"
+                        @click.stop="editline(line.Id)"
+                        @contextmenu.prevent="showContextMenu(line.lineId, $event)"
                     />
                 </svg>
             </div>
@@ -357,147 +379,147 @@
 </template>
 
 <script>
-    import Class from "../../components/classdiagram/Class.vue";
-    import Interface from "../../components/classdiagram/Interface.vue";
-    import Constraint from "../../components/classdiagram/Constraint.vue";
+import Class from "../../components/classdiagram/Class.vue";
+import Interface from "../../components/classdiagram/Interface.vue";
+import Constraint from "../../components/classdiagram/Constraint.vue";
 
-    import Character from "../../components/usecasediagram/Character.vue";
-    import Container from "../../components/usecasediagram/Container.vue";
-    import UseCase from "../../components/usecasediagram/UseCase.vue";
+import Character from "../../components/usecasediagram/Character.vue";
+import Container from "../../components/usecasediagram/Container.vue";
+import UseCase from "../../components/usecasediagram/UseCase.vue";
 
-    import LifeLine from "../../components/sequencediagram/LifeLine.vue";
-    import Activation from "../../components/sequencediagram/Activation.vue";
-    import Delete from "../../components/sequencediagram/Delete.vue";
+import LifeLine from "../../components/sequencediagram/LifeLine.vue";
+import Activation from "../../components/sequencediagram/Activation.vue";
+import Delete from "../../components/sequencediagram/Delete.vue";
 
-    import Start from "../../components/statediagram/Start.vue";
-    import End from "../../components/statediagram/End.vue";
-    import Object from "../../components/statediagram/Object.vue";
-    import State from "../../components/statediagram/State.vue";
-    import StreamEnd from "../../components/statediagram/StreamEnd.vue";
-    import History from "../../components/statediagram/History.vue";
-    import DetailedHistory from "../../components/statediagram/DetailedHistory.vue";
-    import MsgSender from "../../components/statediagram/MsgSender.vue";
-    import MsgReceiver from "../../components/statediagram/MsgReceiver.vue";
-    import Fork from "../../components/statediagram/Fork.vue";
-    import Synchronizer from "../../components/statediagram/Synchronizer.vue";
-    import VerticalLane from "../../components/statediagram/VerticalLane.vue";
-    import HorizontalLane from "../../components/statediagram/HorizontalLane.vue";
+import Start from "../../components/statediagram/Start.vue";
+import End from "../../components/statediagram/End.vue";
+import Object from "../../components/statediagram/Object.vue";
+import State from "../../components/statediagram/State.vue";
+import StreamEnd from "../../components/statediagram/StreamEnd.vue";
+import History from "../../components/statediagram/History.vue";
+import DetailedHistory from "../../components/statediagram/DetailedHistory.vue";
+import MsgSender from "../../components/statediagram/MsgSender.vue";
+import MsgReceiver from "../../components/statediagram/MsgReceiver.vue";
+import Fork from "../../components/statediagram/Fork.vue";
+import Synchronizer from "../../components/statediagram/Synchronizer.vue";
+import VerticalLane from "../../components/statediagram/VerticalLane.vue";
+import HorizontalLane from "../../components/statediagram/HorizontalLane.vue";
 
-    import DiagramComponent from "../../components/deploymentdiagram/DiagramComponent.vue";
-    import Node from "../../components/deploymentdiagram/Node.vue";
+import DiagramComponent from "../../components/deploymentdiagram/DiagramComponent.vue";
+import Node from "../../components/deploymentdiagram/Node.vue";
 
-    import ComponentInterface from "../../components/componentdiagram/ComponentInterface.vue";
+import ComponentInterface from "../../components/componentdiagram/ComponentInterface.vue";
 
-    import Entity from "../../components/erdiagram/Entity.vue";
-    import Attribute from "../../components/erdiagram/Attribute.vue";
-    import Relationship from "../../components/erdiagram/Relationship.vue";
+import Entity from "../../components/erdiagram/Entity.vue";
+import Attribute from "../../components/erdiagram/Attribute.vue";
+import Relationship from "../../components/erdiagram/Relationship.vue";
 
-    import Package from "../../components/universalcomponents/Package.vue";
-    import Comment from "../../components/universalcomponents/Comment.vue";
-    import Composition from "../../components/universalcomponents/Composition.vue";
+import Package from "../../components/universalcomponents/Package.vue";
+import Comment from "../../components/universalcomponents/Comment.vue";
+import Composition from "../../components/universalcomponents/Composition.vue";
 
-    import Resizer from "../../components/Resizer.vue";
-    import ContextMenu from "../../components/ContextMenu.vue";
-    import $ from "jquery";
+import Resizer from "../../components/Resizer.vue";
+import ContextMenu from "../../components/ContextMenu.vue";
+import $ from "jquery";
 
-    export default {
-        name: "DiagramCanvas",
-        props: {
-            minLeft: {
-                type: Number,
-                default: 320
-            },
-            minTop: {
-                type: Number,
-                default: 70
-            }
+export default {
+    name: "DiagramCanvas",
+    props: {
+        minLeft: {
+            type: Number,
+            default: 320
         },
-        components: {
-            Class,
-            Interface,
-            Constraint,
-            Character,
-            Container,
-            UseCase,
-            LifeLine,
-            Activation,
-            Delete,
-            Start,
-            End,
-            Object,
-            State,
-            StreamEnd,
-            History,
-            DetailedHistory,
-            MsgSender,
-            MsgReceiver,
-            Fork,
-            Synchronizer,
-            VerticalLane,
-            HorizontalLane,
-            DiagramComponent,
-            Node,
-            ComponentInterface,
-            Entity,
-            Attribute,
-            Relationship,
-            Package,
-            Comment,
-            Composition,
-            Resizer,
-            ContextMenu
-        },
-        data() {
-            return {
-                cursorToLeft: 0, //拖动的鼠标位置距离父div的距离
-                cursorToTop: 0,
-                showMenu: false,
-                mousedown: false,
-                //ghost: null //拖拽的虚影（如果使用原生的虚影，在组件重叠的情况下，会有多余图像）
-                EStartX: 0,
-                EStartY: 0,
-                eStartW: 0,
-                eStartH: 0,
-                eStartX: 0,
-                eStartY: 0,
-                eEndX: 0,
-                eEndY: 0,
-                eEndW: 0,
-                eEndH: 0,
-                lineStartX: 0,
-                lineStartY: 0,
-                lineEndX: 0,
-                lineEndY: 0,
-                linenumber: 0,
-                lineType: "",
-                lineText: "",
-                From: "",
-                To: "",
-                lineStartA: "",
-                lineStartD: "",
-                lineEndA: "",
-                lineEndD: "",
-                svgLeft: 0,
-                svgTop: 0,
-                svgWid: 0,
-                svgHei: 0,
-                fromlist: [],
-                tolist: [],
-                lineList: [],
-                linePath: "",
-                lineType: this.$store.state.lineType,
-                lineStyle: this.$store.state.lineStyle,
-                lineColor: this.$store.state.lineColor,
-                lineSize: this.$store.state.lineSize,
-                MarkerStart: this.$store.state.markerStart,
-                startPoint: this.$store.state.startPoint,
-                MarkerEnd: this.$store.state.markerEnd,
-                endPoint: this.$store.state.endPoint,
-            };
-        },
-        mounted() {
-            var self = this;
-            /*
+        minTop: {
+            type: Number,
+            default: 70
+        }
+    },
+    components: {
+        Class,
+        Interface,
+        Constraint,
+        Character,
+        Container,
+        UseCase,
+        LifeLine,
+        Activation,
+        Delete,
+        Start,
+        End,
+        Object,
+        State,
+        StreamEnd,
+        History,
+        DetailedHistory,
+        MsgSender,
+        MsgReceiver,
+        Fork,
+        Synchronizer,
+        VerticalLane,
+        HorizontalLane,
+        DiagramComponent,
+        Node,
+        ComponentInterface,
+        Entity,
+        Attribute,
+        Relationship,
+        Package,
+        Comment,
+        Composition,
+        Resizer,
+        ContextMenu
+    },
+    data() {
+        return {
+            cursorToLeft: 0, //拖动的鼠标位置距离父div的距离
+            cursorToTop: 0,
+            showMenu: false,
+            mousedown: false,
+            //ghost: null //拖拽的虚影（如果使用原生的虚影，在组件重叠的情况下，会有多余图像）
+            EStartX: 0,
+            EStartY: 0,
+            eStartW: 0,
+            eStartH: 0,
+            eStartX: 0,
+            eStartY: 0,
+            eEndX: 0,
+            eEndY: 0,
+            eEndW: 0,
+            eEndH: 0,
+            lineStartX: 0,
+            lineStartY: 0,
+            lineEndX: 0,
+            lineEndY: 0,
+            linenumber: 0,
+            lineType: "",
+            lineText: "",
+            From: "",
+            To: "",
+            lineStartA: "",
+            lineStartD: "",
+            lineEndA: "",
+            lineEndD: "",
+            svgLeft: 0,
+            svgTop: 0,
+            svgWid: 0,
+            svgHei: 0,
+            fromlist: [],
+            tolist: [],
+            lineList: [],
+            linePath: "",
+            lineType: this.$store.state.lineType,
+            lineStyle: this.$store.state.lineStyle,
+            lineColor: this.$store.state.lineColor,
+            lineSize: this.$store.state.lineSize,
+            MarkerStart: this.$store.state.markerStart,
+            startPoint: this.$store.state.startPoint,
+            MarkerEnd: this.$store.state.markerEnd,
+            endPoint: this.$store.state.endPoint
+        };
+    },
+    mounted() {
+        var self = this;
+        /*
             this.$axios
                 .get("/getAllLineByFid", { params: { fid: self.fid } })
                 .then(function(response) {
@@ -531,88 +553,92 @@
                     console.log("error:", error);
                 });
                 */
+    },
+    methods: {
+        showContextMenu(id, event) {
+            console.log(id);
+            var menu = $("#menu");
+            this.showMenu = true;
+            menu.css("left", event.clientX);
+            menu.css("top", event.clientY);
+            menu.css("position", "fixed");
+            console.log("showContextMenu");
+            this.showMenu = true;
+            if ((id + "").substring(0, 1) == "l") {
+                console.log("line:" + id);
+                this.$store.commit("setLineEditId", { id: id });
+            } else {
+                console.log("node:" + id);
+                this.$store.commit("setEditId", { id: id });
+            }
         },
-        methods: {
-            showContextMenu(id, event) {
-                console.log(id);
-                var menu = $("#menu");
-                this.showMenu = true;
-                menu.css("left", event.clientX);
-                menu.css("top", event.clientY);
-                menu.css("position", "fixed");
-                console.log("showContextMenu");
-                this.showMenu = true;
-                if ((id + "").substring(0, 1) == "l") {
-                    console.log("line:" + id);
-                    this.$store.commit("setLineEditId", {id: id});
+        clickOutSide() {
+            if (this.$store.state.lineEditId == "") {
+                this.lineType = this.$store.state.lineType;
+                this.lineStyle = this.$store.state.lineStyle;
+                this.lineColor = this.$store.state.lineColor;
+                this.lineSize = this.$store.state.lineSize;
+                this.MarkerStart = this.$store.state.markerStart;
+                this.MarkerEnd = this.$store.state.markerEnd;
+                var sp = this.$store.state.markerStart.substr(10);
+                if (sp.length == 2) {
+                    sp = sp.substr(0, 1);
                 } else {
-                    console.log("node:" + id);
-                    this.$store.commit("setEditId", {id: id});
+                    sp = sp.substr(0, 2);
                 }
-            },
-            clickOutSide() {
-                if(this.$store.state.lineEditId==""){
-                    this.lineType=this.$store.state.lineType;
-                    this.lineStyle=this.$store.state.lineStyle;
-                    this.lineColor=this.$store.state.lineColor;
-                    this.lineSize=this.$store.state.lineSize;
-                    this.MarkerStart=this.$store.state.markerStart
-                    this.MarkerEnd=this.$store.state.markerEnd
-                    var sp=this.$store.state.markerStart.substr(10);
-                    if(sp.length==2){
-                        sp=sp.substr(0,1);
-                    }else{
-                        sp=sp.substr(0,2);
-                    }
-                    var ep=this.$store.state.markerEnd.substr(10);
-                    if(ep.length==2){
-                        ep=ep.substr(0,1);
-                    }else{
-                        ep=ep.substr(0,2);
-                    }
-                    this.startPoint = require('../../assets/icons/toolbar/'+sp+'.png');
-                    this.endPoint= require('../../assets/icons/toolbar/'+ep+'.png');
+                var ep = this.$store.state.markerEnd.substr(10);
+                if (ep.length == 2) {
+                    ep = ep.substr(0, 1);
+                } else {
+                    ep = ep.substr(0, 2);
                 }
-                console.log("clickOutSide");
-                this.$store.commit("setEditState", {editing: false});
-                this.$store.commit("setEditId", {id: ""});
-                this.$store.commit("setLineEditState", {lineEditing: false});
-                this.$store.commit("setLineEditId", {id: ""});
-                this.showMenu = false;
-                const treeElem = document.getElementById("canvas1");
-                const svgElem = treeElem.querySelectorAll("path");
-                console.log(svgElem);
-                svgElem.forEach(node => {
-                    //console.log(node.childNodes[1].id);
-                    node.style.filter = "";
-                });
-                this.$store.state.lineType=this.lineType
-                this.$store.state.lineStyle=this.lineStyle
-                this.$store.state.lineColor=this.lineColor
-                this.$store.state.lineSize=this.lineSize
-                this.$store.state.markerStart=this.MarkerStart
-                this.$store.state.startPoint=this.startPoint
-                this.$store.state.markerEnd=this.MarkerEnd
-                this.$store.state.endPoint=this.endPoint
-            },
-            handleDragStart(event) {
-                console.log("handleDragStart");
-                //拖拽UML节点
-                if (this.$store.state.editingId != "") {
-                    console.log("handleDragStartid");
-                    this.$store.state.canvasdrage = true;
-                    event.dataTransfer.effectAllowed = "copyMove";
-                    let resizer = $(event.target);
-                    /*
+                this.startPoint = require("../../assets/icons/toolbar/" +
+                    sp +
+                    ".png");
+                this.endPoint = require("../../assets/icons/toolbar/" +
+                    ep +
+                    ".png");
+            }
+            console.log("clickOutSide");
+            this.$store.commit("setEditState", { editing: false });
+            this.$store.commit("setEditId", { id: "" });
+            this.$store.commit("setLineEditState", { lineEditing: false });
+            this.$store.commit("setLineEditId", { id: "" });
+            this.showMenu = false;
+            const treeElem = document.getElementById("canvas1");
+            const svgElem = treeElem.querySelectorAll("path");
+            console.log(svgElem);
+            svgElem.forEach(node => {
+                //console.log(node.childNodes[1].id);
+                node.style.filter = "";
+            });
+            this.$store.state.lineType = this.lineType;
+            this.$store.state.lineStyle = this.lineStyle;
+            this.$store.state.lineColor = this.lineColor;
+            this.$store.state.lineSize = this.lineSize;
+            this.$store.state.markerStart = this.MarkerStart;
+            this.$store.state.startPoint = this.startPoint;
+            this.$store.state.markerEnd = this.MarkerEnd;
+            this.$store.state.endPoint = this.endPoint;
+        },
+        handleDragStart(event) {
+            console.log("handleDragStart");
+            //拖拽UML节点
+            if (this.$store.state.editingId != "") {
+                console.log("handleDragStartid");
+                this.$store.state.canvasdrage = true;
+                event.dataTransfer.effectAllowed = "copyMove";
+                let resizer = $(event.target);
+                /*
                         console.log("resizer.offset().left:"+resizer.offset().left);
                         console.log("resizer.offset().top:"+resizer.offset().top);
                         console.log("event.clientX:"+event.clientX);
                         console.log("event.clientY:"+event.clientY);
                         */
-                    this.cursorToLeft = event.clientX - resizer.offset().left;
-                    this.cursorToTop = event.clientY - resizer.offset().top;
-                    console.log(this.cursorToLeft, this.cursorToTop);
-                    /* this.ghost = resizer.clone()[0];
+                this.cursorToLeft = event.clientX - resizer.offset().left;
+                this.cursorToTop = event.clientY - resizer.offset().top;
+                console.log(this.cursorToLeft, this.cursorToTop);
+                /* this.ghost = resizer.clone()[0];
                         this.ghost.style.position = "absolute";
                         this.ghost.style.left = "-2000px";
                         this.ghost.style.top = "0px";
@@ -624,474 +650,483 @@
                             this.cursorToLeft,
                             this.cursorToTop
                         ); */
-                    event.dataTransfer.setDragImage(resizer.clone()[0], 0, 0);
-                    for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
-                        //console.log(this.$store.state.UML.lines[i].from)
-                        //console.log(this.$store.state.UML.lines[i].to)
-                        if (
-                            parseInt(this.$store.state.UML.lines[i].from) ==
-                            this.$store.state.editingId
-                        ) {
-                            this.fromlist.push(this.$store.state.UML.lines[i]);
-                        }
-                        if (
-                            parseInt(this.$store.state.UML.lines[i].to) ==
-                            this.$store.state.editingId
-                        ) {
-                            this.tolist.push(this.$store.state.UML.lines[i]);
-                        }
+                event.dataTransfer.setDragImage(resizer.clone()[0], 0, 0);
+                for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
+                    //console.log(this.$store.state.UML.lines[i].from)
+                    //console.log(this.$store.state.UML.lines[i].to)
+                    if (
+                        parseInt(this.$store.state.UML.lines[i].from) ==
+                        this.$store.state.editingId
+                    ) {
+                        this.fromlist.push(this.$store.state.UML.lines[i]);
+                    }
+                    if (
+                        parseInt(this.$store.state.UML.lines[i].to) ==
+                        this.$store.state.editingId
+                    ) {
+                        this.tolist.push(this.$store.state.UML.lines[i]);
                     }
                 }
-            },
-            handleDragEnd(event) {
-                console.log("handleDragEnd");
-                if (this.$store.state.canvasdrage) {
-                    console.log(
-                        "handleDragEnd:" +
+            }
+        },
+        handleDragEnd(event) {
+            console.log("handleDragEnd");
+            if (this.$store.state.canvasdrage) {
+                console.log(
+                    "handleDragEnd:" +
                         this.cursorToLeft +
                         "  " +
                         this.cursorToTop
-                    );
-                    console.log(event.clientX - this.cursorToLeft);
-                    console.log(event.clientY - this.cursorToTop);
-                    //更新图数据（vue数据驱动图像变化）
-                    this.$store.dispatch("modifyNode", {
-                        nodeKey: "styles",
-                        key: "left",
-                        value: Math.max(
-                            event.clientX - this.cursorToLeft,
-                            this.minLeft
-                        ),
-                        id: this.$store.state.editingId
+                );
+                console.log(event.clientX - this.cursorToLeft);
+                console.log(event.clientY - this.cursorToTop);
+                //更新图数据（vue数据驱动图像变化）
+                this.$store.dispatch("modifyNode", {
+                    nodeKey: "styles",
+                    key: "left",
+                    value: Math.max(
+                        event.clientX - this.cursorToLeft,
+                        this.minLeft
+                    ),
+                    id: this.$store.state.editingId
+                });
+                this.$store.dispatch("modifyNode", {
+                    nodeKey: "styles",
+                    key: "top",
+                    value: Math.max(
+                        event.clientY - this.cursorToTop,
+                        this.minTop
+                    ),
+                    id: this.$store.state.editingId
+                });
+                //console.log(this.lineList)
+                for (var i = 0; i < this.lineList.length; i++) {
+                    console.log(this.lineList[i]);
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "startPosition",
+                        key: "",
+                        value: this.lineList[i].startPosition,
+                        id: this.lineList[i].Id,
+                        Line: this.lineList[i],
+                        lineStyle: this.lineList[i].lineStyle
                     });
-                    this.$store.dispatch("modifyNode", {
-                        nodeKey: "styles",
-                        key: "top",
-                        value: Math.max(
-                            event.clientY - this.cursorToTop,
-                            this.minTop
-                        ),
-                        id: this.$store.state.editingId
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "endPosition",
+                        key: "",
+                        value: this.lineList[i].endPosition,
+                        id: this.lineList[i].Id,
+                        Line: this.lineList[i],
+                        lineStyle: this.lineList[i].lineStyle
                     });
-                    //console.log(this.lineList)
-                    for (var i = 0; i < this.lineList.length; i++) {
-                        console.log(this.lineList[i]);
-                        this.$store.dispatch("modifyLine", {
-                            lineKey: "startPosition",
-                            key: "",
-                            value: this.lineList[i].startPosition,
-                            id: this.lineList[i].Id,
-                            Line: this.lineList[i],
-                            lineStyle: this.lineList[i].lineStyle
-                        });
-                        this.$store.dispatch("modifyLine", {
-                            lineKey: "endPosition",
-                            key: "",
-                            value: this.lineList[i].endPosition,
-                            id: this.lineList[i].Id,
-                            Line: this.lineList[i],
-                            lineStyle: this.lineList[i].lineStyle
-                        });
-                        this.$store.dispatch("modifyLine", {
-                            lineKey: "linePath",
-                            key: "",
-                            value: this.lineList[i].linePath,
-                            id: this.lineList[i].Id,
-                            Line: this.lineList[i],
-                            lineStyle: this.lineList[i].lineStyle
-                        });
-                    }
-                    this.cursorToLeft = 0;
-                    this.cursorToTop = 0;
-                    /* if (this.ghost) {
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "linePath",
+                        key: "",
+                        value: this.lineList[i].linePath,
+                        id: this.lineList[i].Id,
+                        Line: this.lineList[i],
+                        lineStyle: this.lineList[i].lineStyle
+                    });
+                }
+                this.cursorToLeft = 0;
+                this.cursorToTop = 0;
+                /* if (this.ghost) {
                             document.getElementById("visualEditor").removeChild(this.ghost);
                             this.ghost = null;
                         } */
-                    this.fromlist = [];
-                    this.tolist = [];
-                    this.lineList = [];
-                    this.clickOutSide();
-                }
-            },
-            handleDragEnter(event) {
+                this.fromlist = [];
+                this.tolist = [];
+                this.lineList = [];
+                this.clickOutSide();
+            }
+        },
+        handleDragEnter(event) {
+            console.log("handleDragEnter");
+            if (this.$store.state.canvasdrage) {
                 console.log("handleDragEnter");
-                if (this.$store.state.canvasdrage) {
-                    console.log("handleDragEnter");
-                    event.preventDefault();
-                    event.dataTransfer.dropEffect = "copy";
-                }
-            },
-            handleDragOver(event) {
-                //console.log("handleDragOver");
-                if (this.$store.state.canvasdrage) {
-                    var canv = document.getElementById("canvas");
-                    console.log("handleDragOver");
-                    event.preventDefault();
-                    event.dataTransfer.dropEffect = "copy";
-                    this.$store.commit("moveNode", {
-                        left: Math.max(
-                            event.clientX - this.cursorToLeft,
-                            this.minLeft
-                        ),
-                        top: Math.max(
-                            event.clientY - this.cursorToTop,
-                            this.minTop
-                        ),
-                        id: this.$store.state.editingId
-                    });
-                    this.lineList = [];
-                    for (var i = 0; i < this.fromlist.length; i++) {
-                        console.log(this.fromlist[i]);
-                        this.moveLine(
-                            this.fromlist[i].from,
-                            this.fromlist[i].to,
-                            this.fromlist[i].lineStyle.strokeWidth,
-                            this.fromlist[i].Id,
-                            this.fromlist[i].relationType
-                        );
-                    }
-                    for (var j = 0; j < this.tolist.length; j++) {
-                        console.log(this.tolist[j]);
-                        this.moveLine(
-                            this.tolist[j].from,
-                            this.tolist[j].to,
-                            this.tolist[j].lineStyle.strokeWidth,
-                            this.tolist[j].Id,
-                            this.tolist[j].relationType
-                        );
-                    }
-                }
-            },
-            //@TODO 删除栏showMenu变为false
-            changeshowMenu() {
-                console.log("changeshowMenu");
-                this.showMenu = false;
-                console.log(this.showMenu);
-            },
-            editline(item) {
-                console.log("editline" + item);
-                if(this.$store.state.lineEditId==""){
-                    this.lineType=this.$store.state.lineType
-                    this.lineStyle=this.$store.state.lineStyle
-                    this.lineColor=this.$store.state.lineColor
-                    this.lineSize=this.$store.state.lineSize
-                    this.MarkerStart=this.$store.state.markerStart
-                    this.MarkerEnd=this.$store.state.markerEnd
-                    var sp=this.$store.state.markerStart.substr(10);
-                    if(sp.length==2){
-                        sp=sp.substr(0,1);
-                    }else{
-                        sp=sp.substr(0,2);
-                    }
-                    var ep=this.$store.state.markerEnd.substr(10);
-                    if(ep.length==2){
-                        ep=ep.substr(0,1);
-                    }else{
-                        ep=ep.substr(0,2);
-                    }
-                    this.startPoint = require('../../assets/icons/toolbar/'+sp+'.png');
-                    this.endPoint= require('../../assets/icons/toolbar/'+ep+'.png');
-                }
-                this.$store.commit("setLineEditState", {lineEditing: true});
-                this.$store.commit("setLineEditId", {id: item});
-                //console.log(this.$store.state.editingId);
-                //console.log(this.$store.state.lineEditId);
-                var line = document.getElementById("line" + item);
-                const treeElem = document.getElementById("canvas1");
-                const svgElem = treeElem.querySelectorAll("path");
-                //console.log(svgElem);
-                svgElem.forEach(node => {
-                    console.log(node.id)
-                    if ("line" + item==node.id) {
-                        console.log(node.style.filter)
-                        node.style.filter = "url(#drop-shadow)";
-                        console.log(node.style.filter)
-                    } else {
-                        node.style.filter = "";
-                    }
+                event.preventDefault();
+                event.dataTransfer.dropEffect = "copy";
+            }
+        },
+        handleDragOver(event) {
+            //console.log("handleDragOver");
+            if (this.$store.state.canvasdrage) {
+                var canv = document.getElementById("canvas");
+                console.log("handleDragOver");
+                event.preventDefault();
+                event.dataTransfer.dropEffect = "copy";
+                this.$store.commit("moveNode", {
+                    left: Math.max(
+                        event.clientX - this.cursorToLeft,
+                        this.minLeft
+                    ),
+                    top: Math.max(
+                        event.clientY - this.cursorToTop,
+                        this.minTop
+                    ),
+                    id: this.$store.state.editingId
                 });
-                //顶部工具栏显示该线条的样式
-                for(var i=0;i<this.$store.state.UML.lines.length;i++){
-                    if(this.$store.state.UML.lines[i].lineId==("line" + item)){
-                        console.log(this.$store.state.UML.lines[i])
-                        var type,style,color,size,mStart,mEnd;
-                        type=this.$store.state.UML.lines[i].relationType
-                        style=this.$store.state.UML.lines[i].lineStyle.strokeDasharray
-                        color=this.$store.state.UML.lines[i].lineStyle.stroke
-                        size=this.$store.state.UML.lines[i].lineStyle.strokeWidth
-                        mStart=this.$store.state.UML.lines[i].markerstart
-                        mEnd=this.$store.state.UML.lines[i].markerend
-                        this.$store.commit("setLinePro",{
-                            type:type,
-                            style:style,
-                            color:color,
-                            size:size,
-                            mStart:mStart,
-                            mEnd:mEnd
-                        })
-                        //console.log(this.$store.state)
-                    }
+                this.lineList = [];
+                for (var i = 0; i < this.fromlist.length; i++) {
+                    console.log(this.fromlist[i]);
+                    this.moveLine(
+                        this.fromlist[i].from,
+                        this.fromlist[i].to,
+                        this.fromlist[i].lineStyle.strokeWidth,
+                        this.fromlist[i].Id,
+                        this.fromlist[i].relationType
+                    );
                 }
-            },
-            mouseEnter() {
-                if (this.$store.state.drawLine) {
-                    var cav1 = document.getElementById("visualEditor");
-                    cav1.style.cursor = "crosshair";
+                for (var j = 0; j < this.tolist.length; j++) {
+                    console.log(this.tolist[j]);
+                    this.moveLine(
+                        this.tolist[j].from,
+                        this.tolist[j].to,
+                        this.tolist[j].lineStyle.strokeWidth,
+                        this.tolist[j].Id,
+                        this.tolist[j].relationType
+                    );
                 }
-            },
-            mouseLeave() {
-                if (this.$store.state.drawLine) {
-                    console.log("鼠标箭头还原");
-                    document.getElementById("visualEditor").style.cursor =
-                        "default";
+            }
+        },
+        //@TODO 删除栏showMenu变为false
+        changeshowMenu() {
+            console.log("changeshowMenu");
+            this.showMenu = false;
+            console.log(this.showMenu);
+        },
+        editline(item) {
+            console.log("editline" + item);
+            if (this.$store.state.lineEditId == "") {
+                this.lineType = this.$store.state.lineType;
+                this.lineStyle = this.$store.state.lineStyle;
+                this.lineColor = this.$store.state.lineColor;
+                this.lineSize = this.$store.state.lineSize;
+                this.MarkerStart = this.$store.state.markerStart;
+                this.MarkerEnd = this.$store.state.markerEnd;
+                var sp = this.$store.state.markerStart.substr(10);
+                if (sp.length == 2) {
+                    sp = sp.substr(0, 1);
+                } else {
+                    sp = sp.substr(0, 2);
                 }
-            },
-            mouseUp(event) {
-                if (
-                    this.$store.state.drawLine &&
-                    this.mousedown &&
-                    this.$store.state.editingId == ""
-                ) {
-                    //console.log("lineUp:"+this.$store.state.drawLine+":"+this.$store.state.editingId);
-                    var e = {
-                        x: event.clientX,
-                        y: event.clientY
-                    };
-                    var left = 0,
-                        top = 0,
-                        right = 0,
-                        bottom = 0,
-                        x = 0,
-                        y = 0;
-                    var target = event.target;
-                    var target1 = target;
-                    while (target.getAttribute("id") == null) {
-                        console.log(target.getAttribute("id"));
-                        target = target.parentNode;
-                        if (
-                            target.getAttribute("id") == "visualEditor" ||
-                            target.getAttribute("id") == "svg"
-                        ) {
-                            break;
-                        }
-                    }
-                    console.log(target);
-                    var targetId = target.getAttribute("id");
+                var ep = this.$store.state.markerEnd.substr(10);
+                if (ep.length == 2) {
+                    ep = ep.substr(0, 1);
+                } else {
+                    ep = ep.substr(0, 2);
+                }
+                this.startPoint = require("../../assets/icons/toolbar/" +
+                    sp +
+                    ".png");
+                this.endPoint = require("../../assets/icons/toolbar/" +
+                    ep +
+                    ".png");
+            }
+            this.$store.commit("setLineEditState", { lineEditing: true });
+            this.$store.commit("setLineEditId", { id: item });
+            //console.log(this.$store.state.editingId);
+            //console.log(this.$store.state.lineEditId);
+            var line = document.getElementById("line" + item);
+            const treeElem = document.getElementById("canvas1");
+            const svgElem = treeElem.querySelectorAll("path");
+            //console.log(svgElem);
+            svgElem.forEach(node => {
+                console.log(node.id);
+                if ("line" + item == node.id) {
+                    console.log(node.style.filter);
+                    node.style.filter = "url(#drop-shadow)";
+                    console.log(node.style.filter);
+                } else {
+                    node.style.filter = "";
+                }
+            });
+            //顶部工具栏显示该线条的样式
+            for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
+                if (this.$store.state.UML.lines[i].lineId == "line" + item) {
+                    console.log(this.$store.state.UML.lines[i]);
+                    var type, style, color, size, mStart, mEnd;
+                    type = this.$store.state.UML.lines[i].relationType;
+                    style = this.$store.state.UML.lines[i].lineStyle
+                        .strokeDasharray;
+                    color = this.$store.state.UML.lines[i].lineStyle.stroke;
+                    size = this.$store.state.UML.lines[i].lineStyle.strokeWidth;
+                    mStart = this.$store.state.UML.lines[i].markerstart;
+                    mEnd = this.$store.state.UML.lines[i].markerend;
+                    this.$store.commit("setLinePro", {
+                        type: type,
+                        style: style,
+                        color: color,
+                        size: size,
+                        mStart: mStart,
+                        mEnd: mEnd
+                    });
+                    //console.log(this.$store.state)
+                }
+            }
+        },
+        mouseEnter() {
+            if (this.$store.state.drawLine) {
+                var cav1 = document.getElementById("visualEditor");
+                cav1.style.cursor = "crosshair";
+            }
+        },
+        mouseLeave() {
+            if (this.$store.state.drawLine) {
+                console.log("鼠标箭头还原");
+                document.getElementById("visualEditor").style.cursor =
+                    "default";
+            }
+        },
+        mouseUp(event) {
+            if (
+                this.$store.state.drawLine &&
+                this.mousedown &&
+                this.$store.state.editingId == ""
+            ) {
+                //console.log("lineUp:"+this.$store.state.drawLine+":"+this.$store.state.editingId);
+                var e = {
+                    x: event.clientX,
+                    y: event.clientY
+                };
+                var left = 0,
+                    top = 0,
+                    right = 0,
+                    bottom = 0,
+                    x = 0,
+                    y = 0;
+                var target = event.target;
+                var target1 = target;
+                while (target.getAttribute("id") == null) {
+                    console.log(target.getAttribute("id"));
+                    target = target.parentNode;
                     if (
-                        target.getAttribute("id") != "visualEditor" &&
-                        target.getAttribute("id") != "svg"
+                        target.getAttribute("id") == "visualEditor" ||
+                        target.getAttribute("id") == "svg"
                     ) {
-                        x = $(target1).offset().left;
-                        y = $(target1).offset().top;
-                        left = this.$refs[targetId + ""][0].getLineLeftPosition();
-                        right = this.$refs[targetId + ""][0].getLineRightPosition();
-                        top = this.$refs[targetId + ""][0].getLineTopPosition();
-                        bottom = this.$refs[
+                        break;
+                    }
+                }
+                console.log(target);
+                var targetId = target.getAttribute("id");
+                if (
+                    target.getAttribute("id") != "visualEditor" &&
+                    target.getAttribute("id") != "svg"
+                ) {
+                    x = $(target1).offset().left;
+                    y = $(target1).offset().top;
+                    left = this.$refs[targetId + ""][0].getLineLeftPosition();
+                    right = this.$refs[targetId + ""][0].getLineRightPosition();
+                    top = this.$refs[targetId + ""][0].getLineTopPosition();
+                    bottom = this.$refs[
                         targetId + ""
-                            ][0].getLineBottomPosition();
-                        this.To = targetId + "";
-                        this.eEndX = x;
-                        this.eEndY = y;
-                        this.eEndW = right[0].x;
-                        this.eEndH = right[0].y * 2;
-                        //八种情况:上(3)、下(3)、中(2)
-                        this.judgeAndGetPosition();
-                    }
-                    document.getElementById("svg").removeChild(document.getElementById("line" + this.linenumber));
-                    if (this.$store.state.lineType == "straight") {
-                        this.linePath =
-                            "M" +
-                            this.lineStartX +
-                            " " +
-                            this.lineStartY +
-                            " L " +
-                            this.lineEndX +
-                            " " +
-                            this.lineEndY;
-                    }
-                    if (this.$store.state.lineType == "orthogonal") {
-                        var x1, y1, x2, y2;
-                        if (this.svgWid > this.svgHei) {
-                            x1 = (this.lineStartX + this.lineEndX) / 2;
-                            x2 = x1;
-                            y1 = this.lineStartY;
-                            y2 = this.lineEndY;
-                        } else {
-                            x1 = this.lineStartX;
-                            x2 = this.lineEndX;
-                            y1 = (this.lineStartY + this.lineEndY) / 2;
-                            y2 = y1;
-                        }
-                        this.linePath =
-                            "M" +
-                            this.lineStartX +
-                            " " +
-                            this.lineStartY +
-                            " L " +
-                            x1 +
-                            " " +
-                            y1 +
-                            " L " +
-                            x2 +
-                            " " +
-                            y2 +
-                            " L " +
-                            this.lineEndX +
-                            " " +
-                            this.lineEndY;
-                    }
-                    if (this.$store.state.lineType == "curve") {
-                        var x1, y1, x2, y2;
+                    ][0].getLineBottomPosition();
+                    this.To = targetId + "";
+                    this.eEndX = x;
+                    this.eEndY = y;
+                    this.eEndW = right[0].x;
+                    this.eEndH = right[0].y * 2;
+                    //八种情况:上(3)、下(3)、中(2)
+                    this.judgeAndGetPosition();
+                }
+                document
+                    .getElementById("svg")
+                    .removeChild(
+                        document.getElementById("line" + this.linenumber)
+                    );
+                if (this.$store.state.lineType == "straight") {
+                    this.linePath =
+                        "M" +
+                        this.lineStartX +
+                        " " +
+                        this.lineStartY +
+                        " L " +
+                        this.lineEndX +
+                        " " +
+                        this.lineEndY;
+                }
+                if (this.$store.state.lineType == "orthogonal") {
+                    var x1, y1, x2, y2;
+                    if (this.svgWid > this.svgHei) {
                         x1 = (this.lineStartX + this.lineEndX) / 2;
                         x2 = x1;
                         y1 = this.lineStartY;
                         y2 = this.lineEndY;
-                        this.linePath =
-                            "M" +
-                            this.lineStartX +
-                            " " +
-                            this.lineStartY +
-                            " C " +
-                            x1 +
-                            " " +
-                            y1 +
-                            " " +
-                            x2 +
-                            " " +
-                            y2 +
-                            " " +
-                            this.lineEndX +
-                            " " +
-                            this.lineEndY;
-                        console.log("linePath:" + this.linePath);
+                    } else {
+                        x1 = this.lineStartX;
+                        x2 = this.lineEndX;
+                        y1 = (this.lineStartY + this.lineEndY) / 2;
+                        y2 = y1;
                     }
-                    this.mousedown = false;
-                    this.$store.commit("setDrawLine", {drawLine: false});
-                    //console.log("mouseUp");
-                    //console.log("鼠标箭头还原");
-                    document.getElementById("visualEditor").style.cursor =
-                        "default";
-                    var newline = {
-                        Id: this.linenumber + "",
-                        lid: 0,
-                        lineId: "line" + this.linenumber,
-                        relationType: this.$store.state.lineType,
-                        from: this.From,
-                        to: this.To,
-                        text: this.lineText,
-                        markerend: this.$store.state.markerEnd,
-                        markerstart: this.$store.state.markerStart,
-                        linePath: this.linePath,
-                        startPosition: {
-                            left: this.lineStartX,
-                            top: this.lineStartY,
-                            //arrow:this.lineStartA,
-                            direction: this.lineStartD
-                        },
-                        endPosition: {
-                            left: this.lineEndX,
-                            top: this.lineEndY,
-                            //arrow:this.lineEndA,
-                            direction: this.lineEndD
-                        },
-                        lineStyle: {
-                            stroke: this.$store.state.lineColor,
-                            strokeDasharray: this.$store.state.lineStyle,
-                            strokeWidth: this.$store.state.lineSize,
-                            fill: "none"
-                        },
-                    };
-                    //this.$store.commit("addLine", newline);
-                    this.$store.dispatch("addLine", newline);
-                    console.log(this.$store.state.UML.lines);
-                    this.lineStartX = 0;
-                    this.lineStartY = 0;
-                    this.lineEndX = 0;
-                    this.lineEndY = 0;
-                    this.mousedown = false
-                    document.body.removeEventListener("mousemove", this.drawLine);
-                    document.body.removeEventListener("mouseup", this.mouseUp);
+                    this.linePath =
+                        "M" +
+                        this.lineStartX +
+                        " " +
+                        this.lineStartY +
+                        " L " +
+                        x1 +
+                        " " +
+                        y1 +
+                        " L " +
+                        x2 +
+                        " " +
+                        y2 +
+                        " L " +
+                        this.lineEndX +
+                        " " +
+                        this.lineEndY;
                 }
-                this.clickOutSide();
-            },
-            mouseDown(event) {
-                if (
-                    this.$store.state.drawLine &&
-                    this.$store.state.editingId == ""
-                ) {
-                    var e = {
-                        x: event.clientX,
-                        y: event.clientY
-                    };
-                    var left = 0,
-                        top = 0,
-                        right = 0,
-                        bottom = 0,
-                        x = 0,
-                        y = 0;
-                    var target = event.target;
-                    var target1 = target;
-                    while (target.getAttribute("id") == null) {
-                        console.log(target.getAttribute("id"));
-                        target = target.parentNode;
-                        if (
-                            target.getAttribute("id") == "visualEditor" ||
-                            target.getAttribute("id") == "svg"
-                        ) {
-                            break;
-                        }
+                if (this.$store.state.lineType == "curve") {
+                    var x1, y1, x2, y2;
+                    x1 = (this.lineStartX + this.lineEndX) / 2;
+                    x2 = x1;
+                    y1 = this.lineStartY;
+                    y2 = this.lineEndY;
+                    this.linePath =
+                        "M" +
+                        this.lineStartX +
+                        " " +
+                        this.lineStartY +
+                        " C " +
+                        x1 +
+                        " " +
+                        y1 +
+                        " " +
+                        x2 +
+                        " " +
+                        y2 +
+                        " " +
+                        this.lineEndX +
+                        " " +
+                        this.lineEndY;
+                    console.log("linePath:" + this.linePath);
+                }
+                this.mousedown = false;
+                this.$store.commit("setDrawLine", { drawLine: false });
+                //console.log("mouseUp");
+                //console.log("鼠标箭头还原");
+                document.getElementById("visualEditor").style.cursor =
+                    "default";
+                var newline = {
+                    Id: this.linenumber + "",
+                    lid: 0,
+                    lineId: "line" + this.linenumber,
+                    relationType: this.$store.state.lineType,
+                    from: this.From,
+                    to: this.To,
+                    text: this.lineText,
+                    markerend: this.$store.state.markerEnd,
+                    markerstart: this.$store.state.markerStart,
+                    linePath: this.linePath,
+                    startPosition: {
+                        left: this.lineStartX,
+                        top: this.lineStartY,
+                        //arrow:this.lineStartA,
+                        direction: this.lineStartD
+                    },
+                    endPosition: {
+                        left: this.lineEndX,
+                        top: this.lineEndY,
+                        //arrow:this.lineEndA,
+                        direction: this.lineEndD
+                    },
+                    lineStyle: {
+                        stroke: this.$store.state.lineColor,
+                        strokeDasharray: this.$store.state.lineStyle,
+                        strokeWidth: this.$store.state.lineSize,
+                        fill: "none"
                     }
-                    console.log(target);
-                    var targetId = target.getAttribute("id");
+                };
+                //this.$store.commit("addLine", newline);
+                this.$store.dispatch("addLine", newline);
+                console.log(this.$store.state.UML.lines);
+                this.lineStartX = 0;
+                this.lineStartY = 0;
+                this.lineEndX = 0;
+                this.lineEndY = 0;
+                this.mousedown = false;
+                document.body.removeEventListener("mousemove", this.drawLine);
+                document.body.removeEventListener("mouseup", this.mouseUp);
+            }
+            this.clickOutSide();
+        },
+        mouseDown(event) {
+            if (
+                this.$store.state.drawLine &&
+                this.$store.state.editingId == ""
+            ) {
+                var e = {
+                    x: event.clientX,
+                    y: event.clientY
+                };
+                var left = 0,
+                    top = 0,
+                    right = 0,
+                    bottom = 0,
+                    x = 0,
+                    y = 0;
+                var target = event.target;
+                var target1 = target;
+                while (target.getAttribute("id") == null) {
+                    console.log(target.getAttribute("id"));
+                    target = target.parentNode;
                     if (
-                        target.getAttribute("id") != "visualEditor" &&
-                        target.getAttribute("id") != "svg"
+                        target.getAttribute("id") == "visualEditor" ||
+                        target.getAttribute("id") == "svg"
                     ) {
-                        //console.log($(target1).offset().top);
-                        //console.log($(target1).offset().left);
-                        console.log(
-                            this.$refs[targetId + ""][0].getLineLeftPosition()
-                        );
-                        console.log(
-                            this.$refs[targetId + ""][0].getLineRightPosition()
-                        );
-                        console.log(
-                            this.$refs[targetId + ""][0].getLineTopPosition()
-                        );
-                        console.log(
-                            this.$refs[targetId + ""][0].getLineBottomPosition()
-                        );
-                        x = $(target1).offset().left;
-                        y = $(target1).offset().top;
-                        left = this.$refs[targetId + ""][0].getLineLeftPosition();
-                        right = this.$refs[targetId + ""][0].getLineRightPosition();
-                        top = this.$refs[targetId + ""][0].getLineTopPosition();
-                        bottom = this.$refs[
-                        targetId + ""
-                            ][0].getLineBottomPosition();
-                        this.From = targetId + "";
-                        this.eStartW = right[0].x;
-                        this.eStartH = bottom[0].y;
-                        console.log();
-                        this.eStartX = x;
-                        this.eStartY = y;
+                        break;
                     }
-                    document.body.addEventListener("mousemove", this.drawLine);
-                    //console.log (document.getElementById("visualEditor"));
-                    this.mousedown = true;
-                    //console.log("linedown");
-                    var cav1 = document.getElementById("canvas1");
-                    var svg = document.getElementById("svg");
-                    var c = {
-                        x: cav1.offsetLeft,
-                        y: cav1.offsetTop
-                    };
-                    //console.log(c.x);
-                    //console.log(c.y);
-                    this.EStartX = e.x - c.x;
-                    this.EStartY = e.y - c.y;
-                    this.linenumber = this.$store.state.UML.lines.length + 1;
-                    /*console.log("Estartx:"+this.EStartX);
+                }
+                console.log(target);
+                var targetId = target.getAttribute("id");
+                if (
+                    target.getAttribute("id") != "visualEditor" &&
+                    target.getAttribute("id") != "svg"
+                ) {
+                    //console.log($(target1).offset().top);
+                    //console.log($(target1).offset().left);
+                    console.log(
+                        this.$refs[targetId + ""][0].getLineLeftPosition()
+                    );
+                    console.log(
+                        this.$refs[targetId + ""][0].getLineRightPosition()
+                    );
+                    console.log(
+                        this.$refs[targetId + ""][0].getLineTopPosition()
+                    );
+                    console.log(
+                        this.$refs[targetId + ""][0].getLineBottomPosition()
+                    );
+                    x = $(target1).offset().left;
+                    y = $(target1).offset().top;
+                    left = this.$refs[targetId + ""][0].getLineLeftPosition();
+                    right = this.$refs[targetId + ""][0].getLineRightPosition();
+                    top = this.$refs[targetId + ""][0].getLineTopPosition();
+                    bottom = this.$refs[
+                        targetId + ""
+                    ][0].getLineBottomPosition();
+                    this.From = targetId + "";
+                    this.eStartW = right[0].x;
+                    this.eStartH = bottom[0].y;
+                    console.log();
+                    this.eStartX = x;
+                    this.eStartY = y;
+                }
+                document.body.addEventListener("mousemove", this.drawLine);
+                //console.log (document.getElementById("visualEditor"));
+                this.mousedown = true;
+                //console.log("linedown");
+                var cav1 = document.getElementById("canvas1");
+                var svg = document.getElementById("svg");
+                var c = {
+                    x: cav1.offsetLeft,
+                    y: cav1.offsetTop
+                };
+                //console.log(c.x);
+                //console.log(c.y);
+                this.EStartX = e.x - c.x;
+                this.EStartY = e.y - c.y;
+                this.linenumber = this.$store.state.UML.lines.length + 1;
+                /*console.log("Estartx:"+this.EStartX);
                     console.log("Estarty:"+this.EStartY);
                     var svg = document.createElementNS(
                         "http://www.w3.org/2000/svg",
@@ -1100,12 +1135,12 @@
                     svg.id = "svg" + this.linenumber;
                     svg.position = "absolute";
                     */
-                    var line = document.createElementNS(
-                        "http://www.w3.org/2000/svg",
-                        "path"
-                    );
-                    line.id = "line" + this.linenumber;
-                    /*
+                var line = document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "path"
+                );
+                line.id = "line" + this.linenumber;
+                /*
                    var def = document.createElementNS(
                        "http://www.w3.org/2000/svg",
                        "def"
@@ -1150,138 +1185,147 @@
                    def.append(startmarker);
                    def.append(endmarker);
                    */
-                    svg.appendChild(line);
-                    /*
+                svg.appendChild(line);
+                /*
                     svg.appendChild(def);
                     svg.appendChild(line);
                     console.log(svg);
                     */
-                }
-            },
-            //直线
-            drawStraight(newline, event) {
-                this.linePath =
-                    "M" +
-                    this.lineStartX +
-                    " " +
-                    this.lineStartY +
-                    " L " +
-                    this.lineEndX +
-                    " " +
-                    this.lineEndY;
-                console.log("linePath:" + this.linePath);
-                newline.setAttribute("d", this.linePath);
-            },
-            //折线
-            drawOrthogonal(newline, event) {
-                var x1, y1, x2, y2;
-                if (this.svgWid > this.svgHei) {
-                    x1 = (this.lineStartX + this.lineEndX) / 2;
-                    x2 = x1;
-                    y1 = this.lineStartY;
-                    y2 = this.lineEndY;
-                } else {
-                    x1 = this.lineStartX;
-                    x2 = this.lineEndX;
-                    y1 = (this.lineStartY + this.lineEndY) / 2;
-                    y2 = y1;
-                }
-                this.linePath =
-                    "M" +
-                    this.lineStartX +
-                    " " +
-                    this.lineStartY +
-                    " L " +
-                    x1 +
-                    " " +
-                    y1 +
-                    " L " +
-                    x2 +
-                    " " +
-                    y2 +
-                    " L " +
-                    this.lineEndX +
-                    " " +
-                    this.lineEndY;
-                console.log("linePath:" + this.linePath);
-                newline.setAttribute("d", this.linePath);
-            },
-            //曲线
-            drawCurve(newline, typeevent) {
-                var x1, y1, x2, y2;
+            }
+        },
+        //直线
+        drawStraight(newline, event) {
+            this.linePath =
+                "M" +
+                this.lineStartX +
+                " " +
+                this.lineStartY +
+                " L " +
+                this.lineEndX +
+                " " +
+                this.lineEndY;
+            console.log("linePath:" + this.linePath);
+            newline.setAttribute("d", this.linePath);
+        },
+        //折线
+        drawOrthogonal(newline, event) {
+            var x1, y1, x2, y2;
+            if (this.svgWid > this.svgHei) {
                 x1 = (this.lineStartX + this.lineEndX) / 2;
                 x2 = x1;
                 y1 = this.lineStartY;
-                y2 = (this.lineStartY + this.lineEndY) / 2;
-                this.linePath =
-                    "M" +
-                    this.lineStartX +
-                    " " +
-                    this.lineStartY +
-                    " C " +
-                    x1 +
-                    " " +
-                    y1 +
-                    " " +
-                    x2 +
-                    " " +
-                    y2 +
-                    " " +
-                    this.lineEndX +
-                    " " +
-                    this.lineEndY;
-                console.log("linePath:" + this.linePath);
-                newline.setAttribute("d", this.linePath);
-            },
-            drawLine(event) {
-                //画线
-                console.log(this.$store.state.drawLine);
-                console.log(this.mousedown);
-                console.log(this.$store.state.lineType);
-                if (
-                    this.$store.state.drawLine &&
-                    this.mousedown &&
-                    this.$store.state.editingId == ""
-                ) {
-                    //console.log("linemove")
-                    document.body.addEventListener("mouseup", this.mouseUp);
-                    var cav1 = document.getElementById("canvas1");
-                    var c = {
-                        x: cav1.offsetLeft,
-                        y: cav1.offsetTop
-                    };
-                    var e = {
-                        x: event.clientX,
-                        y: event.clientY
-                    };
-                    var lineId = "line" + this.linenumber;
-                    var newline = document.getElementById(lineId);
-                    var type;
-                    console.log(this.$store.state)
-                    console.log("marker-start:"+this.$store.state.markerStart)
-                    console.log("marker-end:"+ this.$store.state.markerEnd)
-                    newline.setAttribute("marker-start", this.$store.state.markerStart);
-                    newline.setAttribute("marker-end", this.$store.state.markerEnd);
-                    newline.setAttribute(
-                        "style",
-                        "stroke:" +
+                y2 = this.lineEndY;
+            } else {
+                x1 = this.lineStartX;
+                x2 = this.lineEndX;
+                y1 = (this.lineStartY + this.lineEndY) / 2;
+                y2 = y1;
+            }
+            this.linePath =
+                "M" +
+                this.lineStartX +
+                " " +
+                this.lineStartY +
+                " L " +
+                x1 +
+                " " +
+                y1 +
+                " L " +
+                x2 +
+                " " +
+                y2 +
+                " L " +
+                this.lineEndX +
+                " " +
+                this.lineEndY;
+            console.log("linePath:" + this.linePath);
+            newline.setAttribute("d", this.linePath);
+        },
+        //曲线
+        drawCurve(newline, typeevent) {
+            var x1, y1, x2, y2;
+            x1 = (this.lineStartX + this.lineEndX) / 2;
+            x2 = x1;
+            y1 = this.lineStartY;
+            y2 = (this.lineStartY + this.lineEndY) / 2;
+            this.linePath =
+                "M" +
+                this.lineStartX +
+                " " +
+                this.lineStartY +
+                " C " +
+                x1 +
+                " " +
+                y1 +
+                " " +
+                x2 +
+                " " +
+                y2 +
+                " " +
+                this.lineEndX +
+                " " +
+                this.lineEndY;
+            console.log("linePath:" + this.linePath);
+            newline.setAttribute("d", this.linePath);
+        },
+        drawLine(event) {
+            //画线
+            console.log(this.$store.state.drawLine);
+            console.log(this.mousedown);
+            console.log(this.$store.state.lineType);
+            if (
+                this.$store.state.drawLine &&
+                this.mousedown &&
+                this.$store.state.editingId == ""
+            ) {
+                //console.log("linemove")
+                document.body.addEventListener("mouseup", this.mouseUp);
+                var cav1 = document.getElementById("canvas1");
+                var c = {
+                    x: cav1.offsetLeft,
+                    y: cav1.offsetTop
+                };
+                var e = {
+                    x: event.clientX,
+                    y: event.clientY
+                };
+                var lineId = "line" + this.linenumber;
+                var newline = document.getElementById(lineId);
+                var type;
+                console.log(this.$store.state);
+                console.log("marker-start:" + this.$store.state.markerStart);
+                console.log("marker-end:" + this.$store.state.markerEnd);
+                newline.setAttribute(
+                    "marker-start",
+                    this.$store.state.markerStart
+                );
+                newline.setAttribute("marker-end", this.$store.state.markerEnd);
+                newline.setAttribute(
+                    "style",
+                    "stroke:" +
                         this.$store.state.lineColor +
                         ";stroke-width:" +
                         this.$store.state.lineSize +
                         ";stroke-dasharray:" +
                         this.$store.state.lineStyle +
                         ";fill:none"
-                    );
-                    this.lineStartX = this.EStartX
-                    this.lineStartY = this.EStartY
-                    this.lineEndX = e.x - c.x
-                    this.lineEndY = e.y - c.y
-                    this.svgWid = this.lineEndX > this.lineStartX ? (this.lineEndX - this.lineStartX) : (this.lineStartX - this.lineEndX)
-                    this.svgHei = this.lineEndY > this.lineStartY ? (this.lineEndY - this.lineStartY) : (this.lineStartY - this.lineEndY)
-                    console.log("__________________________________")
-                    console.log(e)
-                    console.log(c)
-                    /*
+                );
+                this.lineStartX = this.EStartX;
+                this.lineStartY = this.EStartY;
+                this.lineEndX = e.x - c.x;
+                this.lineEndY = e.y - c.y;
+                this.svgWid =
+                    this.lineEndX > this.lineStartX
+                        ? this.lineEndX - this.lineStartX
+                        : this.lineStartX - this.lineEndX;
+                this.svgHei =
+                    this.lineEndY > this.lineStartY
+                        ? this.lineEndY - this.lineStartY
+                        : this.lineStartY - this.lineEndY;
+                console.log("__________________________________");
+                console.log(e);
+                console.log(c);
+                /*
                     //左上
                     //newsvg.style.border = "solid 1px red";
                     if (e.x < this.EStartX && e.y < this.EStartY) {
@@ -1364,38 +1408,38 @@
                         this.svgTop = newsvg.style.top;
                     }
                     */
-                    if (this.$store.state.lineType == "straight") {
-                        this.drawStraight(newline, event);
-                    }
-                    if (this.$store.state.lineType == "orthogonal") {
-                        this.drawOrthogonal(newline, event);
-                    }
-                    if (this.$store.state.lineType == "curve") {
-                        this.drawCurve(newline, type, event);
-                    }
+                if (this.$store.state.lineType == "straight") {
+                    this.drawStraight(newline, event);
                 }
-            },
-            clic(item) {
-                console.log(item);
-            },
-            dataURLToBlob(dataurl) {
-                //ie 图片转格式
-                var arr = dataurl.split(","),
-                    mime = arr[0].match(/:(.*?);/)[1],
-                    bstr = atob(arr[1]),
-                    n = bstr.length,
-                    u8arr = new Uint8Array(n);
-                while (n--) {
-                    u8arr[n] = bstr.charCodeAt(n);
+                if (this.$store.state.lineType == "orthogonal") {
+                    this.drawOrthogonal(newline, event);
                 }
-                return new Blob([u8arr], {type: mime});
-            },
-            //判断两个节点的相对位置
-            judgeAndGetPosition() {
-                if (this.eEndY + this.eEndH < this.eStartY) {
-                    //上
-                    this.top()
-                    /*
+                if (this.$store.state.lineType == "curve") {
+                    this.drawCurve(newline, type, event);
+                }
+            }
+        },
+        clic(item) {
+            console.log(item);
+        },
+        dataURLToBlob(dataurl) {
+            //ie 图片转格式
+            var arr = dataurl.split(","),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+        },
+        //判断两个节点的相对位置
+        judgeAndGetPosition() {
+            if (this.eEndY + this.eEndH < this.eStartY) {
+                //上
+                this.top();
+                /*
                     if (this.eEndX + this.eEndW < this.eStartX) {
                         this.topLeft();
                     } else {
@@ -1406,16 +1450,16 @@
                         }
                     }
                     */
-                } else {
-                    /*
+            } else {
+                /*
                         console.log(this.eEndY)
                         console.log(this.eStartY + this.eStartH)
                         console.log(this.eEndY > (this.eStartY + this.eStartH))
                         */
-                    if (this.eEndY > this.eStartY + this.eStartH) {
-                        //下
-                        this.under()
-                        /*
+                if (this.eEndY > this.eStartY + this.eStartH) {
+                    //下
+                    this.under();
+                    /*
                         if (this.eEndX + this.eEndW < this.EStartX) {
                             //下左
                             console.log("下左");
@@ -1432,52 +1476,48 @@
                             }
                         }
                         */
+                } else {
+                    //中
+                    if (this.eEndX + this.eEndW < this.eStartX + this.eStartW) {
+                        //中左
+                        console.log("中左");
+                        this.middleLeft();
                     } else {
-                        //中
-                        if (this.eEndX + this.eEndW < this.eStartX + this.eStartW) {
-                            //中左
-                            console.log("中左");
-                            this.middleLeft();
-                        } else {
-                              console.log("中右");
-                              this.middleRight();
-                        }
+                        console.log("中右");
+                        this.middleRight();
                     }
                 }
-            },
-            top() {
-                var cav1 = document.getElementById("canvas1");
-                var c = {
-                    x: cav1.offsetLeft,
-                    y: cav1.offsetTop
-                };
-                this.lineStartX =
-                    this.eStartX +
-                    this.eStartW * 0.5 - c.x
-                this.lineStartY =
-                    this.eStartY - c.y
-                this.lineEndX =
-                    this.eEndX +
-                    this.eEndW * 0.5 - c.x
-                this.lineEndY = this.eEndY + this.eEndH - c.y;
-            },
-            under() {
-                var cav1 = document.getElementById("canvas1");
-                var c = {
-                    x: cav1.offsetLeft,
-                    y: cav1.offsetTop
-                };
-                this.lineStartX =
-                    this.eStartX +
-                    this.eStartW * 0.5 - c.x
-                this.lineStartY =
-                    this.eStartY + this.eStartH - c.y
-                this.lineEndX =
-                    this.eEndX +
-                    this.eEndW * 0.5 - c.x
-                this.lineEndY = this.eEndY - c.y
-            },
-            /*左上
+            }
+        },
+        top() {
+            var cav1 = document.getElementById("canvas1");
+            var c = {
+                x: cav1.offsetLeft,
+                y: cav1.offsetTop
+            };
+            this.lineStartX = this.eStartX + this.eStartW * 0.5 - c.x;
+            this.lineStartY =
+                this.eStartY - parseInt(this.$store.state.lineSize) * 5 - c.y;
+            this.lineEndX = this.eEndX + this.eEndW * 0.5 - c.x;
+            this.lineEndY = this.eEndY + this.eEndH - c.y;
+        },
+        under() {
+            var cav1 = document.getElementById("canvas1");
+            var c = {
+                x: cav1.offsetLeft,
+                y: cav1.offsetTop
+            };
+            this.lineStartX = this.eStartX + this.eStartW * 0.5 - c.x;
+            this.lineStartY =
+                this.eStartY +
+                this.eStartH +
+                parseInt(this.$store.state.lineSize) -
+                c.y;
+            this.lineEndX = this.eEndX + this.eEndW * 0.5 - c.x;
+            this.lineEndY =
+                this.eEndY - parseInt(this.$store.state.lineSize) * 5 - c.y;
+        },
+        /*左上
             topLeft() {
                 console.log("左上");
                 this.svgLeft = this.eEndX + this.eEndW;
@@ -1676,90 +1716,95 @@
                     this.svgHei - parseInt(this.$store.state.lineSize) * 2;
             },
             */
-            //左中
-            middleLeft() {
-                var cav1 = document.getElementById("canvas1");
-                var c = {
-                    x: cav1.offsetLeft,
-                    y: cav1.offsetTop
-                };
-                console.log("左中");
-                this.lineStartX =
-                    this.eStartX -
-                    parseInt(this.$store.state.lineSize) * 3 - c.x
-                this.lineStartY =
-                    this.eStartY +
-                    this.eStartH * 0.5 -
-                    parseInt(this.$store.state.lineSize) -
-                    c.y
-                this.lineEndX =
-                    this.eEndX +
-                    this.eEndW +
-                    parseInt(this.$store.state.lineSize) * 3 -
-                    c.x
-                this.lineEndY =
-                    this.eEndY +
-                    this.eEndH * 0.5 +
-                    parseInt(this.$store.state.lineSize) -
-                    c.y
-            },
-            //右中
-            middleRight() {
-                console.log("右中");
-                var cav1 = document.getElementById("canvas1");
-                var c = {
-                    x: cav1.offsetLeft,
-                    y: cav1.offsetTop
-                };
-                this.lineStartX = this.eStartX + this.eStartW -
-                    parseInt(this.$store.state.lineSize) * 3 - c.x
-                this.lineStartY = this.eStartY + this.eStartH * 0.5 +
-                    parseInt(this.$store.state.lineSize) - c.y
-                this.lineEndX =
-                    this.eEndX -
-                    parseInt(this.$store.state.lineSize) * 3 -
-                    c.x
-                this.lineEndY =
-                    this.eEndY +
-                    this.eEndH * 0.5 -
-                    parseInt(this.$store.state.lineSize) * 3 -
-                    c.y
-            },
-            //@TODO 节点组件出现重叠时如何画线
-            //线条随节点移动而移动
-            moveLine(fromid, toid, lineSize, id, relationType) {
-                var startLeft, startTop, startWidth, startHeight;
-                var endLeft, endTop, endWidth, endHeight;
-                var start, end;
-                //console.log("moveline:"+fromid+":"+toid);
-                start = document.getElementById(fromid).childNodes[0];
-                end = document.getElementById(toid).childNodes[0];
-                startLeft = $(start).offset().left;
-                startTop = $(start).offset().top;
-                startWidth = this.$refs[fromid + ""][0].getLineRightPosition()[0].x;
-                startHeight = this.$refs[fromid + ""][0].getLineBottomPosition()[0]
-                    .y;
-                endLeft = $(end).offset().left;
-                endTop = $(end).offset().top;
-                endWidth = this.$refs[toid + ""][0].getLineRightPosition()[0].x;
-                endHeight = this.$refs[toid + ""][0].getLineBottomPosition()[0].y;
-                if (endTop + endHeight < startTop) {
-                    //上
-                    console.log("shang")
-                    console.log(startTop)
-                    console.log(endTop + endHeight)
-                    this.moveTop(startLeft,
-                        startTop,
-                        startWidth,
-                        startHeight,
-                        endLeft,
-                        endTop,
-                        endWidth,
-                        endHeight,
-                        lineSize,
-                        id,
-                        relationType)
-                    /*
+        //左中
+        middleLeft() {
+            var cav1 = document.getElementById("canvas1");
+            var c = {
+                x: cav1.offsetLeft,
+                y: cav1.offsetTop
+            };
+            console.log("左中");
+            this.lineStartX =
+                this.eStartX - parseInt(this.$store.state.lineSize) * 3 - c.x;
+            this.lineStartY =
+                this.eStartY +
+                this.eStartH * 0.5 -
+                parseInt(this.$store.state.lineSize) -
+                c.y;
+            this.lineEndX =
+                this.eEndX +
+                this.eEndW +
+                parseInt(this.$store.state.lineSize) * 3 -
+                c.x;
+            this.lineEndY =
+                this.eEndY +
+                this.eEndH * 0.5 +
+                parseInt(this.$store.state.lineSize) -
+                c.y;
+        },
+        //右中
+        middleRight() {
+            console.log("右中");
+            var cav1 = document.getElementById("canvas1");
+            var c = {
+                x: cav1.offsetLeft,
+                y: cav1.offsetTop
+            };
+            this.lineStartX =
+                this.eStartX +
+                this.eStartW +
+                parseInt(this.$store.state.lineSize) * 3 -
+                c.x;
+            this.lineStartY =
+                this.eStartY +
+                this.eStartH * 0.5 +
+                parseInt(this.$store.state.lineSize) -
+                c.y;
+            this.lineEndX =
+                this.eEndX - parseInt(this.$store.state.lineSize) * 3 - c.x;
+            this.lineEndY =
+                this.eEndY +
+                this.eEndH * 0.5 -
+                parseInt(this.$store.state.lineSize) * 3 -
+                c.y;
+        },
+        //@TODO 节点组件出现重叠时如何画线
+        //线条随节点移动而移动
+        moveLine(fromid, toid, lineSize, id, relationType) {
+            var startLeft, startTop, startWidth, startHeight;
+            var endLeft, endTop, endWidth, endHeight;
+            var start, end;
+            //console.log("moveline:"+fromid+":"+toid);
+            start = document.getElementById(fromid).childNodes[0];
+            end = document.getElementById(toid).childNodes[0];
+            startLeft = $(start).offset().left;
+            startTop = $(start).offset().top;
+            startWidth = this.$refs[fromid + ""][0].getLineRightPosition()[0].x;
+            startHeight = this.$refs[fromid + ""][0].getLineBottomPosition()[0]
+                .y;
+            endLeft = $(end).offset().left;
+            endTop = $(end).offset().top;
+            endWidth = this.$refs[toid + ""][0].getLineRightPosition()[0].x;
+            endHeight = this.$refs[toid + ""][0].getLineBottomPosition()[0].y;
+            if (endTop + endHeight < startTop) {
+                //上
+                console.log("shang");
+                console.log(startTop);
+                console.log(endTop + endHeight);
+                this.moveTop(
+                    startLeft,
+                    startTop,
+                    startWidth,
+                    startHeight,
+                    endLeft,
+                    endTop,
+                    endWidth,
+                    endHeight,
+                    lineSize,
+                    id,
+                    relationType
+                );
+                /*
                     if (endLeft + endWidth < startLeft) {
                         console.log("左上");
                         this.moveTopLeft(
@@ -1811,22 +1856,24 @@
                         }
                     }
                     */
-                } else {
-                    if (endTop > startTop + startHeight) {
-                        //下
-                        console.log("下")
-                        this.moveUnder(startLeft,
-                            startTop,
-                            startWidth,
-                            startHeight,
-                            endLeft,
-                            endTop,
-                            endWidth,
-                            endHeight,
-                            lineSize,
-                            id,
-                            relationType)
-                        /*
+            } else {
+                if (endTop > startTop + startHeight) {
+                    //下
+                    console.log("下");
+                    this.moveUnder(
+                        startLeft,
+                        startTop,
+                        startWidth,
+                        startHeight,
+                        endLeft,
+                        endTop,
+                        endWidth,
+                        endHeight,
+                        lineSize,
+                        id,
+                        relationType
+                    );
+                    /*
                         if (endLeft + endWidth < startLeft) {
                             //下左
                             console.log("下左");
@@ -1880,13 +1927,30 @@
                             }
                         }
                         */
+                } else {
+                    //中
+                    console.log("中");
+                    if (endLeft + endWidth < startLeft) {
+                        //中左
+                        console.log("中左");
+                        this.moveMiddleLeft(
+                            startLeft,
+                            startTop,
+                            startWidth,
+                            startHeight,
+                            endLeft,
+                            endTop,
+                            endWidth,
+                            endHeight,
+                            lineSize,
+                            id,
+                            relationType
+                        );
                     } else {
-                        //中
-                        console.log("中")
-                        if (endLeft + endWidth < startLeft) {
-                            //中左
-                            console.log("中左");
-                            this.moveMiddleLeft(
+                        if (endLeft > startLeft + startWidth) {
+                            //中右
+                            console.log("中右");
+                            this.moveMiddleRight(
                                 startLeft,
                                 startTop,
                                 startWidth,
@@ -1900,30 +1964,13 @@
                                 relationType
                             );
                         } else {
-                            if (endLeft > startLeft + startWidth) {
-                                //中右
-                                console.log("中右");
-                                this.moveMiddleRight(
-                                    startLeft,
-                                    startTop,
-                                    startWidth,
-                                    startHeight,
-                                    endLeft,
-                                    endTop,
-                                    endWidth,
-                                    endHeight,
-                                    lineSize,
-                                    id,
-                                    relationType
-                                );
-                            } else {
-                                console.log("出现重叠");
-                            }
+                            console.log("出现重叠");
                         }
                     }
                 }
-            },
-            /*
+            }
+        },
+        /*
             moveTopLeft(
                 startLeft,
                 startTop,
@@ -2686,428 +2733,438 @@
                 });
             },
     */
-            moveTop(startLeft,
-                    startTop,
-                    startWidth,
-                    startHeight,
-                    endLeft,
-                    endTop,
-                    endWidth,
-                    endHeight,
-                    linesize,
-                    id,
-                    relationType) {
-                var lineSX, lineSY, lineEX, lineEY, linePath
-                var cav1 = document.getElementById("canvas1");
-                var c = {
-                    x: cav1.offsetLeft,
-                    y: cav1.offsetTop
-                };
-                var x1, y1, x2, y2;
-                lineSX =
-                    startLeft + startWidth * 0.5 - c.x;
-                lineSY = startTop - c.y;
-                lineEX =
-                    endLeft + endWidth * 0.5 - c.x;
-                lineEY = endHeight + endTop - c.y;
-                if (relationType == "straight") {
-                    linePath =
-                        "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY;
-                }
-                if (relationType == "orthogonal") {
-                    x1 = lineSX;
-                    x2 = lineEX;
-                    y1 = (lineSY + lineEY) / 2;
-                    y2 = y1;
-                    linePath =
-                        "M" +
-                        lineSX +
-                        " " +
-                        lineSY +
-                        " L " +
-                        x1 +
-                        " " +
-                        y1 +
-                        " L " +
-                        x2 +
-                        " " +
-                        y2 +
-                        " L " +
-                        lineEX +
-                        " " +
-                        lineEY;
-                }
-                if (relationType == "curve") {
-                    x1 = lineSX;
-                    x2 = lineEX;
-                    y1 = (lineSY + lineEY) / 2;
-                    y2 = y1;
-                    linePath =
-                        "M" +
-                        lineSX +
-                        " " +
-                        lineSY +
-                        " C " +
-                        x1 +
-                        " " +
-                        y1 +
-                        " " +
-                        x2 +
-                        " " +
-                        y2 +
-                        " " +
-                        lineEX +
-                        " " +
-                        lineEY;
-                }
-                var startPosition = {
-                    left: lineSX,
-                    top: lineSY
-                };
-                var endPosition = {
-                    left: lineEX,
-                    top: lineEY
-                };
-                var line;
-                for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
-                    if (this.$store.state.UML.lines[i].Id == id) {
-                        line = this.$store.state.UML.lines[i];
-                    }
-                }
-                line.startPosition = startPosition;
-                line.endPosition = endPosition;
-                line.linePath = linePath;
-                this.lineList.push(line);
-                console.log(this.lineList);
-                console.log("moveLine:" + id);
-                this.$store.commit("moveLine", {
-                    startPosition: startPosition,
-                    endPosition: endPosition,
-                    linePath: linePath,
-                    id: id
-                });
-            },
-            moveUnder(startLeft,
-                      startTop,
-                      startWidth,
-                      startHeight,
-                      endLeft,
-                      endTop,
-                      endWidth,
-                      endHeight,
-                      linesize,
-                      id,
-                      relationType) {
-                var lineSX, lineSY, lineEX, lineEY, linePath
-                var cav1 = document.getElementById("canvas1");
-                var c = {
-                    x: cav1.offsetLeft,
-                    y: cav1.offsetTop
-                };
-                var x1, y1, x2, y2;
-                lineSX = startLeft + startWidth * 0.5 - c.x;
-                lineSY = startTop + startHeight + parseInt(linesize) * 3 - c.y;
-                lineEY = endTop - parseInt(linesize) * 3 - c.y;
-                lineEX = endLeft + endWidth * 0.5 + parseInt(linesize) - c.x;
-                if (relationType == "straight") {
-                    linePath =
-                        "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY;
-                }
-                if (relationType == "orthogonal") {
-                    x1 = lineSX;
-                    x2 = lineEX;
-                    y1 = (lineSY + lineEY) / 2;
-                    y2 = y1;
-                    linePath =
-                        "M" +
-                        lineSX +
-                        " " +
-                        lineSY +
-                        " L " +
-                        x1 +
-                        " " +
-                        y1 +
-                        " L " +
-                        x2 +
-                        " " +
-                        y2 +
-                        " L " +
-                        lineEX +
-                        " " +
-                        lineEY;
-                }
-                if (relationType == "curve") {
-                    x1 = lineSX;
-                    x2 = lineEX;
-                    y1 = (lineSY + lineEY) / 2;
-                    y2 = y1;
-                    linePath =
-                        "M" +
-                        lineSX +
-                        " " +
-                        lineSY +
-                        " C " +
-                        x1 +
-                        " " +
-                        y1 +
-                        " " +
-                        x2 +
-                        " " +
-                        y2 +
-                        " " +
-                        lineEX +
-                        " " +
-                        lineEY;
-                }
-                var startPosition = {
-                    left: lineSX,
-                    top: lineSY
-                };
-                var endPosition = {
-                    left: lineEX,
-                    top: lineEY
-                };
-                var line;
-                for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
-                    if (this.$store.state.UML.lines[i].Id == id) {
-                        line = this.$store.state.UML.lines[i];
-                    }
-                }
-                line.startPosition = startPosition;
-                line.endPosition = endPosition;
-                line.linePath = linePath;
-                this.lineList.push(line);
-                console.log(this.lineList);
-                console.log("moveLine:" + id);
-                this.$store.commit("moveLine", {
-                    startPosition: startPosition,
-                    endPosition: endPosition,
-                    linePath: linePath,
-                    id: id
-                });
-            },
-            moveMiddleLeft(startLeft,
-                           startTop,
-                           startWidth,
-                           startHeight,
-                           endLeft,
-                           endTop,
-                           endWidth,
-                           endHeight,
-                           linesize,
-                           id,
-                           relationType) {
-                var lineSX, lineSY, lineEX, lineEY;
-                var linePath;
-                var cav1 = document.getElementById("canvas1");
-                var c = {
-                    x: cav1.offsetLeft,
-                    y: cav1.offsetTop
-                };
-                var x1, y1, x2, y2;
-                lineSX = startLeft - parseInt(linesize) * 3 - c.x;
-                lineSY = startTop + startHeight * 0.5 - parseInt(linesize) - c.y;
-                lineEX = endLeft + endWidth + parseInt(linesize) * 3 - c.x;
-                lineEY = endTop + endHeight * 0.5 + parseInt(linesize) - c.y;
-                if (relationType == "straight") {
-                    linePath =
-                        "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY;
-                }
-                if (relationType == "orthogonal") {
-                    x1 = lineSX;
-                    x2 = lineEX;
-                    y1 = (lineSY + lineEY) / 2;
-                    y2 = y1;
-                    linePath =
-                        "M" +
-                        lineSX +
-                        " " +
-                        lineSY +
-                        " L " +
-                        x1 +
-                        " " +
-                        y1 +
-                        " L " +
-                        x2 +
-                        " " +
-                        y2 +
-                        " L " +
-                        lineEX +
-                        " " +
-                        lineEY;
-                }
-                if (relationType == "curve") {
-                    x1 = lineSX;
-                    x2 = lineEX;
-                    y1 = (lineSY + lineEY) / 2;
-                    y2 = y1;
-                    linePath =
-                        "M" +
-                        lineSX +
-                        " " +
-                        lineSY +
-                        " C " +
-                        x1 +
-                        " " +
-                        y1 +
-                        " " +
-                        x2 +
-                        " " +
-                        y2 +
-                        " " +
-                        lineEX +
-                        " " +
-                        lineEY;
-                }
-                var startPosition = {
-                    left: lineSX,
-                    top: lineSY
-                };
-                var endPosition = {
-                    left: lineEX,
-                    top: lineEY
-                };
-                var line;
-                for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
-                    if (this.$store.state.UML.lines[i].Id == id) {
-                        line = this.$store.state.UML.lines[i];
-                    }
-                }
-                line.startPosition = startPosition;
-                line.endPosition = endPosition;
-                line.linePath = linePath;
-                this.lineList.push(line);
-                console.log(this.lineList);
-                console.log("moveLine:" + id);
-                this.$store.commit("moveLine", {
-                    startPosition: startPosition,
-                    endPosition: endPosition,
-                    linePath: linePath,
-                    id: id
-                });
-            },
-            moveMiddleRight(startLeft,
-                            startTop,
-                            startWidth,
-                            startHeight,
-                            endLeft,
-                            endTop,
-                            endWidth,
-                            endHeight,
-                            lineSize,
-                            id,
-                            relationType) {
-                var lineSX, lineSY, lineEX, lineEY
-                var linePath;
-                var cav1 = document.getElementById("canvas1");
-                var c = {
-                    x: cav1.offsetLeft,
-                    y: cav1.offsetTop
-                };
-                var x1, y1, x2, y2;
-                lineSX = startLeft + startWidth - c.x
-                lineSY = startTop + startHeight * 0.5 - c.y;
-                lineEX = endLeft - parseInt(lineSize) * 3 - c.x;
-                lineEY = endTop + endHeight * 0.5 - parseInt(lineSize) * 3 - c.y;
-                if (relationType == "straight") {
-                    linePath =
-                        "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY;
-                }
-                if (relationType == "orthogonal") {
-                    x1 = lineSX;
-                    x2 = lineEX;
-                    y1 = (lineSY + lineEY) / 2;
-                    y2 = y1;
-                    linePath =
-                        "M" +
-                        lineSX +
-                        " " +
-                        lineSY +
-                        " L " +
-                        x1 +
-                        " " +
-                        y1 +
-                        " L " +
-                        x2 +
-                        " " +
-                        y2 +
-                        " L " +
-                        lineEX +
-                        " " +
-                        lineEY;
-                }
-                if (relationType == "curve") {
-                    x1 = lineSX;
-                    x2 = lineEX;
-                    y1 = (lineSY + lineEY) / 2;
-                    y2 = y1;
-                    linePath =
-                        "M" +
-                        lineSX +
-                        " " +
-                        lineSY +
-                        " C " +
-                        x1 +
-                        " " +
-                        y1 +
-                        " " +
-                        x2 +
-                        " " +
-                        y2 +
-                        " " +
-                        lineEX +
-                        " " +
-                        lineEY;
-                }
-                var startPosition = {
-                    left: lineSX,
-                    top: lineSY
-                };
-                var endPosition = {
-                    left: lineEX,
-                    top: lineEY
-                };
-                var line;
-                for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
-                    if (this.$store.state.UML.lines[i].Id == id) {
-                        line = this.$store.state.UML.lines[i];
-                    }
-                }
-                line.startPosition = startPosition;
-                line.endPosition = endPosition;
-                line.linePath = linePath;
-                this.lineList.push(line);
-                this.$store.commit("moveLine", {
-                    startPosition: startPosition,
-                    endPosition: endPosition,
-                    linePath: linePath,
-                    id: id
-                });
+        moveTop(
+            startLeft,
+            startTop,
+            startWidth,
+            startHeight,
+            endLeft,
+            endTop,
+            endWidth,
+            endHeight,
+            linesize,
+            id,
+            relationType
+        ) {
+            var lineSX, lineSY, lineEX, lineEY, linePath;
+            var cav1 = document.getElementById("canvas1");
+            var c = {
+                x: cav1.offsetLeft,
+                y: cav1.offsetTop
+            };
+            var x1, y1, x2, y2;
+            lineSX = startLeft + startWidth * 0.5 - c.x;
+            lineSY = startTop - c.y - parseInt(this.$store.state.lineSize) * 5;
+            lineEX = endLeft + endWidth * 0.5 - c.x;
+            lineEY =
+                endHeight +
+                endTop +
+                parseInt(this.$store.state.lineSize) * 5 -
+                c.y;
+            if (relationType == "straight") {
+                linePath =
+                    "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY;
             }
+            if (relationType == "orthogonal") {
+                x1 = lineSX;
+                x2 = lineEX;
+                y1 = (lineSY + lineEY) / 2;
+                y2 = y1;
+                linePath =
+                    "M" +
+                    lineSX +
+                    " " +
+                    lineSY +
+                    " L " +
+                    x1 +
+                    " " +
+                    y1 +
+                    " L " +
+                    x2 +
+                    " " +
+                    y2 +
+                    " L " +
+                    lineEX +
+                    " " +
+                    lineEY;
+            }
+            if (relationType == "curve") {
+                x1 = lineSX;
+                x2 = lineEX;
+                y1 = (lineSY + lineEY) / 2;
+                y2 = y1;
+                linePath =
+                    "M" +
+                    lineSX +
+                    " " +
+                    lineSY +
+                    " C " +
+                    x1 +
+                    " " +
+                    y1 +
+                    " " +
+                    x2 +
+                    " " +
+                    y2 +
+                    " " +
+                    lineEX +
+                    " " +
+                    lineEY;
+            }
+            var startPosition = {
+                left: lineSX,
+                top: lineSY
+            };
+            var endPosition = {
+                left: lineEX,
+                top: lineEY
+            };
+            var line;
+            for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
+                if (this.$store.state.UML.lines[i].Id == id) {
+                    line = this.$store.state.UML.lines[i];
+                }
+            }
+            line.startPosition = startPosition;
+            line.endPosition = endPosition;
+            line.linePath = linePath;
+            this.lineList.push(line);
+            console.log(this.lineList);
+            console.log("moveLine:" + id);
+            this.$store.commit("moveLine", {
+                startPosition: startPosition,
+                endPosition: endPosition,
+                linePath: linePath,
+                id: id
+            });
+        },
+        moveUnder(
+            startLeft,
+            startTop,
+            startWidth,
+            startHeight,
+            endLeft,
+            endTop,
+            endWidth,
+            endHeight,
+            linesize,
+            id,
+            relationType
+        ) {
+            var lineSX, lineSY, lineEX, lineEY, linePath;
+            var cav1 = document.getElementById("canvas1");
+            var c = {
+                x: cav1.offsetLeft,
+                y: cav1.offsetTop
+            };
+            var x1, y1, x2, y2;
+            lineSX = startLeft + startWidth * 0.5 - c.x;
+            lineSY = startTop + startHeight + parseInt(linesize) * 5 - c.y;
+            lineEY = endTop - parseInt(linesize) * 5 - c.y;
+            lineEX = endLeft + endWidth * 0.5 + parseInt(linesize) - c.x;
+            if (relationType == "straight") {
+                linePath =
+                    "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY;
+            }
+            if (relationType == "orthogonal") {
+                x1 = lineSX;
+                x2 = lineEX;
+                y1 = (lineSY + lineEY) / 2;
+                y2 = y1;
+                linePath =
+                    "M" +
+                    lineSX +
+                    " " +
+                    lineSY +
+                    " L " +
+                    x1 +
+                    " " +
+                    y1 +
+                    " L " +
+                    x2 +
+                    " " +
+                    y2 +
+                    " L " +
+                    lineEX +
+                    " " +
+                    lineEY;
+            }
+            if (relationType == "curve") {
+                x1 = lineSX;
+                x2 = lineEX;
+                y1 = (lineSY + lineEY) / 2;
+                y2 = y1;
+                linePath =
+                    "M" +
+                    lineSX +
+                    " " +
+                    lineSY +
+                    " C " +
+                    x1 +
+                    " " +
+                    y1 +
+                    " " +
+                    x2 +
+                    " " +
+                    y2 +
+                    " " +
+                    lineEX +
+                    " " +
+                    lineEY;
+            }
+            var startPosition = {
+                left: lineSX,
+                top: lineSY
+            };
+            var endPosition = {
+                left: lineEX,
+                top: lineEY
+            };
+            var line;
+            for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
+                if (this.$store.state.UML.lines[i].Id == id) {
+                    line = this.$store.state.UML.lines[i];
+                }
+            }
+            line.startPosition = startPosition;
+            line.endPosition = endPosition;
+            line.linePath = linePath;
+            this.lineList.push(line);
+            console.log(this.lineList);
+            console.log("moveLine:" + id);
+            this.$store.commit("moveLine", {
+                startPosition: startPosition,
+                endPosition: endPosition,
+                linePath: linePath,
+                id: id
+            });
+        },
+        moveMiddleLeft(
+            startLeft,
+            startTop,
+            startWidth,
+            startHeight,
+            endLeft,
+            endTop,
+            endWidth,
+            endHeight,
+            linesize,
+            id,
+            relationType
+        ) {
+            var lineSX, lineSY, lineEX, lineEY;
+            var linePath;
+            var cav1 = document.getElementById("canvas1");
+            var c = {
+                x: cav1.offsetLeft,
+                y: cav1.offsetTop
+            };
+            var x1, y1, x2, y2;
+            lineSX = startLeft - parseInt(linesize) * 5 - c.x;
+            lineSY = startTop + startHeight * 0.5 - parseInt(linesize) - c.y;
+            lineEX = endLeft + endWidth + parseInt(linesize) * 5 - c.x;
+            lineEY = endTop + endHeight * 0.5 + parseInt(linesize) - c.y;
+            if (relationType == "straight") {
+                linePath =
+                    "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY;
+            }
+            if (relationType == "orthogonal") {
+                x1 = lineSX;
+                x2 = lineEX;
+                y1 = (lineSY + lineEY) / 2;
+                y2 = y1;
+                linePath =
+                    "M" +
+                    lineSX +
+                    " " +
+                    lineSY +
+                    " L " +
+                    x1 +
+                    " " +
+                    y1 +
+                    " L " +
+                    x2 +
+                    " " +
+                    y2 +
+                    " L " +
+                    lineEX +
+                    " " +
+                    lineEY;
+            }
+            if (relationType == "curve") {
+                x1 = lineSX;
+                x2 = lineEX;
+                y1 = (lineSY + lineEY) / 2;
+                y2 = y1;
+                linePath =
+                    "M" +
+                    lineSX +
+                    " " +
+                    lineSY +
+                    " C " +
+                    x1 +
+                    " " +
+                    y1 +
+                    " " +
+                    x2 +
+                    " " +
+                    y2 +
+                    " " +
+                    lineEX +
+                    " " +
+                    lineEY;
+            }
+            var startPosition = {
+                left: lineSX,
+                top: lineSY
+            };
+            var endPosition = {
+                left: lineEX,
+                top: lineEY
+            };
+            var line;
+            for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
+                if (this.$store.state.UML.lines[i].Id == id) {
+                    line = this.$store.state.UML.lines[i];
+                }
+            }
+            line.startPosition = startPosition;
+            line.endPosition = endPosition;
+            line.linePath = linePath;
+            this.lineList.push(line);
+            console.log(this.lineList);
+            console.log("moveLine:" + id);
+            this.$store.commit("moveLine", {
+                startPosition: startPosition,
+                endPosition: endPosition,
+                linePath: linePath,
+                id: id
+            });
+        },
+        moveMiddleRight(
+            startLeft,
+            startTop,
+            startWidth,
+            startHeight,
+            endLeft,
+            endTop,
+            endWidth,
+            endHeight,
+            lineSize,
+            id,
+            relationType
+        ) {
+            var lineSX, lineSY, lineEX, lineEY;
+            var linePath;
+            var cav1 = document.getElementById("canvas1");
+            var c = {
+                x: cav1.offsetLeft,
+                y: cav1.offsetTop
+            };
+            var x1, y1, x2, y2;
+            lineSX = startLeft + startWidth + parseInt(lineSize) * 5 - c.x;
+            lineSY = startTop + startHeight * 0.5 - c.y;
+            lineEX = endLeft - parseInt(lineSize) * 5 - c.x;
+            lineEY = endTop + endHeight * 0.5 - parseInt(lineSize) * 5 - c.y;
+            if (relationType == "straight") {
+                linePath =
+                    "M" + lineSX + " " + lineSY + " L " + lineEX + " " + lineEY;
+            }
+            if (relationType == "orthogonal") {
+                x1 = lineSX;
+                x2 = lineEX;
+                y1 = (lineSY + lineEY) / 2;
+                y2 = y1;
+                linePath =
+                    "M" +
+                    lineSX +
+                    " " +
+                    lineSY +
+                    " L " +
+                    x1 +
+                    " " +
+                    y1 +
+                    " L " +
+                    x2 +
+                    " " +
+                    y2 +
+                    " L " +
+                    lineEX +
+                    " " +
+                    lineEY;
+            }
+            if (relationType == "curve") {
+                x1 = lineSX;
+                x2 = lineEX;
+                y1 = (lineSY + lineEY) / 2;
+                y2 = y1;
+                linePath =
+                    "M" +
+                    lineSX +
+                    " " +
+                    lineSY +
+                    " C " +
+                    x1 +
+                    " " +
+                    y1 +
+                    " " +
+                    x2 +
+                    " " +
+                    y2 +
+                    " " +
+                    lineEX +
+                    " " +
+                    lineEY;
+            }
+            var startPosition = {
+                left: lineSX,
+                top: lineSY
+            };
+            var endPosition = {
+                left: lineEX,
+                top: lineEY
+            };
+            var line;
+            for (var i = 0; i < this.$store.state.UML.lines.length; i++) {
+                if (this.$store.state.UML.lines[i].Id == id) {
+                    line = this.$store.state.UML.lines[i];
+                }
+            }
+            line.startPosition = startPosition;
+            line.endPosition = endPosition;
+            line.linePath = linePath;
+            this.lineList.push(line);
+            this.$store.commit("moveLine", {
+                startPosition: startPosition,
+                endPosition: endPosition,
+                linePath: linePath,
+                id: id
+            });
         }
-    };
+    }
+};
 </script>
 
 <style>
-    #diagramCanvas {
-        font-family: "Avenir", Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-    }
+#diagramCanvas {
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+}
 
-    #visualEditor {
-        width: 100%;
-        height: 600px;
-        border: 1px solid #e4e7ed;
-        background: url("../../assets/grid.png") repeat;
-        z-index: 0;
-    }
+#visualEditor {
+    width: 100%;
+    height: 600px;
+    border: 1px solid #e4e7ed;
+    background: url("../../assets/grid.png") repeat;
+    z-index: 0;
+}
 
-    #svg {
-        width: 100%;
-        height: 600px;
-        z-index: 0;
-    }
+#svg {
+    width: 100%;
+    height: 600px;
+    z-index: 0;
+}
 </style>
