@@ -350,30 +350,14 @@ export default {
                             Cname: "类",
                             issubShow: false,
                             width: 200,
-                            height: 200,
+                            height: 100,
                             imgUrl: require("../../assets/icons/class/Class.png"),
                             properties: {
                                 className: "someClass",
                                 classType: "abstract", // e.g. abstract
                                 variables: [
-                                    {
-                                        modifier: "public",
-                                        dataType: "boolean",
-                                        name: "var1"
-                                    },
-                                    {
-                                        modifier: "public",
-                                        dataType: "char",
-                                        name: "var2"
-                                    }
                                 ], // mock data
                                 functions: [
-                                    {
-                                        modifier: "public",
-                                        dataType: "int",
-                                        name: "func",
-                                        params: "int count"
-                                    }
                                 ]
                             }
                         },
