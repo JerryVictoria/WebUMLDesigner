@@ -64,7 +64,11 @@ export default {
                 originValue: this.originValue,
                 id: this.id
             });
-        }
+        },
+        getName() {
+            //calculate 中点
+            return "";
+        },
     }
 };
 </script>

@@ -40,7 +40,11 @@ export default {
             var x=this.width*0.49;
             var y=this.height*0.98
             return [{x,y}];
-        }
+        },
+        getName() {
+            //calculate 中点
+            return "";
+        },
     }
 };
 </script>

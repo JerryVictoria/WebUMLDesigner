@@ -1249,17 +1249,73 @@
             },
             //判断两个节点的相对位置
             judgeAndGetPosition(fromid, toid,) {
-                var start = document.getElementById(fromid).childNodes[0].childNodes[8];
-                var end = document.getElementById(toid).childNodes[0].childNodes[8];
-                this.eStartX = $(start).offset().left;
-                this.eStartY = $(start).offset().top;
-                this.eStartW = this.$refs[fromid + ""][0].getLineRightPosition()[0].x;
-                this.eStartH = this.$refs[fromid + ""][0].getLineBottomPosition()[0]
-                    .y;
-                this.eEndX = $(end).offset().left;
-                this.eEndY = $(end).offset().top;
-                this.eEndW = this.$refs[toid + ""][0].getLineRightPosition()[0].x;
-                this.eEndH = this.$refs[toid + ""][0].getLineBottomPosition()[0].y;
+                var start ;
+                var end;
+                //console.log(this.$refs[fromid + ""][0].getName()=="composition")
+                if(this.$refs[fromid + ""][0].getName()=="composition"||this.$refs[fromid + ""][0].getName()=="comment"){
+                    start = document.getElementById(fromid).childNodes[0].childNodes[8].childNodes[0];
+                    this.eStartX = $(start).offset().left;
+                    this.eStartY = $(start).offset().top;
+                    this.eStartW = $(start).width();
+                    this.eStartH = $(start).height();
+                }else {
+                    if (this.$refs[fromid + ""][0].getName() == "package") {
+                        start = document.getElementById(fromid).childNodes[0].childNodes[8].childNodes[1];
+                        this.eStartX = $(start).offset().left;
+                        this.eStartY = $(start).offset().top;
+                        this.eStartW = this.$refs[fromid + ""][0].getLineRightPosition()[0].x;
+                        this.eStartH = this.$refs[fromid + ""][0].getLineBottomPosition()[0]
+                            .y;
+                    } else {
+                        if(this.$refs[fromid + ""][0].getName() == "character"){
+                            start = document.getElementById(fromid).childNodes[0].childNodes[8].childNodes[0].childNodes[0];
+                            //console.log($(document.getElementById(fromid).childNodes[0].childNodes[8].childNodes[0]))
+                            this.eStartX = $(start).offset().left;
+                            this.eStartY = $(start).offset().top;
+                            this.eStartW = $(start).width();
+                            this.eStartH = $(start).height();
+                        }else{
+                            start = document.getElementById(fromid).childNodes[0].childNodes[8];
+                            this.eStartX = $(start).offset().left;
+                            this.eStartY = $(start).offset().top;
+                            this.eStartW = this.$refs[fromid + ""][0].getLineRightPosition()[0].x;
+                            this.eStartH = this.$refs[fromid + ""][0].getLineBottomPosition()[0]
+                                .y;
+                        }
+                        console.log($(start))
+                    }
+                }
+
+                if(this.$refs[toid + ""][0].getName()=="composition"||this.$refs[toid + ""][0].getName()=="comment"){
+                    end = document.getElementById(toid).childNodes[0].childNodes[8].childNodes[0];
+                    this.eEndX = $(end).offset().left;
+                    this.eEndY = $(end).offset().top;
+                    this.eEndW = $(end).width();
+                    this.eEndH = $(end).height();
+                }else {
+                    if (this.$refs[toid + ""][0].getName() == "package") {
+                        end = document.getElementById(toid).childNodes[0].childNodes[8].childNodes[1];
+                        this.eEndX = $(end).offset().left;
+                        this.eEndY = $(end).offset().top;
+                        this.eEndW = this.$refs[toid + ""][0].getLineRightPosition()[0].x;
+                        this.eEndH = this.$refs[toid + ""][0].getLineBottomPosition()[0].y;
+                    } else {
+                        if(this.$refs[toid + ""][0].getName() == "character"){
+                            end = document.getElementById(toid).childNodes[0].childNodes[8].childNodes[0].childNodes[0];
+                            //console.log($(document.getElementById(fromid).childNodes[0].childNodes[8].childNodes[0]))
+                            this.eEndX = $(end).offset().left;
+                            this.eEndY = $(end).offset().top;
+                            this.eEndW = $(end).width();
+                            this.eEndH = $(end).height();
+                        }else{
+                            end = document.getElementById(toid).childNodes[0].childNodes[8];
+                            this.eEndX = $(end).offset().left;
+                            this.eEndY = $(end).offset().top;
+                            this.eEndW = this.$refs[toid + ""][0].getLineRightPosition()[0].x;
+                            this.eEndH = this.$refs[toid + ""][0].getLineBottomPosition()[0].y;
+                        }
+                    }
+                }
                 if (this.eEndY + this.eEndH < this.eStartY) {
                     //上
                     this.top()
@@ -1365,17 +1421,70 @@
                 var endLeft, endTop, endWidth, endHeight;
                 var start, end;
                 //console.log("moveline:"+fromid+":"+toid);
-                start = document.getElementById(fromid).childNodes[0].childNodes[8];
-                end = document.getElementById(toid).childNodes[0].childNodes[8];
-                startLeft = $(start).offset().left;
-                startTop = $(start).offset().top;
-                startWidth = this.$refs[fromid + ""][0].getLineRightPosition()[0].x;
-                startHeight = this.$refs[fromid + ""][0].getLineBottomPosition()[0]
-                    .y;
-                endLeft = $(end).offset().left;
-                endTop = $(end).offset().top;
-                endWidth = this.$refs[toid + ""][0].getLineRightPosition()[0].x;
-                endHeight = this.$refs[toid + ""][0].getLineBottomPosition()[0].y;
+                if(this.$refs[fromid + ""][0].getName()=="composition"||this.$refs[fromid + ""][0].getName()=="comment"){
+                    start = document.getElementById(fromid).childNodes[0].childNodes[8].childNodes[0];
+                    startLeft = $(start).offset().left;
+                    startTop = $(start).offset().top;
+                    startWidth = $(start).width();
+                    startHeight = $(start).height();
+                }else {
+                    if (this.$refs[fromid + ""][0].getName() == "package") {
+                        start = document.getElementById(fromid).childNodes[0].childNodes[8].childNodes[1];
+                        startLeft = $(start).offset().left;
+                        startTop = $(start).offset().top;
+                        startWidth = this.$refs[fromid + ""][0].getLineRightPosition()[0].x;
+                        startHeight = this.$refs[fromid + ""][0].getLineBottomPosition()[0]
+                            .y;
+                    } else {
+                        if(this.$refs[fromid + ""][0].getName() == "character"){
+                            start = document.getElementById(fromid).childNodes[0].childNodes[8].childNodes[0].childNodes[0];
+                            //console.log($(document.getElementById(fromid).childNodes[0].childNodes[8].childNodes[0]))
+                            startLeft = $(start).offset().left;
+                            startTop = $(start).offset().top;
+                            startWidth = $(start).width();
+                            startHeight = $(start).height();
+                        }else{
+                            start = document.getElementById(fromid).childNodes[0].childNodes[8];
+                            startLeft = $(start).offset().left;
+                            startTop = $(start).offset().top;
+                            startWidth = this.$refs[fromid + ""][0].getLineRightPosition()[0].x;
+                            startHeight = this.$refs[fromid + ""][0].getLineBottomPosition()[0]
+                                .y;
+                        }
+                        console.log($(start))
+                    }
+                }
+
+                if(this.$refs[toid + ""][0].getName()=="composition"||this.$refs[toid + ""][0].getName()=="comment"){
+                    end = document.getElementById(toid).childNodes[0].childNodes[8].childNodes[0];
+                    endLeft = $(end).offset().left;
+                    endTop = $(end).offset().top;
+                    endWidth = $(end).width();
+                    endHeight = $(end).height();
+                }else {
+                    if (this.$refs[toid + ""][0].getName() == "package") {
+                        end = document.getElementById(toid).childNodes[0].childNodes[8].childNodes[1];
+                        endLeft = $(end).offset().left;
+                        endTop = $(end).offset().top;
+                        endWidth = this.$refs[toid + ""][0].getLineRightPosition()[0].x;
+                        endHeight = this.$refs[toid + ""][0].getLineBottomPosition()[0].y;
+                    } else {
+                        if(this.$refs[toid + ""][0].getName() == "character"){
+                            end = document.getElementById(toid).childNodes[0].childNodes[8].childNodes[0].childNodes[0];
+                            //console.log($(document.getElementById(fromid).childNodes[0].childNodes[8].childNodes[0]))
+                            endLeft = $(end).offset().left;
+                            endTop = $(end).offset().top;
+                            endWidth = $(end).width();
+                            endHeight = $(end).height();
+                        }else{
+                            end = document.getElementById(toid).childNodes[0].childNodes[8];
+                            endLeft = $(end).offset().left;
+                            endTop = $(end).offset().top;
+                            endWidth = this.$refs[toid + ""][0].getLineRightPosition()[0].x;
+                            endHeight = this.$refs[toid + ""][0].getLineBottomPosition()[0].y;
+                        }
+                    }
+                }
                 if (endTop + endHeight < startTop) {
                     //上
                     this.moveTop(startLeft,

@@ -84,6 +84,10 @@ export default {
             var y = this.height * 0.98;
             return [{ x, y }];
         },
+        getName() {
+            //calculate 中点
+            return "character";
+        },
         saveOriginValue() {
             this.originValue = this.name;
         },
