@@ -444,18 +444,19 @@
                 this.lineSize = this.$store.state.lineSize
                 this.MarkerStart=this.$store.state.markerStart
                 this.MarkerEnd=this.$store.state.markerEnd
-                var sp=this.$store.state.markerStart.substr(10);
-                if(sp.length==2){
-                    sp=sp.substr(0,1);
+                var sp,ep;
+                if(this.$store.state.markerStart.indexOf('s')>0){
+                    sp=this.$store.state.markerStart.substr(12);
                 }else{
-                    sp=sp.substr(0,2);
+                    sp=this.$store.state.markerStart.substr(10);
                 }
-                var ep=this.$store.state.markerEnd.substr(10);
-                if(ep.length==2){
-                    ep=ep.substr(0,1);
+                sp=sp.substr(0,sp.length-1);
+                if(this.$store.state.markerEnd.indexOf('e')>0){
+                    ep=this.$store.state.markerEnd.substr(12);
                 }else{
-                    ep=ep.substr(0,2);
+                    ep=this.$store.state.markerEnd.substr(10);
                 }
+                ep=ep.substr(0,ep.length-1)
                 this.startImg = require('../../assets/icons/toolbar/'+sp+'.png');
                 this.endImg= require('../../assets/icons/toolbar/'+ep+'.png');
                 console.log(this.lcolor)
@@ -621,12 +622,109 @@
                         strokeWidth: line.lineStyle.strokeWidth,//固定几种
                         fill: "none"
                     };
-                    console.log(this.$store.state.lineEditId);
-                    console.log(this.lcolor);
+                    /*
+                    startArrowStyle:params.startArrowStyle;
+                        endArrowStyle:params.endArrowStyle;
+                        */
+                    var startId=line.startArrowId.substr(7);
+                    startId=startId.substr(0,startId.length);
+                    var endId=line.endArrowId.substr(7)
+                    endId=endId.substr(0,endId.length);
+                    var startArrowStyle,endArrowStyle;
+                    switch(startId){
+                        case "2":
+                            startArrowStyle="fill:"+this.lcolor;
+                            break;
+                        case "4":
+                            startArrowStyle="fill:white;stroke:"+this.lcolor;
+                            break;
+                        case "6":
+                            startArrowStyle="fill:white;stroke:"+this.lcolor;
+                            break;
+                        case "8":
+                            startArrowStyle="fill:"+this.lcolor+";stroke:"+this.lcolor;
+                            break;
+                        case "10":
+                            startArrowStyle="fill: white; stroke:"+this.lcolor;
+                            break;
+                        case "12":
+                            startArrowStyle="";
+                            break;
+                        case "14":
+                            startArrowStyle="stroke:"+this.lcolor;
+                            break;
+                        case "16":
+                            startArrowStyle="stroke:"+this.lcolor;
+                            break;
+                        case "18":
+                            startArrowStyle="stroke:"+this.lcolor;
+                            break;
+                        case "20":
+                            startArrowStyle="white";
+                            break;
+                        case "22":
+                            startArrowStyle=this.lcolor;
+                            break;
+                    };
+                    switch(endId){
+                        case "1":
+                            endArrowStyle="fill:"+this.lcolor;
+                            break;
+                        case "3":
+                            endArrowStyle="fill:white;stroke:"+this.lcolor
+                            break;
+                        case "5":
+                            endArrowStyle="fill:white;stroke:"+this.lcolor
+                            break;
+                        case "7":
+                            endArrowStyle="fill:"+this.lcolor+";stroke:"+this.lcolor
+                            break;
+                        case "9":
+                            endArrowStyle="fill:white;stroke:"+this.lcolor
+                            break;
+                        case "11":
+                            endArrowStyle="";
+                            break;
+                        case "13":
+                            endArrowStyle="stroke:"+this.lcolor
+                            break;
+                        case "15":
+                            endArrowStyle="stroke:"+this.lcolor
+                            break;
+                        case "17":
+                            endArrowStyle="stroke:"+this.lcolor
+                            break;
+                        case "19":
+                            endArrowStyle="white";
+                            break;
+                        case "21":
+                            endArrowStyle=""+this.lcolor
+                            break;
+                    }
+                    line.startArrowStyle=startArrowStyle
+                    line.endArrowStyle=endArrowStyle
+                    console.log("line");
+                    console.log(line);
                     this.$store.dispatch("modifyLine", {
                         lineKey: "lineStyle",
                         key: "stroke",
                         value: this.lcolor,
+                        id: this.$store.state.lineEditId,
+                        Line: line,
+                        lineStyle: style
+                    });
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "startArrowStyle",
+                        key: "",
+                        value: startArrowStyle,
+                        id: this.$store.state.lineEditId,
+                        Line: line,
+                        lineStyle: style
+                    });
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "endArrowStyle",
+                        key: "",
+                        value: endArrowStyle,
                         id: this.$store.state.lineEditId,
                         Line: line,
                         lineStyle: style
@@ -785,6 +883,7 @@
                 });
             },
             startPoint(startPoint){
+                //@TODO:直接修改path
                 console.log("startPoint:"+startPoint);
                 var sp=startPoint.substr(7);
                 if(sp.length==2){
@@ -812,12 +911,102 @@
                         strokeWidth: line.lineStyle.strokeWidth,//固定几种
                         fill: "none"
                     };
-                    line.markerstart="url"+startPoint;
+                    var startId=line.startArrowId.substr(0,7)+sp;
+                    var markerStart="url(#"+startId+")"
+                    var startArrow,startArrowStyle,startArrowType="path";
+                    switch(sp){
+                        case "2":
+                            startArrow="M12,2 L5,6 L12,10 L12,2";
+                            startArrowStyle="fill:"+line.lineStyle.stroke
+                            break;
+                        case "4":
+                            startArrow="M12,2 L5,6 L12,10 L12,2";
+                            startArrowStyle="fill:white;stroke:"+line.lineStyle.stroke
+                            break;
+                        case "6":
+                            startArrow="M13,2 L6,6 L13,10";
+                            startArrowStyle="fill:none;stroke:"+line.lineStyle.stroke
+                            break;
+                        case "8":
+                            startArrow="M11,2 L6,6 L11,10 L16,6 L11,2";
+                            startArrowStyle="fill: "+line.lineStyle.stroke+";stroke:"+line.lineStyle.stroke
+                            break;
+                        case "10":
+                            startArrow="M11,2 L6,6 L11,10 L16,6 L11,2";
+                            startArrowStyle="fill: white; stroke:"+line.lineStyle.stroke
+                            break;
+                        case "12":
+                            startArrow="M0,6 L12,6";
+                            startArrowStyle="stroke:"+line.lineStyle.stroke
+                            break;
+                        case "14":
+                            startArrow="M6,6 L14,14";
+                            startArrowStyle="stroke:"+line.lineStyle.stroke
+                            break;
+                        case "16":
+                            startArrow="M6,6 L14,0";
+                            startArrowStyle="stroke:"+line.lineStyle.stroke
+                            break;
+                        case "18":
+                            startArrow="M12,12 L8,0";
+                            startArrowStyle="stroke:"+line.lineStyle.stroke
+                            break;
+                        case "20":
+                            startArrow="";
+                            startArrowStyle="white";
+                            startArrowType="circle"
+                            break;
+                        case "22":
+                            startArrow="";
+                            startArrowStyle=line.lineStyle.stroke
+                            startArrowType="circle"
+                            break;
+                    };
+                    line.startArrow=startArrow
+                    line.startArrowStyle=startArrowStyle
+                    line.startArrowId=startId
+                    line.markerstart=markerStart
+                    line.startArrowType=startArrowType
+                    if(startArrowType=="circle"){
+                        this.$store.dispatch("modifyLine", {
+                            lineKey: "startArrowType",
+                            key: "",
+                            value: startArrowType,
+                            id: this.$store.state.lineEditId,
+                            Line: line,
+                            lineStyle: style
+                        });
+                    }
+                    console.log("line");
                     console.log(line);
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "startArrow",
+                        key: "",
+                        value: startArrow,
+                        id: this.$store.state.lineEditId,
+                        Line: line,
+                        lineStyle: style
+                    });
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "startArrowStyle",
+                        key: "",
+                        value: startArrowStyle,
+                        id: this.$store.state.lineEditId,
+                        Line: line,
+                        lineStyle: style
+                    });
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "startArrowId",
+                        key: "",
+                        value: startId,
+                        id: this.$store.state.lineEditId,
+                        Line: line,
+                        lineStyle: style
+                    });
                     this.$store.dispatch("modifyLine", {
                         lineKey: "markerstart",
                         key: "",
-                        value: "url"+startPoint,
+                        value: markerStart,
                         id: this.$store.state.lineEditId,
                         Line: line,
                         lineStyle: style
@@ -830,8 +1019,6 @@
                 this.$store.commit("setLineSA", {
                     endPoint: require('../../assets/icons/toolbar/'+sp+'.png')
                 });
-                console.log("this.$store.state.endPoint:"+this.$store.state.endPoint)
-                console.log("this.$store.state.startPoint:"+this.$store.state.markerStart)
                 this.startImg=require('../../assets/icons/toolbar/'+sp+'.png');
             },
             endPoint(endPoint){
@@ -861,12 +1048,93 @@
                         strokeWidth: line.lineStyle.strokeWidth,//固定几种
                         fill: "none"
                     };
-                    line.markerend="url"+endPoint;
+                    var endId=line.endArrowId.substr(0,7)+ep
+                    var markerEnd="url(#"+endId+")"
+                    var endArrow,endArrowStyle,endArrowType="path";
+                    switch(ep){
+                        case "1":
+                            endArrow="M0,2 L7,6 L0,10 L0,2";
+                            endArrowStyle="fill:"+line.lineStyle.stroke
+                            break;
+                        case "3":
+                            endArrow="M0.6,2 L7,6 L0.6,10 L0.6,2"
+                            endArrowStyle="fill:white;stroke:"+line.lineStyle.stroke
+                            break;
+                        case "5":
+                            endArrow="M0,2 L7,6 L0,10";
+                            endArrowStyle="fill:none;stroke:"+line.lineStyle.stroke
+                            break;
+                        case "7":
+                            endArrow="M0,6 L5,2 L10,6 L5,10 L0,6";
+                            endArrowStyle="fill:"+line.lineStyle.stroke+";stroke:"+line.lineStyle.stroke
+                            break;
+                        case "9":
+                            endArrow="M0,6 L5,2 L10,6 L5,10 L0,6";
+                            endArrowStyle="fill:white;stroke:"+line.lineStyle.stroke
+                            break;
+                        case "11":
+                            endArrow="M0,6 L12,6";
+                            endArrowStyle="stroke:"+line.lineStyle.stroke
+                            break;
+                        case "13":
+                            endArrow="M0,0 L6,6";
+                            endArrowStyle="stroke:"+line.lineStyle.stroke
+                            break;
+                        case "15":
+                            endArrow="M6,6 L0,12";
+                            endArrowStyle="stroke:"+line.lineStyle.stroke
+                            break;
+                        case "17":
+                            endArrow="M4,12 L0,0";
+                            endArrowStyle="stroke:"+line.lineStyle.stroke
+                            break;
+                        case "19":
+                            endArrow=" ";
+                            endArrowStyle="white";
+                            endArrowType="circle";
+                            break;
+                        case "21":
+                            endArrow=" ";
+                            endArrowStyle=""+line.lineStyle.stroke
+                            endArrowType="circle";
+                            break;
+                    }
+                    line.endArrow=endArrow
+                    line.endArrowStyle=endArrowStyle
+                    line.endArrowId=endId
+                    line.markerend=markerEnd
+                    line.endArrowType=endArrowType
+                    if(endArrowType=="circle"){
+                        this.$store.dispatch("modifyLine", {
+                            lineKey: "endArrowType",
+                            key: "",
+                            value: endArrowType,
+                            id: this.$store.state.lineEditId,
+                            Line: line,
+                            lineStyle: style
+                        });
+                    }
                     console.log(line);
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "endArrow",
+                        key: "",
+                        value: endArrow,
+                        id: this.$store.state.lineEditId,
+                        Line: line,
+                        lineStyle: style
+                    });
+                    this.$store.dispatch("modifyLine", {
+                        lineKey: "endArrowId",
+                        key: "",
+                        value: endId,
+                        id: this.$store.state.lineEditId,
+                        Line: line,
+                        lineStyle: style
+                    });
                     this.$store.dispatch("modifyLine", {
                         lineKey: "markerend",
                         key: "",
-                        value: "url"+endPoint,
+                        value: markerEnd,
                         id: this.$store.state.lineEditId,
                         Line: line,
                         lineStyle: style
@@ -879,8 +1147,6 @@
                 this.$store.commit("setLineEA", {
                     endPoint: require('../../assets/icons/toolbar/'+ep+'.png')
                 });
-                console.log("this.$store.state.endPoint:"+this.$store.state.endPoint)
-                console.log("this.$store.state.endPoint:"+this.$store.state.markerEnd)
                 this.endImg=require('../../assets/icons/toolbar/'+ep+'.png');
             },
             saveFile() {

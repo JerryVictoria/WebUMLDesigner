@@ -24,13 +24,15 @@ export default {
             }
             if (this.$store.state.lineEditId) {
                 //alert(this.$store.state.lineEditId.substr(4));
-                var id
+                var id;
                 for(var i=0;i<this.$store.state.UML.lines.length;i++){
                     console.log(this.$store.state.UML.lines[i]);
                     console.log(this.$store.state.lineEditId);
                     if(this.$store.state.UML.lines[i].lineId==this.$store.state.lineEditId){
                         id=this.$store.state.UML.lines[i].lid
                         //alert(id)
+                        //alert(this.$store.state.UML.lines[i].Id);
+                        console.log(document.getElementById(this.$store.state.UML.lines[i].Id))
                         break;
                     }
                 }

@@ -595,7 +595,6 @@ export default {
             console.log("MouseDragEnd");
             //判断是否已在画布中
             console.log(this.cdrag);
-            var canv = document.getElementById("canvas").childNodes[0];
             var length = this.$store.state.UML.nodes.length;
             var side = document.getElementById("side");
             var canv = document.getElementById("canvas").childNodes[0];
@@ -607,17 +606,26 @@ export default {
                 x: event.clientX,
                 y: event.clientY
             };
-            if (e.x > 0 && e.y > 0) {
+
+            console.log(c)
+            console.log(e)
+            if (e.x > 320 && e.y > 70) {
                 event.preventDefault();
                 event.dataTransfer.dropEffect = "copy";
                 var newProp = {};
                 $.extend(true, newProp, this.prop);
+                var left,top;
+                if(e.x - this.w / 2<320){
+                    left=320
+                }else{
+                    left=e.x - this.w / 2
+                }
                 var addcom = {
                     type: this.type,
                     styles: {
                         width: this.w,
                         height: this.h,
-                        left: e.x - this.w / 2,
+                        left: left,
                         top: e.y + document.documentElement.scrollTop
                     },
                     properties: newProp
@@ -626,6 +634,11 @@ export default {
                 this.$store.dispatch("addNode", addcom);
                 //this.$store.state.UML.nodes.push(addcom);
                 //alert("tianjiacheng");
+            }else{
+                this.$message({
+                    message: "新增节点需在画布内！",
+                    type: "error"
+                });
             }
             this.$store.state.canvasdrage = this.cdrag;
             this.$store.state.linedrag = this.ldrag;

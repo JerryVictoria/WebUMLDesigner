@@ -2,10 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "./httpConfig/url_config";
 import createPersistedState from 'vuex-persistedstate'
-import html2canvas from "html2canvas";
-import canvg from "canvg";
-import * as qiniu from "qiniu-js";
 import $ from "jquery";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -22,12 +20,12 @@ export default new Vuex.Store({
         lineStyle: "",
         lineColor: "",
         lineSize: "",
-        lineSA: "",
+        lineSA: "",//picture
         lineEA: "",
         lineEditId: "",
         startPoint: "",
         endPoint: "",
-        markerStart: "",
+        markerStart: "",//url(#arrow1)
         markerEnd: "",
         Token: "",
         refreshTime: 0,
@@ -43,7 +41,8 @@ export default new Vuex.Store({
             userId: "",
             groupId: "",
             nodes: [],
-            lines: [],
+            lines: [
+            ],
         },
         histories: [], //循环队列实现
     },
@@ -65,7 +64,8 @@ export default new Vuex.Store({
             state.UML.UMLType = params.type;
         },
         //初始化图数据/多人协作同步图数据
-        setUML(state, params) {},
+        setUML(state, params) {
+        },
         setUMLNodes(state, params) {
             state.UML.nodes = [];
             var nodes = params.nodeList;
@@ -105,6 +105,14 @@ export default new Vuex.Store({
                     text: lines[i].text,
                     markerstart: lines[i].markerStart,
                     markerend: lines[i].markerEnd,
+                    startArrowType:lines[i].startArrowType,
+                    endArrowType:lines[i].endArrowType,
+                    startArrowId:lines[i].startArrowId,
+                    endArrowId:lines[i].endArrowId,
+                    startArrow:lines[i].startArrow,
+                    endArrow:lines[i].endArrow,
+                    startArrowStyle:lines[i].startArrowStyle,
+                    endArrowStyle:lines[i].endArrowStyle,
                     linePath: lines[i].path,
                     startPosition: {
                         left: parseInt(lines[i].startPosition.lpLeft),
@@ -257,12 +265,12 @@ export default new Vuex.Store({
                             if (
                                 state.UML.nodes[i][params.nodeKey][
                                     params.key[j]
-                                ] != params.value[j]
+                                    ] != params.value[j]
                             ) {
                                 modifiedFlag = true;
                                 state.UML.nodes[i][params.nodeKey][
                                     params.key[j]
-                                ] = params.value[j];
+                                    ] = params.value[j];
                             }
                         }
                     } else {
@@ -365,7 +373,7 @@ export default new Vuex.Store({
                         var arr =
                             state.UML.nodes[i]["properties"][
                                 params.contentType
-                            ];
+                                ];
                         for (var j = 0; j < arr.length; j++) {
                             if (arr[j].vid == params.vid) {
                                 arr[j].modifier = params.modifier;
@@ -497,17 +505,20 @@ export default new Vuex.Store({
             }
         },
         //修改历史数组
-        changeHistories(state, params) {},
+        changeHistories(state, params) {
+        },
         //后退
-        backward(state) {},
+        backward(state) {
+        },
         //前进
-        forward(state) {},
+        forward(state) {
+        },
     },
     actions: {
         openGroupEditMode({
-            commit,
-            state
-        }) {
+                              commit,
+                              state
+                          }) {
             //alert("openGroupEditMode");
             var msg = JSON.stringify({
                 gid: state.UML.groupId,
@@ -627,9 +638,9 @@ export default new Vuex.Store({
             };
         },
         addNode({
-            commit,
-            state
-        }, params) {
+                    commit,
+                    state
+                }, params) {
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "Add",
@@ -675,9 +686,9 @@ export default new Vuex.Store({
                 });
         },
         modifyNode({
-            commit,
-            state
-        }, params) {
+                       commit,
+                       state
+                   }, params) {
             var keys = [];
             var values = [];
             if (params.key instanceof Array) {
@@ -727,9 +738,9 @@ export default new Vuex.Store({
                 });
         },
         removeNode({
-            commit,
-            state
-        }, params) {
+                       commit,
+                       state
+                   }, params) {
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "Delete",
@@ -761,9 +772,9 @@ export default new Vuex.Store({
                 });
         },
         addClassNodeProp({
-            commit,
-            state
-        }, params) {
+                             commit,
+                             state
+                         }, params) {
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "Add",
@@ -805,9 +816,9 @@ export default new Vuex.Store({
                 });
         },
         changeClassNodeProp({
-            commit,
-            state
-        }, params) {
+                                commit,
+                                state
+                            }, params) {
             if (state.UML.groupId > 0) {
                 state.originContentType = params.originContentType;
                 var msg = JSON.stringify({
@@ -852,9 +863,9 @@ export default new Vuex.Store({
                 });
         },
         deleteClassNodeProp({
-            commit,
-            state
-        }, params) {
+                                commit,
+                                state
+                            }, params) {
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "Delete",
@@ -891,9 +902,9 @@ export default new Vuex.Store({
                 });
         },
         removeLine({
-            commit,
-            state
-        }, params) {
+                       commit,
+                       state
+                   }, params) {
             var lid = parseInt(params.id);
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
@@ -926,9 +937,9 @@ export default new Vuex.Store({
                 });
         },
         addLine({
-            commit,
-            state
-        }, params) {
+                    commit,
+                    state
+                }, params) {
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "Add",
@@ -950,6 +961,14 @@ export default new Vuex.Store({
                         text: params.text,
                         markerStart: params.markerstart,
                         markerEnd: params.markerend,
+                        startArrowType:params.startArrowType,
+                        endArrowType:params.endArrowType,
+                        startArrowId:params.startArrowId,
+                        endArrowId:params.endArrowId,
+                        startArrow:params.startArrow,
+                        endArrow:params.endArrow,
+                        startArrowStyle:params.startArrowStyle,
+                        endArrowStyle:params.endArrowStyle,
                         path: params.linePath,
                         startPosition: params.startPosition,
                         endPosition: params.endPosition,
@@ -972,6 +991,14 @@ export default new Vuex.Store({
                     text: params.text,
                     markerStart: params.markerstart,
                     markerEnd: params.markerend,
+                    startArrowType:params.startArrowType,
+                    endArrowType:params.endArrowType,
+                    startArrowId:params.startArrowId,
+                    endArrowId:params.endArrowId,
+                    startArrow:params.startArrow,
+                    endArrow:params.endArrow,
+                    startArrowStyle:params.startArrowStyle,
+                    endArrowStyle:params.endArrowStyle,
                     path: params.linePath,
                     startPosition: params.startPosition,
                     endPosition: params.endPosition,
@@ -987,9 +1014,9 @@ export default new Vuex.Store({
                 });
         },
         modifyLine({
-            commit,
-            state
-        }, params) {
+                       commit,
+                       state
+                   }, params) {
             if (state.UML.groupId > 0) {
                 var msg = JSON.stringify({
                     editMethod: "Update",
@@ -1009,6 +1036,14 @@ export default new Vuex.Store({
                         text: params.Line.text,
                         markerStart: params.Line.markerstart,
                         markerEnd: params.Line.markerend,
+                        startArrowType:params.Line.startArrowType,
+                        endArrowType:params.Line.endArrowType,
+                        startArrowId:params.Line.startArrowId,
+                        endArrowId:params.Line.endArrowId,
+                        startArrow:params.Line.startArrow,
+                        endArrow:params.Line.endArrow,
+                        startArrowStyle:params.Line.startArrowStyle,
+                        endArrowStyle:params.Line.endArrowStyle,
                         path: params.Line.linePath,
                         startPosition: params.Line.startPosition,
                         endPosition: params.Line.endPosition,
@@ -1031,6 +1066,14 @@ export default new Vuex.Store({
                     text: params.Line.text,
                     markerStart: params.Line.markerstart,
                     markerEnd: params.Line.markerend,
+                    startArrowType:params.Line.startArrowType,
+                    endArrowType:params.Line.endArrowType,
+                    startArrowId:params.Line.startArrowId,
+                    endArrowId:params.Line.endArrowId,
+                    startArrow:params.Line.startArrow,
+                    endArrow:params.Line.endArrow,
+                    startArrowStyle:params.Line.startArrowStyle,
+                    endArrowStyle:params.Line.endArrowStyle,
                     path: params.Line.linePath,
                     startPosition: params.Line.startPosition,
                     endPosition: params.Line.endPosition,
@@ -1046,6 +1089,14 @@ export default new Vuex.Store({
                         text: params.Line.text,
                         markerstart: params.Line.markerstart,
                         markerend: params.Line.markerend,
+                        startArrowType:params.Line.startArrowType,
+                        endArrowType:params.Line.endArrowType,
+                        startArrowId:params.Line.startArrowId,
+                        endArrowId:params.Line.endArrowId,
+                        startArrow:params.Line.startArrow,
+                        endArrow:params.Line.endArrow,
+                        startArrowStyle:params.Line.startArrowStyle,
+                        endArrowStyle:params.Line.endArrowStyle,
                         linePath: params.Line.linePath,
                         startPosition: params.Line.startPosition,
                         endPosition: params.Line.endPosition,
@@ -1058,9 +1109,9 @@ export default new Vuex.Store({
                 });
         },
         getRefreshTime({
-            commit,
-            state
-        }, params) {
+                           commit,
+                           state
+                       }, params) {
             //alert("getRefreshTime"+parseInt(state.UML.UMLId));
             var id = parseInt(state.UML.UMLId);
             axios
@@ -1081,8 +1132,8 @@ export default new Vuex.Store({
                 });
         },
         getToken({
-            commit
-        }, params) {
+                     commit
+                 }, params) {
             //alert(params.key);
             axios
                 .post("/getToken", {
@@ -1100,14 +1151,15 @@ export default new Vuex.Store({
                 });
         },
         refreshPic({
-            commit
-        }, params) {
+                       commit
+                   }, params) {
             //alert(params.url);
             axios
                 .post("/refreshPic", {
                     url: params.url,
                 })
-                .then(function (response) {})
+                .then(function (response) {
+                })
                 .catch(function (error) {
                     console.log("error:" + error);
                 });
