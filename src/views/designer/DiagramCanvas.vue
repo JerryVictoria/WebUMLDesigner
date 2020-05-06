@@ -79,7 +79,7 @@
                                         stroke-width="1"
                                         :fill="line.endArrowStyle"/>
                             </marker>
-                            <marker v-else-if="line.endArrowId.substr(line.endArrowId.length-1)=='9'||line.endArrowId.substr(line.endArrowId.length-1)=='7'"
+                            <marker v-else-if="line.endArrowId.substring(line.endArrowId.length-1)=='9'||line.endArrowId.substring(line.endArrowId.length-1)=='7'"
                                     :id="line.endArrowId"
                                     markerUnits="strokeWidth"
                                     markerHeight="16"
@@ -316,17 +316,17 @@
                     this.MarkerEnd = this.$store.state.markerEnd;
                     var sp, ep;
                     if (this.$store.state.markerStart.indexOf('s') > 0) {
-                        sp = this.$store.state.markerStart.substr(12);
+                        sp = this.$store.state.markerStart.substring(12);
                     } else {
-                        sp = this.$store.state.markerStart.substr(10);
+                        sp = this.$store.state.markerStart.substring(10);
                     }
-                    sp = sp.substr(0, sp.length - 1);
+                    sp = sp.substring(0, sp.length - 1);
                     if (this.$store.state.markerEnd.indexOf('e') > 0) {
-                        ep = this.$store.state.markerEnd.substr(12);
+                        ep = this.$store.state.markerEnd.substring(12);
                     } else {
-                        ep = this.$store.state.markerEnd.substr(10);
+                        ep = this.$store.state.markerEnd.substring(10);
                     }
-                    ep = ep.substr(0, ep.length - 1)
+                    ep = ep.substring(0, ep.length - 1)
                     this.startPoint = require("../../assets/icons/toolbar/" +
                         sp +
                         ".png");
@@ -538,17 +538,17 @@
                     this.lineSize = this.$store.state.lineSize;
                     this.MarkerStart = this.$store.state.markerStart;
                     this.MarkerEnd = this.$store.state.markerEnd;
-                    var sp = this.$store.state.markerStart.substr(10);
+                    var sp = this.$store.state.markerStart.substring(10);
                     if (sp.length == 2) {
-                        sp = sp.substr(0, 1);
+                        sp = sp.substring(0, 1);
                     } else {
-                        sp = sp.substr(0, 2);
+                        sp = sp.substring(0, 2);
                     }
-                    var ep = this.$store.state.markerEnd.substr(10);
+                    var ep = this.$store.state.markerEnd.substring(10);
                     if (ep.length == 2) {
-                        ep = ep.substr(0, 1);
+                        ep = ep.substring(0, 1);
                     } else {
-                        ep = ep.substr(0, 2);
+                        ep = ep.substring(0, 2);
                     }
                     this.startPoint = require('../../assets/icons/toolbar/' +
                         sp +
@@ -656,10 +656,10 @@
                         this.judgeAndGetPosition(this.From, this.To);
                     }
                     var startnumber, endnumber;
-                    startnumber = this.$store.state.markerStart.substr(10);
-                    startnumber = startnumber.substr(0, startnumber.length - 1);
-                    endnumber = this.$store.state.markerEnd.substr(10);
-                    endnumber = endnumber.substr(0, endnumber.length - 1);
+                    startnumber = this.$store.state.markerStart.substring(10);
+                    startnumber = startnumber.substring(0, startnumber.length - 1);
+                    endnumber = this.$store.state.markerEnd.substring(10);
+                    endnumber = endnumber.substring(0, endnumber.length - 1);
                     startArrow = document.getElementById("arrow" + this.linenumber + "s" + startnumber);
                     endArrow = document.getElementById("arrow" + this.linenumber + "e" + endnumber);
                     document
@@ -1073,10 +1073,10 @@
                             break;
                     }
                     var startnumber, endnumber;
-                    startnumber = this.$store.state.markerStart.substr(10);
-                    startnumber = startnumber.substr(0, startnumber.length - 1);
-                    endnumber = this.$store.state.markerEnd.substr(10);
-                    endnumber = endnumber.substr(0, endnumber.length - 1);
+                    startnumber = this.$store.state.markerStart.substring(10);
+                    startnumber = startnumber.substring(0, startnumber.length - 1);
+                    endnumber = this.$store.state.markerEnd.substring(10);
+                    endnumber = endnumber.substring(0, endnumber.length - 1);
                     startmarker.setAttribute("id", "arrow" + this.linenumber + "s" + startnumber);
                     endmarker.setAttribute("id", "arrow" + this.linenumber + "e" + endnumber);
                     this.startArrowId = "arrow" + this.linenumber + "s" + startnumber;

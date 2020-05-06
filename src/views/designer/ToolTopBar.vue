@@ -446,17 +446,17 @@
                 this.MarkerEnd=this.$store.state.markerEnd
                 var sp,ep;
                 if(this.$store.state.markerStart.indexOf('s')>0){
-                    sp=this.$store.state.markerStart.substr(12);
+                    sp=this.$store.state.markerStart.substring(12);
                 }else{
-                    sp=this.$store.state.markerStart.substr(10);
+                    sp=this.$store.state.markerStart.substring(10);
                 }
-                sp=sp.substr(0,sp.length-1);
+                sp=sp.substring(0,sp.length-1);
                 if(this.$store.state.markerEnd.indexOf('e')>0){
-                    ep=this.$store.state.markerEnd.substr(12);
+                    ep=this.$store.state.markerEnd.substring(12);
                 }else{
-                    ep=this.$store.state.markerEnd.substr(10);
+                    ep=this.$store.state.markerEnd.substring(10);
                 }
-                ep=ep.substr(0,ep.length-1)
+                ep=ep.substring(0,ep.length-1)
                 this.startImg = require('../../assets/icons/toolbar/'+sp+'.png');
                 this.endImg= require('../../assets/icons/toolbar/'+ep+'.png');
                 console.log(this.lcolor)
@@ -626,10 +626,10 @@
                     startArrowStyle:params.startArrowStyle;
                         endArrowStyle:params.endArrowStyle;
                         */
-                    var startId=line.startArrowId.substr(7);
-                    startId=startId.substr(0,startId.length);
-                    var endId=line.endArrowId.substr(7)
-                    endId=endId.substr(0,endId.length);
+                    var startId=line.startArrowId.substring(7);
+                    startId=startId.substring(0,startId.length);
+                    var endId=line.endArrowId.substring(7)
+                    endId=endId.substring(0,endId.length);
                     var startArrowStyle,endArrowStyle;
                     switch(startId){
                         case "2":
@@ -885,11 +885,11 @@
             startPoint(startPoint){
                 //@TODO:直接修改path
                 console.log("startPoint:"+startPoint);
-                var sp=startPoint.substr(7);
+                var sp=startPoint.substring(7);
                 if(sp.length==2){
-                    sp=sp.substr(0,1);
+                    sp=sp.substring(0,1);
                 }else{
-                    sp=sp.substr(0,2);
+                    sp=sp.substring(0,2);
                 }
                 //console.log("startPoint")
                 if (this.$store.state.lineEditId != "") {
@@ -911,7 +911,7 @@
                         strokeWidth: line.lineStyle.strokeWidth,//固定几种
                         fill: "none"
                     };
-                    var startId=line.startArrowId.substr(0,7)+sp;
+                    var startId=line.startArrowId.substring(0,7)+sp;
                     var markerStart="url(#"+startId+")"
                     var startArrow,startArrowStyle,startArrowType="path";
                     switch(sp){
@@ -1022,11 +1022,11 @@
                 this.startImg=require('../../assets/icons/toolbar/'+sp+'.png');
             },
             endPoint(endPoint){
-                var ep=endPoint.substr(7);
+                var ep=endPoint.substring(7);
                 if(ep.length==2){
-                    ep=ep.substr(0,1);
+                    ep=ep.substring(0,1);
                 }else{
-                    ep=ep.substr(0,2);
+                    ep=ep.substring(0,2);
                 }
                 console.log("endPoint")
                 if (this.$store.state.lineEditId != "") {
@@ -1048,7 +1048,7 @@
                         strokeWidth: line.lineStyle.strokeWidth,//固定几种
                         fill: "none"
                     };
-                    var endId=line.endArrowId.substr(0,7)+ep
+                    var endId=line.endArrowId.substring(0,7)+ep
                     var markerEnd="url(#"+endId+")"
                     var endArrow,endArrowStyle,endArrowType="path";
                     switch(ep){
