@@ -16,35 +16,35 @@ export default {
             this.$store.commit("setEditId", { id: this.id });
             this.$store.commit("setEditState", { editing: false });
         },
-        getLineLeftPosition(){
+        getLineLeftPosition() {
             //calculate 中点
-            console.log("leftpostion")
-            var x=0;
-            var y=this.height*0.49
-            return [{x,y}];
+            console.log("leftpostion");
+            var x = 0;
+            var y = this.height * 0.49;
+            return [{ x, y }];
         },
-        getLineRightPosition(){
+        getLineRightPosition() {
             //calculate 中点
-            var x=this.width*0.98;
-            var y=this.height*0.49
-            return [{x,y}];
+            var x = this.width * 0.98;
+            var y = this.height * 0.49;
+            return [{ x, y }];
         },
-        getLineTopPosition(){
+        getLineTopPosition() {
             //calculate 中点
-            var x=this.width*0.49;
-            var y=0
-            return [{x,y}];
+            var x = this.width * 0.49;
+            var y = 0;
+            return [{ x, y }];
         },
-        getLineBottomPosition(){
+        getLineBottomPosition() {
             //calculate 中点
-            var x=this.width*0.49;
-            var y=this.height*0.98
-            return [{x,y}];
+            var x = this.width * 0.49;
+            var y = this.height * 0.98;
+            return [{ x, y }];
         },
         getName() {
             //calculate 中点
             return "";
-        },
+        }
     }
 };
 </script>
@@ -52,5 +52,6 @@ export default {
 .borderDiv {
     border: 2px solid black;
     border-radius: 2%;
+    background: transparent;
 }
 </style>
