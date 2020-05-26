@@ -8,7 +8,7 @@ import axios from 'axios'
 
 // axios默认配置
 axios.defaults.timeout = 50000 // 超时时间
-axios.defaults.baseURL = 'http://172.19.241.250:8084/' // 默认后端地址
+axios.defaults.baseURL = 'http://localhost:8084/' // 默认后端地址
 
 // 整理数据
 axios.defaults.transformRequest = function (data) {
@@ -18,7 +18,7 @@ axios.defaults.transformRequest = function (data) {
 
 // 路由请求拦截
 // http request 拦截器
-axios.interceptors.request.use(
+axios.interceptors.request .use(
   config => {
     // config.data = JSON.stringify(config.data)
     config.headers['Content-Type'] = 'application/json;charset=UTF-8'
