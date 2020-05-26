@@ -1118,7 +1118,7 @@
                     this.lineEndX +
                     " " +
                     this.lineEndY;
-                console.log("linePath:" + this.linePath);
+                //console.log("linePath:" + this.linePath);
                 newline.setAttribute("d", this.linePath);
             },
             //折线
@@ -1161,7 +1161,7 @@
                 x1 = (this.lineStartX + this.lineEndX) / 2;
                 x2 = x1;
                 y1 = this.lineStartY;
-                y2 = (this.lineStartY + this.lineEndY) / 2;
+                y2 = this.lineEndY;
                 this.linePath =
                     "M" +
                     this.lineStartX +
